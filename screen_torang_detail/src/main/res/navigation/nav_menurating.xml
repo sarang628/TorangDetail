@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_menurating"
+    app:startDestination="@id/menusRatingFragment">
+
+    <fragment
+        android:id="@+id/menuReviewsFragment"
+        android:name="com.example.torang_detail.menureview.MenuReviewsFragment"
+        android:label="MenuReviewsFragment"
+        tools:layout="@layout/menu_reviews_fragment" />
+
+    <fragment
+        android:id="@+id/menusRatingFragment"
+        android:name="com.example.torang_detail.menureview.MenusRatingFragment"
+        android:label="MenusRatingFragment"
+        tools:layout="@layout/menu_review_fragment">
+        <action
+            android:id="@+id/action_menusRatingFragment_to_menuReviewsFragment"
+            app:destination="@id/menuReviewsFragment" />
+        <action
+            android:id="@+id/action_menusRatingFragment_to_menuReviewsFragment2"
+            app:destination="@id/menuReviewsFragment" />
+    </fragment>
+
+</navigation>
