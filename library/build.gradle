@@ -1,0 +1,73 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
+
+android {
+    compileSdk rootProject.compileSdk
+
+    defaultConfig {
+        minSdk rootProject.minSdk
+        targetSdk rootProject.targetSdk
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_17
+    }
+
+    buildFeatures {
+        compose true
+        dataBinding true
+        viewBinding true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.4.6"
+    }
+
+    namespace 'com.example.torang_detail'
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    /** HILT */
+    implementation "com.google.dagger:hilt-android:$hiltVersion"
+    kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
+
+    /** GOOGLE MAP */
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+
+
+    /** compose */
+    def composeBom = platform('androidx.compose:compose-bom:2023.04.01')
+    implementation composeBom
+    androidTestImplementation composeBom
+    //없으면 @Composable import 안됨
+    implementation 'androidx.compose.ui:ui'
+    //없으면 Text("Hello") 안됨
+    implementation 'androidx.compose.material:material'
+    // Android Studio Preview support
+    implementation 'androidx.compose.ui:ui-tooling-preview'
+    debugImplementation 'androidx.compose.ui:ui-tooling'
+    //JetNews Main 따라하기
+    implementation 'androidx.compose.material3:material3'
+    implementation "androidx.compose.material3:material3-window-size-class"
+    implementation "androidx.lifecycle:lifecycle-runtime-compose"
+    def nav_version = "2.5.3"
+
+    implementation "androidx.navigation:navigation-compose:$nav_version"
+}

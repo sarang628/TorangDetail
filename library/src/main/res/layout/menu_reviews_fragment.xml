@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidx.compose.ui.platform.ComposeView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</layout>
+<!--<layout xmlns:app="http://schemas.android.com/apk/res-auto">-->
+
+<!--    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--        xmlns:tools="http://schemas.android.com/tools"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:background="@color/colorSecondaryLight"-->
+<!--        android:orientation="vertical">-->
+
+<!--        <androidx.viewpager.widget.ViewPager-->
+<!--            android:id="@+id/vp_menu"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="100dp" />-->
+
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/rv_menu_reviews"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />-->
+<!--    </LinearLayout>-->
+<!--</layout>-->
