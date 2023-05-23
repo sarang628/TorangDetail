@@ -13,7 +13,7 @@ fun RestaurantScreen() {
         RestaurntTopMenu(navController)
         NavHost(navController = navController, startDestination = "info") {
             composable("info") {
-                RestaurantInformation()
+                //restaurant_information.RestaurantInformation()
             }
             composable("menu") {
                 RestaurantMenu()
