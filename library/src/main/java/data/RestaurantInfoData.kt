@@ -1,3 +1,5 @@
+package data
+
 data class RestaurantInfoData(
     val foodType: String? = null,
     val distance: String? = null,

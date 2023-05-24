@@ -1,3 +1,3 @@
-package restaurant_information
+package data
 
 data class MenuData(val menuName: String, val price: Float)

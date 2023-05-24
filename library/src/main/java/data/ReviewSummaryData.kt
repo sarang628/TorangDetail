@@ -1,3 +1,5 @@
+package data
+
 data class ReviewSummaryData(
     val rating: Float,
     val totalReviewer: Int,

@@ -1,3 +1,5 @@
+package data
+
 data class ReviewRowData(
     val name: String,
     val fullName: String,
