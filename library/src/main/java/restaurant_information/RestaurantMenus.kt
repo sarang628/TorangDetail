@@ -14,12 +14,12 @@ import androidx.compose.ui.unit.dp
 import data.MenuData
 
 @Composable
-fun Menus(menus: List<MenuData>) {
+fun RestaurantMenus(menus: List<MenuData>) {
     Column(Modifier.fillMaxWidth()) {
         RestaurantInfoTitle("메뉴")
         Spacer(modifier = Modifier.height(8.dp))
         for (i in 0..menus.size / 2) {
-            Menu(
+            RestaurantMenu(
                 menuData1 = menus[i * 2],
                 menuData2 = if (i * 2 + 1 >= menus.size) null else menus[i * 2 + 1]
             )
@@ -28,7 +28,7 @@ fun Menus(menus: List<MenuData>) {
 }
 
 @Composable
-fun Menu(menuData1: MenuData, menuData2: MenuData?) {
+fun RestaurantMenu(menuData1: MenuData, menuData2: MenuData?) {
     Row {
         Row(Modifier.weight(1f)) {
             Text(text = menuData1.menuName)
@@ -49,7 +49,7 @@ fun Menu(menuData1: MenuData, menuData2: MenuData?) {
 @Preview
 @Composable
 fun PreviewMenus() {
-    Menus(menus = ArrayList<MenuData>().apply {
+    RestaurantMenus(menus = ArrayList<MenuData>().apply {
         add(MenuData(menuName = "스테이크", price = 30000f))
         add(MenuData(menuName = "파스타", price = 300000f))
         add(MenuData(menuName = "커피", price = 300000f))

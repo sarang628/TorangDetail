@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.sp
 import com.example.library.RatingBar
 
 @Composable
-fun ReviewSummary(data: ReviewSummaryData) {
+fun RestaurantReviewSummary(data: ReviewSummaryData) {
     Column(Modifier.fillMaxWidth()) {
         RestaurantInfoTitle(title = "리뷰요약")
         Row(Modifier.height(80.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -51,7 +51,7 @@ fun ReviewSummary(data: ReviewSummaryData) {
 @Preview
 @Composable
 fun PreviewReviewSummary() {
-    ReviewSummary(
+    RestaurantReviewSummary(
         data = ReviewSummaryData(
             rating = 4.0f,
             totalReviewer = 300,

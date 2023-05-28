@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.sp
 import com.example.library.RatingBar
 
 @Composable
-fun Reviews(reviewRowData: List<ReviewRowData>) {
+fun RestaurantReviews(reviewRowData: List<ReviewRowData>) {
     Column(Modifier.fillMaxWidth()) {
         RestaurantInfoTitle("리뷰")
         Spacer(modifier = Modifier.height(8.dp))
@@ -49,7 +49,7 @@ fun PreviewReviews() {
             add(ReviewRowData(name = "CA", fullName = "희망찬", rating = 3.0f, comment = "저렴함"))
             add(ReviewRowData(name = "OY", fullName = "고양이", rating = 3.0f, comment = "가까움"))
         }
-    Reviews(reviews)
+    RestaurantReviews(reviews)
 }
 
 @Composable

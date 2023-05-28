@@ -1,5 +1,6 @@
 package restaurant_information
 
+import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import data.RestaurantInfoData
 import data.ReviewRowData
 import data.ReviewSummaryData
@@ -39,23 +40,20 @@ fun RestaurantInformation(
             .background(color = colorResource(id = R.color.colorSecondaryLight))
     ) {
         Column(Modifier.padding(start = 8.dp, end = 8.dp)) {
-            restaurantInfoData?.let {
-                RestaurantInfo(restaurantInfoData = it)
-            }
+            // 레스토랑 기본정보
+            restaurantInfoData?.let { RestaurantBasicInfo(restaurantInfoData = it) }
             Spacer(modifier = Modifier.height(8.dp))
+            // 레스토랑 이미지
             RestaurantImages(restaurantImage)
             Spacer(modifier = Modifier.height(8.dp))
-            menus?.let {
-                Menus(it)
-            }
+            // 레스토랑 메뉴
+            menus?.let { RestaurantMenus(it) }
             Spacer(modifier = Modifier.height(8.dp))
-            reviewSummaryData?.let {
-                ReviewSummary(it)
-            }
+            // 레스토랑 리뷰요약
+            reviewSummaryData?.let { RestaurantReviewSummary(it) }
             Spacer(modifier = Modifier.height(8.dp))
-            reviewRowData?.let {
-                Reviews(it)
-            }
+            // 레스토랑 리뷰
+            reviewRowData?.let { RestaurantReviews(it) }
         }
     }
 }

@@ -13,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun RestaurantInfo(restaurantInfoData: RestaurantInfoData) {
+fun RestaurantBasicInfo(restaurantInfoData: RestaurantInfoData) {
     Column(Modifier.fillMaxWidth()) {
         Row {
             restaurantInfoData.foodType?.let { Text(text = it) }
@@ -62,5 +62,5 @@ fun PreviewRestaurantInfo() {
         webSite = "https://torang.co.korea",
         number = "02-1234-5678"
     )
-    RestaurantInfo(restaurantInfoData = restaurantInfoData)
+    RestaurantBasicInfo(restaurantInfoData = restaurantInfoData)
 }
