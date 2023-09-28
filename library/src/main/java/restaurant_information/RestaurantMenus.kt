@@ -18,12 +18,13 @@ fun RestaurantMenus(menus: List<MenuData>) {
     Column(Modifier.fillMaxWidth()) {
         RestaurantInfoTitle("메뉴")
         Spacer(modifier = Modifier.height(8.dp))
-        for (i in 0..menus.size / 2) {
-            RestaurantMenu(
-                menuData1 = menus[i * 2],
-                menuData2 = if (i * 2 + 1 >= menus.size) null else menus[i * 2 + 1]
-            )
-        }
+        if (menus.isNotEmpty())
+            for (i in 0..menus.size / 2) {
+                RestaurantMenu(
+                    menuData1 = menus[i * 2],
+                    menuData2 = if (i * 2 + 1 >= menus.size) null else menus[i * 2 + 1]
+                )
+            }
     }
 }
 

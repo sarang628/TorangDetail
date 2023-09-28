@@ -1,31 +1,45 @@
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material.AlertDialog
+import androidx.compose.material.Button
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import restaurant_information.PreviewRestaurantInformation
-import restaurant_information.RestaurantInformation
+import restaurant_information.RestaurantInfoScreen
+import restaurant_information.RestaurantInfoViewModel
 
-@Preview
 @Composable
-fun RestaurantScreen() {
+fun RestaurantScreen(
+    restaurantId: Int,
+    restaurantInfoViewModel: RestaurantInfoViewModel
+) {
     val navController = rememberNavController()
-    Column {
-        RestaurntTopMenu(navController)
-        NavHost(navController = navController, startDestination = "info") {
-            composable("info") {
-                PreviewRestaurantInformation()
-            }
-            composable("menu") {
-                RestaurantMenu()
-            }
-            composable("review") {
-                RestaurantReview()
-            }
-            composable("gallery") {
-                RestaurantGallery()
+    restaurantInfoViewModel.loadRestaurant(restaurantId = restaurantId)
+    Box {
+        Column {
+            RestaurntTopMenu(navController)
+            NavHost(navController = navController, startDestination = "info") {
+                composable("info") {
+                    RestaurantInfoScreen(
+                        viewModel = restaurantInfoViewModel,
+                        restaurantId = restaurantId
+                    )
+                }
+                composable("menu") {
+                    RestaurantMenu()
+                }
+                composable("review") {
+                    RestaurantReview()
+                }
+                composable("gallery") {
+                    RestaurantGallery()
+                }
             }
         }
     }
+
 }
