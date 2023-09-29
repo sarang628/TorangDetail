@@ -26,7 +26,6 @@ fun RestaurantScreen(
                 composable("info") {
                     RestaurantInfoScreen(
                         viewModel = restaurantInfoViewModel,
-                        restaurantId = restaurantId
                     )
                 }
                 composable("menu") {

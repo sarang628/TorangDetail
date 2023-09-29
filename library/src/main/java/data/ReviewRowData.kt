@@ -6,3 +6,7 @@ data class ReviewRowData(
     val rating: Float,
     val comment: String
 )
+
+fun testReviewRowData(): ReviewRowData {
+    return ReviewRowData(name = "name", fullName = "fullName", rating = 3.5f, comment = "comment")
+}

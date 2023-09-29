@@ -22,17 +22,19 @@ import androidx.compose.ui.unit.sp
 import com.example.library.RatingBar
 
 @Composable
-fun RestaurantReviews(reviewRowData: List<ReviewRowData>) {
-    Column(Modifier.fillMaxWidth()) {
-        RestaurantInfoTitle("리뷰")
-        Spacer(modifier = Modifier.height(8.dp))
-        for (reviewData in reviewRowData) {
-            ReviewRow(
-                name = reviewData.name,
-                fullName = reviewData.fullName,
-                rating = reviewData.rating,
-                comment = reviewData.comment
-            )
+fun RestaurantReviews(reviewRowData: List<ReviewRowData>?) {
+    if (!reviewRowData.isNullOrEmpty()) {
+        Column(Modifier.fillMaxWidth()) {
+            RestaurantInfoTitle("리뷰")
+            Spacer(modifier = Modifier.height(8.dp))
+            for (reviewData in reviewRowData) {
+                ReviewRow(
+                    name = reviewData.name,
+                    fullName = reviewData.fullName,
+                    rating = reviewData.rating,
+                    comment = reviewData.comment
+                )
+            }
         }
     }
 }

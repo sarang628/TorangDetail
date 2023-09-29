@@ -13,18 +13,20 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import data.RestaurantImage
 
 @Preview
 @Composable
 fun RestaurantImages(list: List<RestaurantImage>? = null) {
-    Box(
-        Modifier
-            .height(150.dp)
-            .fillMaxWidth()
-    ) {
-        LazyRow {
-            list?.let {
-                items(it, itemContent = {
+    if (!list.isNullOrEmpty()) {
+        Box(
+            Modifier
+                .height(150.dp)
+                .fillMaxWidth()
+        ) {
+            LazyRow {
+
+                items(list, itemContent = {
                     AsyncImage(
                         model = it.url,
                         contentDescription = "",
@@ -39,10 +41,6 @@ fun RestaurantImages(list: List<RestaurantImage>? = null) {
         }
     }
 }
-
-data class RestaurantImage(
-    val url: String? = null
-)
 
 @Preview
 @Composable

@@ -7,5 +7,7 @@ data class RestaurantInfoData(
     val close: String? = null,
     val address: String? = null,
     val webSite: String? = null,
-    val number: String? = null,
+    val tel: String? = null,
+    val imageUrl: String? = null,
+    val name: String? = null,
 )

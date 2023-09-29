@@ -28,7 +28,7 @@ class RestaurantServiceModule {
                         close = "오후 9:00에 영업 종료(hard coded)",
                         address = result.address,
                         webSite = result.website,
-                        number = result.tel
+                        tel = result.tel
 
                     )
                 } catch (e: HttpException) {

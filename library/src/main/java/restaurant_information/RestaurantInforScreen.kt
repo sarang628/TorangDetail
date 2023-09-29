@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material3.Text
@@ -24,14 +26,13 @@ import androidx.compose.ui.unit.sp
 import com.example.library.RatingBar
 import com.example.torang_detail.R
 import data.MenuData
+import data.RestaurantImage
 import data.RestaurantInfoData
 import data.ReviewRowData
-import data.ReviewSummaryData
 
 
 @Composable
 fun RestaurantInfoScreen(
-    restaurantId: Int,
     viewModel: RestaurantInfoViewModel
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -40,22 +41,30 @@ fun RestaurantInfoScreen(
             .fillMaxSize()
             .background(color = colorResource(id = R.color.colorSecondaryLight))
     ) {
-        Column(Modifier.padding(start = 8.dp, end = 8.dp)) {
-            // 레스토랑 기본정보
-            RestaurantBasicInfo(restaurantInfoData = uiState.restaurantInfoData)
-            Spacer(modifier = Modifier.height(8.dp))
-            // 레스토랑 이미지
-            RestaurantImages(list = uiState.restaurantImage)
-            Spacer(modifier = Modifier.height(8.dp))
-            // 레스토랑 메뉴
-            RestaurantMenus(menus = uiState.menus)
-            Spacer(modifier = Modifier.height(8.dp))
-            // 레스토랑 리뷰요약
-            RestaurantReviewSummary(uiState.reviewSummaryData)
-            Spacer(modifier = Modifier.height(8.dp))
-            // 레스토랑 리뷰
-            RestaurantReviews(uiState.reviewRowData)
-        }
+        LazyColumn(content = {
+            items(5) {
+                if (it == 0) {
+                    // 레스토랑 기본정보
+                    RestaurantBasicInfo(restaurantInfoData = uiState.restaurantInfoData)
+                    Spacer(modifier = Modifier.height(8.dp))
+                } else if (it == 1) {
+                    // 레스토랑 이미지
+                    RestaurantImages(list = uiState.restaurantImage)
+                    Spacer(modifier = Modifier.height(8.dp))
+                } else if (it == 2) {
+                    // 레스토랑 메뉴
+                    RestaurantMenus(menus = uiState.menus)
+                    Spacer(modifier = Modifier.height(8.dp))
+                } else if (it == 3) {
+                    // 레스토랑 리뷰요약
+                    RestaurantReviewSummary(uiState.reviewSummaryData)
+                    Spacer(modifier = Modifier.height(8.dp))
+                } else if (it == 4) {
+                    // 레스토랑 리뷰
+                    RestaurantReviews(uiState.reviewRowData)
+                }
+            }
+        })
 
         uiState.errorMessage?.let { errorMessage ->
             AlertDialog(
@@ -108,7 +117,7 @@ fun PreviewRestaurantInformation() {
         close = "오후 9:00에 영업 종료",
         address = "서울특별시 강남구 삼성동 삼성로 3000",
         webSite = "https://torang.co.korea",
-        number = "02-1234-5678"
+        tel = "02-1234-5678"
     )
 
     val b = ArrayList<ReviewRowData>()

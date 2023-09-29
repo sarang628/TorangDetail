@@ -1,11 +1,16 @@
 package restaurant_information
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import data.MenuData
+import data.RestaurantImage
 import data.RestaurantInfoData
+import data.ReviewRowData
 import data.ReviewSummaryData
+import data.testMenuData
+import data.testRestaurantImage
+import data.testReviewRowData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -17,8 +22,18 @@ class RestaurantInfoViewModel @Inject constructor(val restaurantInfoService: Res
 
     var _uiState = MutableStateFlow(
         RestaurantInfoUIState(
-            restaurantInfoData = RestaurantInfoData(),
-            reviewRowData = ArrayList(),
+            restaurantInfoData = RestaurantInfoData(
+                foodType = "foodType",
+                distance = "distance",
+                open = "open",
+                close = "close",
+                address = "address",
+                webSite = "webSite",
+                tel = "number",
+            ),
+            reviewRowData = ArrayList<ReviewRowData>().apply {
+                //add(testReviewRowData())
+            },
             reviewSummaryData = ReviewSummaryData(
                 rating = 0f,
                 totalReviewer = 0,
@@ -28,8 +43,12 @@ class RestaurantInfoViewModel @Inject constructor(val restaurantInfoService: Res
                 score4 = 0f,
                 score5 = 0f
             ),
-            menus = ArrayList(),
-            restaurantImage = ArrayList()
+            menus = ArrayList<MenuData>().apply {
+                //add(testMenuData())
+            },
+            restaurantImage = ArrayList<RestaurantImage>().apply {
+                //add(testRestaurantImage())
+            }
         )
     )
 
@@ -40,7 +59,7 @@ class RestaurantInfoViewModel @Inject constructor(val restaurantInfoService: Res
                 val result = restaurantInfoService.loadRestaurant(restaurantId)
                 _uiState.emit(
                     uiState.value.copy(
-                        restaurantInfoData = result
+                        //restaurantInfoData = result
                     )
                 )
             } catch (e: Exception) {
