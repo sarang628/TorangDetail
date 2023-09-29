@@ -33,7 +33,8 @@ import data.ReviewRowData
 
 @Composable
 fun RestaurantInfoScreen(
-    viewModel: RestaurantInfoViewModel
+    viewModel: RestaurantInfoViewModel,
+    reviewImageUrl : String
 ) {
     val uiState by viewModel.uiState.collectAsState()
     Box(
@@ -45,7 +46,10 @@ fun RestaurantInfoScreen(
             items(5) {
                 if (it == 0) {
                     // 레스토랑 기본정보
-                    RestaurantBasicInfo(restaurantInfoData = uiState.restaurantInfoData)
+                    RestaurantBasicInfo(
+                        restaurantInfoData = uiState.restaurantInfoData,
+                        reviewImageUrl = reviewImageUrl
+                    )
                     Spacer(modifier = Modifier.height(8.dp))
                 } else if (it == 1) {
                     // 레스토랑 이미지

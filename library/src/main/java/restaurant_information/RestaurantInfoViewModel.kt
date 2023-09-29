@@ -22,15 +22,7 @@ class RestaurantInfoViewModel @Inject constructor(val restaurantInfoService: Res
 
     var _uiState = MutableStateFlow(
         RestaurantInfoUIState(
-            restaurantInfoData = RestaurantInfoData(
-                foodType = "foodType",
-                distance = "distance",
-                open = "open",
-                close = "close",
-                address = "address",
-                webSite = "webSite",
-                tel = "number",
-            ),
+            restaurantInfoData = RestaurantInfoData(),
             reviewRowData = ArrayList<ReviewRowData>().apply {
                 //add(testReviewRowData())
             },
@@ -59,7 +51,7 @@ class RestaurantInfoViewModel @Inject constructor(val restaurantInfoService: Res
                 val result = restaurantInfoService.loadRestaurant(restaurantId)
                 _uiState.emit(
                     uiState.value.copy(
-                        //restaurantInfoData = result
+                        restaurantInfoData = result
                     )
                 )
             } catch (e: Exception) {

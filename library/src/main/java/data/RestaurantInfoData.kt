@@ -11,3 +11,18 @@ data class RestaurantInfoData(
     val imageUrl: String? = null,
     val name: String? = null,
 )
+
+fun testRestaurantInfoData(): RestaurantInfoData {
+    return RestaurantInfoData(
+        foodType = "foodType",
+        distance = "distance",
+        open = "open",
+        close = "close",
+        address = "address",
+        webSite = "webSite",
+        tel = "number",
+        name = "restaurant",
+        imageUrl = "1/1/2023-09-11/10_37_55_147.jpeg"
+    )
+
+}
