@@ -15,7 +15,6 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import data.RestaurantImage
 
-@Preview
 @Composable
 fun RestaurantImages(list: List<RestaurantImage>? = null) {
     if (!list.isNullOrEmpty()) {
@@ -46,9 +45,9 @@ fun RestaurantImages(list: List<RestaurantImage>? = null) {
 @Composable
 fun PreviewRestaurantImages() {
     RestaurantImages(ArrayList<RestaurantImage>().apply {
-        add(RestaurantImage(url = "http://sarang628.iptime.org:88/restaurants/2.jpeg"))
-        add(RestaurantImage(url = "http://sarang628.iptime.org:88/restaurants/2-1.jpeg"))
-        add(RestaurantImage(url = "http://sarang628.iptime.org:88/restaurants/1.jpeg"))
-        add(RestaurantImage(url = "http://sarang628.iptime.org:88/restaurants/1-1.jpeg"))
+        add(RestaurantImage(url = "http://sarang628.iptime.org:89/restaurants/2.jpeg"))
+        add(RestaurantImage(url = "http://sarang628.iptime.org:89/restaurants/2-1.jpeg"))
+        add(RestaurantImage(url = "http://sarang628.iptime.org:89/restaurants/1.jpeg"))
+        add(RestaurantImage(url = "http://sarang628.iptime.org:89/restaurants/1-1.jpeg"))
     })
 }

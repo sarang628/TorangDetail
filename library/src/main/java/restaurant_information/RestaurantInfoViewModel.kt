@@ -50,9 +50,7 @@ class RestaurantInfoViewModel @Inject constructor(val restaurantInfoService: Res
             try {
                 val result = restaurantInfoService.loadRestaurant(restaurantId)
                 _uiState.emit(
-                    uiState.value.copy(
-                        restaurantInfoData = result
-                    )
+                    result
                 )
             } catch (e: Exception) {
                 _uiState.emit(
