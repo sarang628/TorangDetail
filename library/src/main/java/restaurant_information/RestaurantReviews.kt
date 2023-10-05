@@ -60,9 +60,9 @@ fun ReviewRow(name: String, fullName: String, rating: Float, comment: String) {
         Box(modifier = Modifier.size(35.dp), contentAlignment = Alignment.Center) {
             Button(onClick = { }, modifier = Modifier.size(35.dp)) {}
             Text(
-                text = name,
+                text = if (name.length > 2) name.substring(0, 2) else name,
                 color = Color.White,
-                fontSize = 15.sp,
+                fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
             )
         }

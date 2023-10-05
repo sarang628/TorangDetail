@@ -34,7 +34,8 @@ import data.ReviewRowData
 @Composable
 fun RestaurantInfoScreen(
     viewModel: RestaurantInfoViewModel,
-    reviewImageUrl : String
+    reviewImageUrl : String,
+    restaurantImageUrl : String
 ) {
     val uiState by viewModel.uiState.collectAsState()
     Box(
@@ -48,12 +49,12 @@ fun RestaurantInfoScreen(
                     // 레스토랑 기본정보
                     RestaurantBasicInfo(
                         restaurantInfoData = uiState.restaurantInfoData,
-                        reviewImageUrl = reviewImageUrl
+                        restaurantImageUrl = restaurantImageUrl
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                 } else if (it == 1) {
                     // 레스토랑 이미지
-                    RestaurantImages(list = uiState.restaurantImage)
+                    RestaurantImages(url = reviewImageUrl, list = uiState.restaurantImage)
                     Spacer(modifier = Modifier.height(8.dp))
                 } else if (it == 2) {
                     // 레스토랑 메뉴
@@ -114,46 +115,4 @@ fun RestaurantInfoData() {
 @Preview
 @Composable
 fun PreviewRestaurantInformation() {
-    val a = RestaurantInfoData(
-        foodType = "패스트푸드점",
-        distance = "100m",
-        open = "영업 중",
-        close = "오후 9:00에 영업 종료",
-        address = "서울특별시 강남구 삼성동 삼성로 3000",
-        webSite = "https://torang.co.korea",
-        tel = "02-1234-5678"
-    )
-
-    val b = ArrayList<ReviewRowData>()
-        .apply {
-            add(
-                ReviewRowData(
-                    name = "JM",
-                    fullName = "강아지",
-                    rating = 3.0f,
-                    comment = "서비스가 훌륭함"
-                )
-            )
-            add(ReviewRowData(name = "DY", fullName = "대한민국", rating = 3.0f, comment = "맛있음"))
-            add(ReviewRowData(name = "CA", fullName = "희망찬", rating = 3.0f, comment = "저렴함"))
-            add(ReviewRowData(name = "OY", fullName = "고양이", rating = 3.0f, comment = "가까움"))
-        }
-
-    val c = ArrayList<MenuData>().apply {
-        add(MenuData(menuName = "스테이크", price = 30000f))
-        add(MenuData(menuName = "파스타", price = 300000f))
-        add(MenuData(menuName = "커피", price = 300000f))
-        add(MenuData(menuName = "디저트", price = 300000f))
-        add(MenuData(menuName = "와인", price = 300000f))
-        add(MenuData(menuName = "에피타이저", price = 300000f))
-        add(MenuData(menuName = "샐러드", price = 300000f))
-    }
-
-    val d = ArrayList<RestaurantImage>().apply {
-        add(RestaurantImage(url = "http://sarang628.iptime.org:88/restaurants/2.jpeg"))
-        add(RestaurantImage(url = "http://sarang628.iptime.org:88/restaurants/2-1.jpeg"))
-        add(RestaurantImage(url = "http://sarang628.iptime.org:88/restaurants/1.jpeg"))
-        add(RestaurantImage(url = "http://sarang628.iptime.org:88/restaurants/1-1.jpeg"))
-    }
-
 }

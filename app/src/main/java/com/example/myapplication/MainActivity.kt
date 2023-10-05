@@ -18,8 +18,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             RestaurantScreen(
                 restaurantInfoViewModel = restaurantInfoViewModel,
-                restaurantId = 10,
-                reviewImageUrl = "http://sarang628.iptime.org:89/restaurant_images/"
+                restaurantId = 1,
+                reviewImageUrl = "http://sarang628.iptime.org:89/review_images/",
+                restaurantImageUrl = "http://sarang628.iptime.org:89/restaurant_images/"
             )
         }
     }

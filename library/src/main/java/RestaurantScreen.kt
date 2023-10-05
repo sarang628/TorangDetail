@@ -16,7 +16,8 @@ import restaurant_information.RestaurantInfoViewModel
 fun RestaurantScreen(
     restaurantId: Int,
     restaurantInfoViewModel: RestaurantInfoViewModel,
-    reviewImageUrl : String
+    reviewImageUrl: String,
+    restaurantImageUrl: String
 ) {
     val navController = rememberNavController()
     restaurantInfoViewModel.loadRestaurant(restaurantId = restaurantId)
@@ -27,7 +28,8 @@ fun RestaurantScreen(
                 composable("info") {
                     RestaurantInfoScreen(
                         viewModel = restaurantInfoViewModel,
-                        reviewImageUrl = reviewImageUrl
+                        reviewImageUrl = reviewImageUrl,
+                        restaurantImageUrl = restaurantImageUrl
                     )
                 }
                 composable("menu") {

@@ -27,7 +27,7 @@ import data.RestaurantInfoData
 @Composable
 fun RestaurantBasicInfo(
     restaurantInfoData: RestaurantInfoData,
-    reviewImageUrl: String
+    restaurantImageUrl: String
 ) {
     Column(Modifier.fillMaxWidth()) {
 
@@ -39,7 +39,7 @@ fun RestaurantBasicInfo(
         ) {
             AsyncImage(
                 modifier = Modifier.fillMaxSize(),
-                model = reviewImageUrl + restaurantInfoData.imageUrl,
+                model = restaurantImageUrl + restaurantInfoData.imageUrl,
                 contentDescription = "",
                 contentScale = ContentScale.Crop
             )
@@ -103,6 +103,6 @@ fun PreviewRestaurantInfo() {
     )
     RestaurantBasicInfo(
         restaurantInfoData = restaurantInfoData,
-        reviewImageUrl = ""
+        restaurantImageUrl = ""
     )
 }

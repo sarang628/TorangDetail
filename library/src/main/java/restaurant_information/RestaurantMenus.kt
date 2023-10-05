@@ -52,13 +52,13 @@ fun RestaurantMenu(menuData1: MenuData, menuData2: MenuData?) {
 @Composable
 fun PreviewMenus() {
     RestaurantMenus(menus = ArrayList<MenuData>().apply {
-        add(MenuData(menuName = "스테이크", price = 30000f))
-        add(MenuData(menuName = "파스타", price = 300000f))
-        add(MenuData(menuName = "커피", price = 300000f))
-        add(MenuData(menuName = "디저트", price = 300000f))
-        add(MenuData(menuName = "와인", price = 300000f))
-        add(MenuData(menuName = "에피타이저", price = 300000f))
-        add(MenuData(menuName = "샐러드", price = 300000f))
+        add(MenuData(menuName = "스테이크", price = 30000f, url = ""))
+        add(MenuData(menuName = "파스타", price = 300000f, url = ""))
+        add(MenuData(menuName = "커피", price = 300000f, url = ""))
+        add(MenuData(menuName = "디저트", price = 300000f, url = ""))
+        add(MenuData(menuName = "와인", price = 300000f, url = ""))
+        add(MenuData(menuName = "에피타이저", price = 300000f, url = ""))
+        add(MenuData(menuName = "샐러드", price = 300000f, url = ""))
     })
 
 }
