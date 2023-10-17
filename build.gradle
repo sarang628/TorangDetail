@@ -23,5 +23,5 @@ ext {
     room_version = "2.5.1"
 
     themeVersion = '6f8e2a7a08'
-    torangRepository = '504b268868'
+    torangRepository = '0d82ab157d'
 }

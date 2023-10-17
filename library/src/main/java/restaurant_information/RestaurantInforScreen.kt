@@ -108,7 +108,7 @@ fun RestaurantInfoTitle(title: String) {
 
 @Preview
 @Composable
-fun RestaurantInfoData() {
+fun RestaurantInfoTitle() {
     RestaurantInfoTitle(title = "메뉴 타이틀")
 }
 

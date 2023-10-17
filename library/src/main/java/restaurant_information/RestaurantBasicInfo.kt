@@ -1,5 +1,6 @@
 package restaurant_information
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,12 +18,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.library.RatingBar
+import com.example.torang_detail.R
 import data.RestaurantInfoData
+import data.operationTime
 
 @Composable
 fun RestaurantBasicInfo(
@@ -54,38 +60,119 @@ fun RestaurantBasicInfo(
             )
         }
 
-        Row {
-            restaurantInfoData.foodType?.let { Text(text = it) }
-            restaurantInfoData.distance?.let { Text(text = it) }
-        }
-        Row {
-            restaurantInfoData.open?.let { Text(text = it) }
-            restaurantInfoData.close?.let { Text(text = it) }
+        Column(Modifier.padding(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 12.dp)) {
+            Row {
+                Text(text = "4.3")
+                Spacer(modifier = Modifier.width(5.dp))
+                RatingBar(rating = 4.3f)
+                Spacer(modifier = Modifier.width(5.dp))
+                Text(text = "(650)")
+            }
+
+            Row {
+                restaurantInfoData.foodType?.let { Text(text = it) }
+                Spacer(modifier = Modifier.width(5.dp))
+                restaurantInfoData.distance?.let { Text(text = it) }
+                Spacer(modifier = Modifier.width(5.dp))
+                Text(text = "$$$")
+            }
+            Row {
+                restaurantInfoData.open?.let { Text(text = it) }
+                restaurantInfoData.close?.let { Text(text = it) }
+            }
         }
 
-        Row {
+
+        Text(
+            text = "",
+            Modifier
+                .fillMaxWidth()
+                .height(1.dp)
+                .background(Color.LightGray)
+        )
+        Row(Modifier.padding(top = 15.dp, bottom = 15.dp)) {
             restaurantInfoData.address?.let {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_loc), contentDescription = "",
+                    modifier = Modifier
+                        .padding(start = 10.dp, end = 20.dp)
+                        .size(20.dp)
+                )
                 Text(text = "주소")
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(text = it)
             }
         }
+        Text(
+            text = "",
+            Modifier
+                .fillMaxWidth()
+                .height(1.dp)
+                .background(Color.LightGray)
+        )
 
-        Row {
+        Row(Modifier.padding(top = 15.dp, bottom = 15.dp)) {
             restaurantInfoData.webSite?.let {
-                Text(text = "사이트")
+                Image(
+                    painter = painterResource(id = R.drawable.ic_site), contentDescription = "",
+                    modifier = Modifier
+                        .padding(start = 10.dp, end = 20.dp)
+                        .size(20.dp)
+                )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(text = it)
             }
         }
 
-        Row {
+        Text(
+            text = "",
+            Modifier
+                .fillMaxWidth()
+                .height(1.dp)
+                .background(Color.LightGray)
+        )
+
+        Row(Modifier.padding(top = 15.dp, bottom = 15.dp)) {
+            restaurantInfoData.webSite?.let {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_time), contentDescription = "",
+                    modifier = Modifier
+                        .padding(start = 10.dp, end = 20.dp)
+                        .size(20.dp)
+                )
+                Spacer(modifier = Modifier.width(4.dp))
+                Text(text = restaurantInfoData.operationTime)
+            }
+        }
+
+        Text(
+            text = "",
+            Modifier
+                .fillMaxWidth()
+                .height(1.dp)
+                .background(Color.LightGray)
+        )
+
+        Row(Modifier.padding(top = 15.dp, bottom = 15.dp)) {
             restaurantInfoData.tel?.let {
-                Text(text = "전화번호")
+                Image(
+                    painter = painterResource(id = R.drawable.ic_suggest), contentDescription = "",
+                    modifier = Modifier
+                        .padding(start = 10.dp, end = 20.dp)
+                        .size(20.dp)
+                )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(text = it)
             }
         }
+
+        Text(
+            text = "",
+            Modifier
+                .fillMaxWidth()
+                .height(1.dp)
+                .background(Color.LightGray)
+        )
     }
 }
 
@@ -99,7 +186,8 @@ fun PreviewRestaurantInfo() {
         close = "오후 9:00에 영업 종료",
         address = "서울특별시 강남구 삼성동 삼성로 3000",
         webSite = "https://torang.co.korea",
-        tel = "02-1234-5678"
+        tel = "02-1234-5678",
+        hoursOfOperation = ArrayList()
     )
     RestaurantBasicInfo(
         restaurantInfoData = restaurantInfoData,

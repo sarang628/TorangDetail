@@ -9,6 +9,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import data.HoursOfOperation
 import data.MenuData
 import data.RestaurantImage
 import data.RestaurantInfoData
@@ -63,14 +64,23 @@ fun HttpException.errorMessage(): String {
 fun RestaurantDetail.toRestaurantInfoData(): RestaurantInfoData {
     return RestaurantInfoData(
         foodType = this.restaurant.restaurantType,
-        distance = "100m(hard coded)",
-        open = "영업 중(hard coded)",
-        close = "오후 9:00에 영업 종료(hard coded)",
+        distance = "100m",
+        open = "영업 중",
+        close = "오후 9:00에 영업 종료",
         address = this.restaurant.address,
         webSite = this.restaurant.website,
         tel = this.restaurant.tel,
         name = this.restaurant.restaurantName,
-        imageUrl = this.restaurant.imgUrl1
+        imageUrl = this.restaurant.imgUrl1,
+        hoursOfOperation = this.hoursOfOperations.stream().map { it.toHoursOfOperation() }.toList()
+    )
+}
+
+fun com.sryang.torang_repository.data.HoursOfOperation.toHoursOfOperation(): HoursOfOperation {
+    return HoursOfOperation(
+        day = this.day,
+        startTime = this.start_time,
+        endTime = this.end_time
     )
 }
 

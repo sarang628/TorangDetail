@@ -10,6 +10,7 @@ data class RestaurantInfoData(
     val tel: String? = null,
     val imageUrl: String? = null,
     val name: String? = null,
+    val hoursOfOperation: List<HoursOfOperation>? = null
 )
 
 fun testRestaurantInfoData(): RestaurantInfoData {
@@ -22,7 +23,22 @@ fun testRestaurantInfoData(): RestaurantInfoData {
         webSite = "webSite",
         tel = "number",
         name = "restaurant",
-        imageUrl = "1/1/2023-09-11/10_37_55_147.jpeg"
+        imageUrl = "1/1/2023-09-11/10_37_55_147.jpeg",
+        hoursOfOperation = ArrayList()
     )
 
+}
+
+val RestaurantInfoData.operationTime: String
+    get() = toHoursOperation()
+
+
+fun RestaurantInfoData.toHoursOperation(): String {
+    var str = ""
+    this.hoursOfOperation?.let {
+        it.forEach {
+            str += it.day + " " + it.startTime + " - " + it.endTime + "\n"
+        }
+    }
+    return str
 }
