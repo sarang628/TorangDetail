@@ -11,13 +11,10 @@ import restaurant_information.RestaurantInfoViewModel
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val restaurantInfoViewModel: RestaurantInfoViewModel by viewModels()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             RestaurantScreen(
-                restaurantInfoViewModel = restaurantInfoViewModel,
                 restaurantId = 1,
                 reviewImageUrl = "http://sarang628.iptime.org:89/review_images/",
                 restaurantImageUrl = "http://sarang628.iptime.org:89/restaurant_images/"

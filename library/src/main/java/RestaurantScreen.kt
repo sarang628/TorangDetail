@@ -6,6 +6,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -15,7 +16,7 @@ import restaurant_information.RestaurantInfoViewModel
 @Composable
 fun RestaurantScreen(
     restaurantId: Int,
-    restaurantInfoViewModel: RestaurantInfoViewModel,
+    restaurantInfoViewModel: RestaurantInfoViewModel = hiltViewModel(),
     reviewImageUrl: String,
     restaurantImageUrl: String
 ) {

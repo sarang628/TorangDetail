@@ -67,6 +67,9 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-compose"
     def nav_version = "2.5.3"
 
+    // hiltViewModel
+    implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
+
     implementation "androidx.navigation:navigation-compose:$nav_version"
     implementation "com.github.sarang628:CommonWidgets:6c400e072c"
     implementation("io.coil-kt:coil-compose:2.3.0")
