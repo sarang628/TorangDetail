@@ -1,4 +1,4 @@
-package data
+package com.sr.restaurant.restaurant.data
 
 data class RestaurantImage(
     val url: String

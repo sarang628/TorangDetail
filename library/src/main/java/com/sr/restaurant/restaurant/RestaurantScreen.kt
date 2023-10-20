@@ -1,15 +1,12 @@
-package restaurant_information
+package com.sr.restaurant.restaurant
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material3.Text
@@ -25,19 +22,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.library.RatingBar
 import com.example.torang_detail.R
-import data.MenuData
-import data.RestaurantImage
-import data.RestaurantInfoData
-import data.ReviewRowData
+import com.sr.restaurant.restaurant.compose.basic.RestaurantBasicInfo
+import com.sr.restaurant.restaurant.compose.basic.RestaurantReviewSummary
+import com.sr.restaurant.restaurant.compose.basic.RestaurantImages
+import com.sr.restaurant.restaurant.compose.basic.RestaurantMenus
+import com.sr.restaurant.restaurant.compose.basic.RestaurantReviews
+import com.sr.restaurant.restaurant.viewmodel.RestaurantInfoUIState
+import com.sr.restaurant.restaurant.viewmodel.RestaurantInfoViewModel
 
 
 @Composable
-fun RestaurantInfoScreen(
-    viewModel: RestaurantInfoViewModel,
-    reviewImageUrl : String,
-    restaurantImageUrl : String
+fun RestaurantScreen(
+    uiState: RestaurantInfoUIState,
+    reviewImageUrl: String,
+    restaurantImageUrl: String,
+    onClearErrorMessage: () -> Unit
 ) {
-    val uiState by viewModel.uiState.collectAsState()
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -76,7 +76,7 @@ fun RestaurantInfoScreen(
                 onDismissRequest = { /*TODO*/ },
                 buttons = {
                     Button(onClick = {
-                        viewModel.clearErrorMessage()
+                        onClearErrorMessage.invoke()
                     }) {
                         androidx.compose.material.Text(text = "Confirm")
                     }

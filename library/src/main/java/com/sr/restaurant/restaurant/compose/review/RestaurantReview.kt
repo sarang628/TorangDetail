@@ -1,3 +1,5 @@
+package com.sr.restaurant.restaurant.compose.review
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

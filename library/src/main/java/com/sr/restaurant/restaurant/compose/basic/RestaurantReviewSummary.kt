@@ -1,6 +1,6 @@
-package restaurant_information
+package com.sr.restaurant.restaurant.compose.basic
 
-import data.ReviewSummaryData
+import com.sr.restaurant.restaurant.data.ReviewSummaryData
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.library.RatingBar
+import com.sr.restaurant.restaurant.RestaurantInfoTitle
 
 @Composable
 fun RestaurantReviewSummary(data: ReviewSummaryData) {

@@ -1,4 +1,4 @@
-package data
+package com.sr.restaurant.restaurant.data
 
 data class MenuData(val menuName: String, val price: Float, val url: String)
 

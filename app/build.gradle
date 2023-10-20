@@ -78,4 +78,5 @@ dependencies {
 
     implementation project(path: ':library')
     implementation "com.github.sarang628:TorangRepository:$torangRepository"
+    implementation "com.github.sarang628:BaseFeed:$baseFeedVersion"
 }

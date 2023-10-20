@@ -1,16 +1,12 @@
-package restaurant_information
+package com.sr.restaurant.restaurant.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sr.restaurant.restaurant.RestaurantInfoService
 import dagger.hilt.android.lifecycle.HiltViewModel
-import data.MenuData
-import data.RestaurantImage
-import data.RestaurantInfoData
-import data.ReviewRowData
-import data.ReviewSummaryData
-import data.testMenuData
-import data.testRestaurantImage
-import data.testReviewRowData
+import com.sr.restaurant.restaurant.data.RestaurantInfoData
+import com.sr.restaurant.restaurant.data.ReviewRowData
+import com.sr.restaurant.restaurant.data.ReviewSummaryData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -20,7 +16,7 @@ import javax.inject.Inject
 class RestaurantInfoViewModel @Inject constructor(val restaurantInfoService: RestaurantInfoService) :
     ViewModel() {
 
-    var _uiState = MutableStateFlow(
+    private var _uiState = MutableStateFlow(
         RestaurantInfoUIState(
             restaurantInfoData = RestaurantInfoData(),
             reviewRowData = ArrayList<ReviewRowData>().apply {
@@ -35,12 +31,9 @@ class RestaurantInfoViewModel @Inject constructor(val restaurantInfoService: Res
                 score4 = 0f,
                 score5 = 0f
             ),
-            menus = ArrayList<MenuData>().apply {
-                //add(testMenuData())
-            },
-            restaurantImage = ArrayList<RestaurantImage>().apply {
-                //add(testRestaurantImage())
-            }
+            menus = ArrayList(),
+            restaurantImage = ArrayList(),
+            reviews = ArrayList()
         )
     )
 
@@ -48,10 +41,13 @@ class RestaurantInfoViewModel @Inject constructor(val restaurantInfoService: Res
     fun loadRestaurant(restaurantId: Int) {
         viewModelScope.launch {
             try {
-                val result = restaurantInfoService.loadRestaurant(restaurantId)
-                _uiState.emit(
-                    result
+                _uiState.value = restaurantInfoService.loadRestaurant(restaurantId)
+
+                _uiState.value = _uiState.value.copy(
+                    reviews = restaurantInfoService.loadReviews(restaurantId = restaurantId)
                 )
+
+
             } catch (e: Exception) {
                 _uiState.emit(
                     uiState.value.copy(

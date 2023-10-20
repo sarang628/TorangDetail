@@ -1,3 +1,5 @@
+package com.sr.restaurant.restaurant.compose.menu
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,17 +23,22 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.library.RatingBar
 import com.example.torang_detail.R
+import com.sr.restaurant.restaurant.data.MenuData
+import com.sr.restaurant.restaurant.viewmodel.RestaurantInfoViewModel
 
-@Preview
 @Composable
-fun RestaurantMenu() {
+fun RestaurantMenu(
+    list: List<MenuData>,
+    menuImageServerUrl: String
+) {
     Column(
         Modifier
             .fillMaxSize()
             .background(color = colorResource(id = R.color.colorSecondaryLight))
     ) {
         LazyVerticalGrid(columns = GridCells.Fixed(2), content = {
-            items(50) {
+            items(list.size) {
+                var menu = list[it]
                 Box(
                     modifier = Modifier
                         .height(200.dp)
@@ -40,7 +47,7 @@ fun RestaurantMenu() {
                 ) {
                     AsyncImage(
                         modifier = Modifier.fillMaxSize(),
-                        model = "http://sarang628.iptime.org:89/mcdonalds.png",
+                        model = menuImageServerUrl + menu.url,
                         contentDescription = "",
                         contentScale = ContentScale.Crop
                     )
@@ -51,14 +58,14 @@ fun RestaurantMenu() {
                             .padding(end = 8.dp, bottom = 8.dp)
                     ) {
                         Text(
-                            text = "Big mac",
+                            text = menu.menuName,
                             color = Color.White,
                             fontWeight = FontWeight.Bold,
                             fontSize = 20.sp
                         )
                         RatingBar(rating = 3.0f)
                         Text(
-                            text = "2,500₩",
+                            text = menu.price.toString(),
                             color = Color.White,
                             fontWeight = FontWeight.Bold,
                             fontSize = 20.sp

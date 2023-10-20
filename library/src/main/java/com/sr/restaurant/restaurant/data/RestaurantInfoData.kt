@@ -1,4 +1,4 @@
-package data
+package com.sr.restaurant.restaurant.data
 
 data class RestaurantInfoData(
     val foodType: String? = null,

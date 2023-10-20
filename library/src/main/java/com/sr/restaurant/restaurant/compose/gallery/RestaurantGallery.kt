@@ -1,3 +1,5 @@
+package com.sr.restaurant.restaurant.compose.gallery
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,20 +14,24 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.torang_detail.R
+import com.sr.restaurant.restaurant.data.RestaurantImage
 
-@Preview
+
 @Composable
-fun RestaurantGallery() {
+fun RestaurantGallery(
+    list: List<RestaurantImage>,
+    reviewImageUrl : String
+) {
     Column(
         Modifier
             .fillMaxSize()
             .background(color = colorResource(id = R.color.colorSecondaryLight))
     ) {
         LazyVerticalGrid(columns = GridCells.Adaptive(150.dp), content = {
-            items(100) {
+            items(list.size) {
                 AsyncImage(
                     modifier = Modifier.padding(1.dp),
-                    model = "http://sarang628.iptime.org:89/review_images/1/1/2023-09-11/10_37_51_976.jpeg",
+                    model = reviewImageUrl + list[it].url,
                     contentDescription = ""
                 )
             }

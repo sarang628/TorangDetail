@@ -1,4 +1,4 @@
-package restaurant_information
+package com.sr.restaurant.restaurant.compose.basic
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,7 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import data.MenuData
+import com.sr.restaurant.restaurant.RestaurantInfoTitle
+import com.sr.restaurant.restaurant.data.MenuData
 
 @Composable
 fun RestaurantMenus(menus: List<MenuData>?) {
@@ -19,10 +20,10 @@ fun RestaurantMenus(menus: List<MenuData>?) {
         if (!menus.isNullOrEmpty()) {
             RestaurantInfoTitle("메뉴")
             Spacer(modifier = Modifier.height(8.dp))
-            for (i in 0..menus.size / 2) {
+            for (i in 0 until menus.size) {
                 RestaurantMenu(
-                    menuData1 = menus[i * 2],
-                    menuData2 = if (i * 2 + 1 >= menus.size) null else menus[i * 2 + 1]
+                    menuData1 = menus[i],
+                    menuData2 = menus[i]
                 )
             }
         }
@@ -35,12 +36,16 @@ fun RestaurantMenu(menuData1: MenuData, menuData2: MenuData?) {
         Row(Modifier.weight(1f)) {
             Text(text = menuData1.menuName)
             Spacer(modifier = Modifier.width(4.dp))
+            Text(text = "...")
+            Spacer(modifier = Modifier.width(4.dp))
             Text(text = menuData1.price.toString())
         }
 
         menuData2?.let {
             Row(Modifier.weight(1f)) {
                 Text(text = it.menuName)
+                Spacer(modifier = Modifier.width(4.dp))
+                Text(text = "...")
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(text = it.price.toString())
             }
