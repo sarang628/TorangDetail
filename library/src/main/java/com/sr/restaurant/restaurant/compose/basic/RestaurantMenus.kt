@@ -22,8 +22,7 @@ fun RestaurantMenus(menus: List<MenuData>?) {
             Spacer(modifier = Modifier.height(8.dp))
             for (i in 0 until menus.size) {
                 RestaurantMenu(
-                    menuData1 = menus[i],
-                    menuData2 = menus[i]
+                    menuData1 = menus[i]
                 )
             }
         }
@@ -31,7 +30,7 @@ fun RestaurantMenus(menus: List<MenuData>?) {
 }
 
 @Composable
-fun RestaurantMenu(menuData1: MenuData, menuData2: MenuData?) {
+fun RestaurantMenu(menuData1: MenuData) {
     Row {
         Row(Modifier.weight(1f)) {
             Text(text = menuData1.menuName)
@@ -39,16 +38,6 @@ fun RestaurantMenu(menuData1: MenuData, menuData2: MenuData?) {
             Text(text = "...")
             Spacer(modifier = Modifier.width(4.dp))
             Text(text = menuData1.price.toString())
-        }
-
-        menuData2?.let {
-            Row(Modifier.weight(1f)) {
-                Text(text = it.menuName)
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(text = "...")
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(text = it.price.toString())
-            }
         }
     }
 }

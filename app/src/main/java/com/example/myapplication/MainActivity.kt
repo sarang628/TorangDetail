@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             RestaurantScreen(
-                restaurantId = 1,
+                restaurantId = 41,
                 reviewImageUrl = "http://sarang628.iptime.org:89/review_images/",
                 restaurantImageUrl = "http://sarang628.iptime.org:89/restaurant_images/",
                 menuImageServerUrl = "http://sarang628.iptime.org:89/menu_images/",
