@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -26,7 +27,7 @@ import com.sr.restaurant.restaurant.RestaurantInfoTitle
 fun RestaurantReviews(reviewRowData: List<ReviewRowData>?) {
     if (!reviewRowData.isNullOrEmpty()) {
         Column(Modifier.fillMaxWidth()) {
-            RestaurantInfoTitle("리뷰")
+            RestaurantInfoTitle("Review")
             Spacer(modifier = Modifier.height(8.dp))
             for (reviewData in reviewRowData) {
                 ReviewRow(
@@ -74,7 +75,7 @@ fun ReviewRow(name: String, fullName: String, rating: Float, comment: String) {
                 RatingBar(rating = rating)
                 Text(text = rating.toString())
             }
-            Text(text = comment)
+            Text(text = comment, maxLines = 3, overflow = TextOverflow.Ellipsis)
         }
     }
     Spacer(modifier = Modifier.height(4.dp))

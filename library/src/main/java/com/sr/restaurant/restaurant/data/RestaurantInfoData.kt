@@ -1,5 +1,7 @@
 package com.sr.restaurant.restaurant.data
 
+import android.text.TextUtils
+
 data class RestaurantInfoData(
     val foodType: String? = null,
     val distance: String? = null,
@@ -37,7 +39,9 @@ fun RestaurantInfoData.toHoursOperation(): String {
     var str = ""
     this.hoursOfOperation?.let {
         it.forEach {
-            str += it.day + " " + it.startTime + " - " + it.endTime + "\n"
+            str += it.day + " " + it.startTime + " - " + it.endTime
+            if (it.day != this.hoursOfOperation.get(this.hoursOfOperation.size - 1).day)
+                str += "\n"
         }
     }
     return str

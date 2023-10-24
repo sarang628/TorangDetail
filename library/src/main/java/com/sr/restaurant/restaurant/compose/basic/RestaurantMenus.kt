@@ -18,7 +18,7 @@ import com.sr.restaurant.restaurant.data.MenuData
 fun RestaurantMenus(menus: List<MenuData>?) {
     Column(Modifier.fillMaxWidth()) {
         if (!menus.isNullOrEmpty()) {
-            RestaurantInfoTitle("메뉴")
+            RestaurantInfoTitle("Menu")
             Spacer(modifier = Modifier.height(8.dp))
             for (i in 0 until menus.size) {
                 RestaurantMenu(

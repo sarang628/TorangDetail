@@ -23,7 +23,7 @@ import com.sr.restaurant.restaurant.RestaurantInfoTitle
 @Composable
 fun RestaurantReviewSummary(data: ReviewSummaryData) {
     Column(Modifier.fillMaxWidth()) {
-        RestaurantInfoTitle(title = "리뷰요약")
+        RestaurantInfoTitle(title = "Summery")
         Row(Modifier.height(80.dp), verticalAlignment = Alignment.CenterVertically) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,

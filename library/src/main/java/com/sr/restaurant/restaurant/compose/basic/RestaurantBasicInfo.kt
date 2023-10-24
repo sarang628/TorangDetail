@@ -75,10 +75,10 @@ fun RestaurantBasicInfo(
                 Spacer(modifier = Modifier.width(5.dp))
                 Text(text = "$$$")
             }
-            Row {
+            /*Row {
                 restaurantInfoData.open?.let { Text(text = it) }
                 restaurantInfoData.close?.let { Text(text = it) }
-            }
+            }*/
         }
 
 
@@ -97,8 +97,6 @@ fun RestaurantBasicInfo(
                         .padding(start = 10.dp, end = 20.dp)
                         .size(20.dp)
                 )
-                Text(text = "주소")
-                Spacer(modifier = Modifier.width(4.dp))
                 Text(text = it)
             }
         }
