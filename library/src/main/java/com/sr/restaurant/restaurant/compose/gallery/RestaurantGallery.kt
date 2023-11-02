@@ -25,7 +25,6 @@ fun RestaurantGallery(
     Column(
         Modifier
             .fillMaxSize()
-            .background(color = colorResource(id = R.color.colorSecondaryLight))
     ) {
         LazyVerticalGrid(columns = GridCells.Adaptive(150.dp), content = {
             items(list.size) {

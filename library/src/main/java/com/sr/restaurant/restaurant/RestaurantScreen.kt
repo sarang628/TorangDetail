@@ -7,12 +7,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Button
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -23,12 +21,11 @@ import androidx.compose.ui.unit.sp
 import com.example.library.RatingBar
 import com.example.torang_detail.R
 import com.sr.restaurant.restaurant.compose.basic.RestaurantBasicInfo
-import com.sr.restaurant.restaurant.compose.basic.RestaurantReviewSummary
 import com.sr.restaurant.restaurant.compose.basic.RestaurantImages
 import com.sr.restaurant.restaurant.compose.basic.RestaurantMenus
+import com.sr.restaurant.restaurant.compose.basic.RestaurantReviewSummary
 import com.sr.restaurant.restaurant.compose.basic.RestaurantReviews
 import com.sr.restaurant.restaurant.viewmodel.RestaurantInfoUIState
-import com.sr.restaurant.restaurant.viewmodel.RestaurantInfoViewModel
 
 
 @Composable
@@ -41,7 +38,6 @@ fun RestaurantScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = colorResource(id = R.color.colorSecondaryLight))
     ) {
         LazyColumn(content = {
             items(5) {
@@ -74,14 +70,14 @@ fun RestaurantScreen(
         uiState.errorMessage?.let { errorMessage ->
             AlertDialog(
                 onDismissRequest = { /*TODO*/ },
-                buttons = {
+                confirmButton = {
                     Button(onClick = {
                         onClearErrorMessage.invoke()
                     }) {
-                        androidx.compose.material.Text(text = "Confirm")
+                        Text(text = "Confirm")
                     }
                 },
-                title = { androidx.compose.material.Text(text = errorMessage) }
+                title = { Text(text = errorMessage) }
             )
         }
     }

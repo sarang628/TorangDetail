@@ -28,9 +28,7 @@ import com.example.torang_detail.R
 @Composable
 fun RestaurantReview() {
     Column(
-        Modifier
-            .fillMaxSize()
-            .background(color = colorResource(id = R.color.colorSecondaryLight))
+        Modifier.fillMaxSize()
     ) {
         LazyColumn(content = {
             items(100) {

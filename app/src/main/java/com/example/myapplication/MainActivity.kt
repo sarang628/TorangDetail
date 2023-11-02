@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
                 restaurantImageUrl = "http://sarang628.iptime.org:89/restaurant_images/",
                 menuImageServerUrl = "http://sarang628.iptime.org:89/menu_images/",
                 feeds = {
-                    Box(modifier = Modifier.background(colorResource(id = R.color.colorSecondaryLight))) {
+                    Box {
                         Feeds(
                             list = ArrayList(it.stream().map { it.toFeedUiState() }.toList()),
                             onProfile = { },

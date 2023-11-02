@@ -39,7 +39,6 @@ fun RestaurantBasicInfo(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color(0x11000000))
                 .height(200.dp)
         ) {
             AsyncImage(
