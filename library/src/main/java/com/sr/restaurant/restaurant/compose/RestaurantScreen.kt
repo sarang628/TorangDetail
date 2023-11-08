@@ -30,7 +30,7 @@ fun RestaurantScreen(
     val uiState by restaurantInfoViewModel.uiState.collectAsState()
     Box {
         Column {
-            RestaurntTopMenu(navController)
+            RestaurntTopMenu1(navController)
             NavHost(navController = navController, startDestination = "info") {
                 composable("info") {
                     RestaurantScreen(

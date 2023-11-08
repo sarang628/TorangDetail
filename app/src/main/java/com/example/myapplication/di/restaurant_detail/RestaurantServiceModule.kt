@@ -80,7 +80,10 @@ fun RestaurantDetail.toRestaurantInfoData(): RestaurantInfoData {
         tel = this.restaurant.tel,
         name = this.restaurant.restaurantName,
         imageUrl = this.restaurant.imgUrl1,
-        hoursOfOperation = this.hoursOfOperations.stream().map { it.toHoursOfOperation() }.toList()
+        hoursOfOperation = this.hoursOfOperations.stream().map { it.toHoursOfOperation() }.toList(),
+        rating = this.restaurant.rating,
+        reviewCount = this.restaurant.reviewCount,
+        price = this.restaurant.prices
     )
 }
 

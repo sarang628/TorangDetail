@@ -32,7 +32,7 @@ import com.sr.restaurant.restaurant.data.operationTime
 @Composable
 fun RestaurantBasicInfo(
     restaurantInfoData: RestaurantInfoData,
-    restaurantImageUrl: String
+    restaurantImageUrl: String,
 ) {
     Column(Modifier.fillMaxWidth()) {
 
@@ -60,11 +60,11 @@ fun RestaurantBasicInfo(
 
         Column(Modifier.padding(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 12.dp)) {
             Row {
-                Text(text = "4.3")
+                Text(text = restaurantInfoData.rating.toString())
                 Spacer(modifier = Modifier.width(5.dp))
-                RatingBar(rating = 4.3f)
+                RatingBar(rating = restaurantInfoData.rating ?: 0.0f)
                 Spacer(modifier = Modifier.width(5.dp))
-                Text(text = "(650)")
+                Text(text = "(${restaurantInfoData.reviewCount})")
             }
 
             Row {
@@ -72,7 +72,7 @@ fun RestaurantBasicInfo(
                 Spacer(modifier = Modifier.width(5.dp))
                 restaurantInfoData.distance?.let { Text(text = it) }
                 Spacer(modifier = Modifier.width(5.dp))
-                Text(text = "$$$")
+                Text(text = restaurantInfoData.price ?: "")
             }
             /*Row {
                 restaurantInfoData.open?.let { Text(text = it) }
@@ -183,7 +183,10 @@ fun PreviewRestaurantInfo() {
         address = "서울특별시 강남구 삼성동 삼성로 3000",
         webSite = "https://torang.co.korea",
         tel = "02-1234-5678",
-        hoursOfOperation = ArrayList()
+        hoursOfOperation = ArrayList(),
+        price = "",
+        rating = 4.5f,
+        reviewCount = 100
     )
     RestaurantBasicInfo(
         restaurantInfoData = restaurantInfoData,

@@ -1,7 +1,5 @@
 package com.sr.restaurant.restaurant.data
 
-import android.text.TextUtils
-
 data class RestaurantInfoData(
     val foodType: String? = null,
     val distance: String? = null,
@@ -12,7 +10,10 @@ data class RestaurantInfoData(
     val tel: String? = null,
     val imageUrl: String? = null,
     val name: String? = null,
-    val hoursOfOperation: List<HoursOfOperation>? = null
+    val hoursOfOperation: List<HoursOfOperation>? = null,
+    val rating: Float? = null,
+    val price: String? = null,
+    val reviewCount: Int? = null
 )
 
 fun testRestaurantInfoData(): RestaurantInfoData {
@@ -26,7 +27,10 @@ fun testRestaurantInfoData(): RestaurantInfoData {
         tel = "number",
         name = "restaurant",
         imageUrl = "1/1/2023-09-11/10_37_55_147.jpeg",
-        hoursOfOperation = ArrayList()
+        hoursOfOperation = ArrayList(),
+        rating = 0.0f,
+        reviewCount = 10,
+        price = "@@"
     )
 
 }
