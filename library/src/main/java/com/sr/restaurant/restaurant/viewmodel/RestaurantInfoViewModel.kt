@@ -2,7 +2,7 @@ package com.sr.restaurant.restaurant.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sr.restaurant.restaurant.RestaurantInfoService
+import com.sr.restaurant.restaurant.usecase.RestaurantInfoService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import com.sr.restaurant.restaurant.data.RestaurantInfoData
 import com.sr.restaurant.restaurant.data.ReviewRowData
@@ -18,7 +18,6 @@ class RestaurantInfoViewModel @Inject constructor(val restaurantInfoService: Res
 
     private var _uiState = MutableStateFlow(
         RestaurantInfoUIState(
-            restaurantInfoData = RestaurantInfoData(),
             reviewRowData = ArrayList<ReviewRowData>().apply {
                 //add(testReviewRowData())
             },

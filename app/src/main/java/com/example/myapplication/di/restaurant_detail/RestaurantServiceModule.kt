@@ -17,15 +17,12 @@ import com.sr.restaurant.restaurant.data.RestaurantInfoData
 import com.sr.restaurant.restaurant.data.ReviewRowData
 import com.sr.restaurant.restaurant.data.ReviewSummaryData
 import com.sr.restaurant.restaurant.data.testReviewSummaryData
-import com.sr.restaurant.restaurant.RestaurantInfoService
+import com.sr.restaurant.restaurant.usecase.RestaurantInfoService
 import com.sr.restaurant.restaurant.data.FeedData
 import com.sr.restaurant.restaurant.viewmodel.RestaurantInfoUIState
-import com.sryang.torang_repository.api.ApiFeed
 import com.sryang.torang_repository.api.ApiReview
-import com.sryang.torang_repository.data.entity.ReviewAndImageEntity
 import com.sryang.torang_repository.data.remote.response.RemoteFeed
 import retrofit2.HttpException
-import kotlin.streams.toList
 
 @InstallIn(SingletonComponent::class)
 @Module
@@ -114,7 +111,15 @@ fun RestaurantDetail.toRestaurantImages(): List<RestaurantImage> {
 }
 
 fun RestaurantDetail.toReviewSummaryData(): ReviewSummaryData {
-    return testReviewSummaryData()
+    return ReviewSummaryData(
+        rating = this.restaurant.rating,
+        totalReviewer = this.restaurant.reviewCount,
+        score5 = 5.0f,
+        score4 = 4.0f,
+        score3 = 3.0f,
+        score2 = 2.0f,
+        score1 = 1.0f
+    )
 }
 
 fun RestaurantDetail.toReviewRowData(): List<ReviewRowData> {

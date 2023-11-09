@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     RestaurantScreen(
-                        restaurantId = 41,
+                        restaurantId = 117,
                         reviewImageUrl = "http://sarang628.iptime.org:89/review_images/",
                         restaurantImageUrl = "http://sarang628.iptime.org:89/restaurant_images/",
                         menuImageServerUrl = "http://sarang628.iptime.org:89/menu_images/",

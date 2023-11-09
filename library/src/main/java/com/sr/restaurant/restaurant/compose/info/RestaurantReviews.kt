@@ -1,4 +1,4 @@
-package com.sr.restaurant.restaurant.compose.basic
+package com.sr.restaurant.restaurant.compose.info
 
 import com.sr.restaurant.restaurant.data.ReviewRowData
 import androidx.compose.foundation.layout.Box
@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
@@ -21,12 +22,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.library.RatingBar
-import com.sr.restaurant.restaurant.RestaurantInfoTitle
 
 @Composable
 fun RestaurantReviews(reviewRowData: List<ReviewRowData>?) {
     if (!reviewRowData.isNullOrEmpty()) {
-        Column(Modifier.fillMaxWidth()) {
+        Column(Modifier.fillMaxWidth().padding(start = 8.dp, end = 8.dp)) {
             RestaurantInfoTitle("Review")
             Spacer(modifier = Modifier.height(8.dp))
             for (reviewData in reviewRowData) {

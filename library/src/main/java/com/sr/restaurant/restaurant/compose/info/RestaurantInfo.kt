@@ -1,4 +1,4 @@
-package com.sr.restaurant.restaurant
+package com.sr.restaurant.restaurant.compose.info
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -17,16 +17,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.library.RatingBar
-import com.sr.restaurant.restaurant.compose.basic.RestaurantBasicInfo
-import com.sr.restaurant.restaurant.compose.basic.RestaurantImages
-import com.sr.restaurant.restaurant.compose.basic.RestaurantMenus
-import com.sr.restaurant.restaurant.compose.basic.RestaurantReviewSummary
-import com.sr.restaurant.restaurant.compose.basic.RestaurantReviews
 import com.sr.restaurant.restaurant.viewmodel.RestaurantInfoUIState
 
 
 @Composable
-fun RestaurantScreen(
+fun RestaurantInfo(
     uiState: RestaurantInfoUIState,
     reviewImageUrl: String,
     restaurantImageUrl: String,
@@ -40,11 +35,13 @@ fun RestaurantScreen(
             items(5) {
                 if (it == 0) {
                     // 레스토랑 기본정보
-                    RestaurantBasicInfo(
-                        restaurantInfoData = uiState.restaurantInfoData,
-                        restaurantImageUrl = restaurantImageUrl
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
+                    uiState.restaurantInfoData?.let {
+                        RestaurantBasicInfo(
+                            restaurantInfoData = it,
+                            restaurantImageUrl = restaurantImageUrl
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
                 } else if (it == 1) {
                     // 레스토랑 이미지
                     RestaurantImages(url = reviewImageUrl, list = uiState.restaurantImage)

@@ -1,4 +1,4 @@
-package com.sr.restaurant.restaurant
+package com.sr.restaurant.restaurant.usecase
 
 import com.sr.restaurant.restaurant.data.FeedData
 import com.sr.restaurant.restaurant.viewmodel.RestaurantInfoUIState

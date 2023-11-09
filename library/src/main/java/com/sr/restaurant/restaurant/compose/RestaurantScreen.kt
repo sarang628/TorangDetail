@@ -9,10 +9,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.sr.restaurant.restaurant.RestaurantScreen
+import com.sr.restaurant.restaurant.compose.info.RestaurantInfo
 import com.sr.restaurant.restaurant.compose.gallery.RestaurantGallery
 import com.sr.restaurant.restaurant.compose.menu.RestaurantMenu
-import com.sr.restaurant.restaurant.compose.review.RestaurantReview
 import com.sr.restaurant.restaurant.data.FeedData
 import com.sr.restaurant.restaurant.viewmodel.RestaurantInfoViewModel
 
@@ -33,7 +32,7 @@ fun RestaurantScreen(
             RestaurntTopMenu1(navController)
             NavHost(navController = navController, startDestination = "info") {
                 composable("info") {
-                    RestaurantScreen(
+                    RestaurantInfo(
                         uiState = uiState,
                         reviewImageUrl = reviewImageUrl,
                         restaurantImageUrl = restaurantImageUrl,

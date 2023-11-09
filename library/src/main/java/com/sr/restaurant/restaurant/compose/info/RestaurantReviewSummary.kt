@@ -1,4 +1,4 @@
-package com.sr.restaurant.restaurant.compose.basic
+package com.sr.restaurant.restaurant.compose.info
 
 import com.sr.restaurant.restaurant.data.ReviewSummaryData
 import androidx.compose.foundation.layout.Arrangement
@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
@@ -18,11 +19,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.library.RatingBar
-import com.sr.restaurant.restaurant.RestaurantInfoTitle
 
 @Composable
 fun RestaurantReviewSummary(data: ReviewSummaryData) {
-    Column(Modifier.fillMaxWidth()) {
+    Column(Modifier.fillMaxWidth().padding(start = 8.dp, end = 8.dp)) {
         RestaurantInfoTitle(title = "Summery")
         Row(Modifier.height(80.dp), verticalAlignment = Alignment.CenterVertically) {
             Column(

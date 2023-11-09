@@ -44,6 +44,9 @@ val items = listOf(
     Screen.Profile
 )
 
+/**
+ * 사용 안함 NavigationBar 높이가 너무 높음
+ */
 @Composable
 fun RestaurntTopMenu(navController: NavController) {
     NavigationBar {

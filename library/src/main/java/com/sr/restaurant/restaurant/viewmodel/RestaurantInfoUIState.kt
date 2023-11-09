@@ -8,7 +8,7 @@ import com.sr.restaurant.restaurant.data.ReviewRowData
 import com.sr.restaurant.restaurant.data.ReviewSummaryData
 
 data class RestaurantInfoUIState(
-    val restaurantInfoData: RestaurantInfoData,
+    val restaurantInfoData: RestaurantInfoData? = null,
     val reviewRowData: List<ReviewRowData>,
     val reviewSummaryData: ReviewSummaryData,
     val menus: List<MenuData>,

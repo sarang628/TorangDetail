@@ -1,4 +1,4 @@
-package com.sr.restaurant.restaurant.compose.basic
+package com.sr.restaurant.restaurant.compose.info
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -39,7 +40,7 @@ fun RestaurantBasicInfo(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(200.dp)
+                .height(300.dp)
         ) {
             AsyncImage(
                 modifier = Modifier.fillMaxSize(),
@@ -47,37 +48,53 @@ fun RestaurantBasicInfo(
                 contentDescription = "",
                 contentScale = ContentScale.Crop
             )
-            Text(
-                text = restaurantInfoData.name ?: "",
+            Column(
                 Modifier
                     .align(Alignment.BottomEnd)
                     .padding(end = 8.dp, bottom = 8.dp),
-                fontSize = 25.sp,
-                color = Color.White,
-                fontWeight = FontWeight.Bold
-            )
+            ) {
+                Text(
+                    text = restaurantInfoData.name,
+                    fontSize = 25.sp,
+                    color = MaterialTheme.colorScheme.primaryContainer,
+                    fontWeight = FontWeight.Bold
+                )
+                Row {
+                    Text(
+                        text = restaurantInfoData.rating.toString(),
+                        fontSize = 25.sp,
+                        color = MaterialTheme.colorScheme.primaryContainer,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Spacer(modifier = Modifier.width(5.dp))
+                    RatingBar(rating = restaurantInfoData.rating)
+                    Spacer(modifier = Modifier.width(5.dp))
+                    Text(
+                        text = "(${restaurantInfoData.reviewCount})",
+                        color = MaterialTheme.colorScheme.primaryContainer
+                    )
+                }
+            }
         }
 
-        Column(Modifier.padding(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 12.dp)) {
-            Row {
-                Text(text = restaurantInfoData.rating.toString())
-                Spacer(modifier = Modifier.width(5.dp))
-                RatingBar(rating = restaurantInfoData.rating ?: 0.0f)
-                Spacer(modifier = Modifier.width(5.dp))
-                Text(text = "(${restaurantInfoData.reviewCount})")
-            }
+        Column {
+            Row(Modifier.padding(top = 15.dp, bottom = 15.dp)) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_loc), contentDescription = "",
+                    modifier = Modifier
+                        .padding(start = 10.dp, end = 20.dp)
+                        .size(20.dp)
+                )
+                Column {
+                    Row {
+                        Text(text = restaurantInfoData.foodType)
+                        Spacer(modifier = Modifier.width(5.dp))
+                        Text(text = restaurantInfoData.distance)
+                    }
+                    Text(text = restaurantInfoData.price)
+                }
 
-            Row {
-                restaurantInfoData.foodType?.let { Text(text = it) }
-                Spacer(modifier = Modifier.width(5.dp))
-                restaurantInfoData.distance?.let { Text(text = it) }
-                Spacer(modifier = Modifier.width(5.dp))
-                Text(text = restaurantInfoData.price ?: "")
             }
-            /*Row {
-                restaurantInfoData.open?.let { Text(text = it) }
-                restaurantInfoData.close?.let { Text(text = it) }
-            }*/
         }
 
 
@@ -129,16 +146,14 @@ fun RestaurantBasicInfo(
         )
 
         Row(Modifier.padding(top = 15.dp, bottom = 15.dp)) {
-            restaurantInfoData.webSite?.let {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_time), contentDescription = "",
-                    modifier = Modifier
-                        .padding(start = 10.dp, end = 20.dp)
-                        .size(20.dp)
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(text = restaurantInfoData.operationTime)
-            }
+            Image(
+                painter = painterResource(id = R.drawable.ic_time), contentDescription = "",
+                modifier = Modifier
+                    .padding(start = 10.dp, end = 20.dp)
+                    .size(20.dp)
+            )
+            Spacer(modifier = Modifier.width(4.dp))
+            Text(text = restaurantInfoData.operationTime)
         }
 
         Text(
@@ -150,16 +165,14 @@ fun RestaurantBasicInfo(
         )
 
         Row(Modifier.padding(top = 15.dp, bottom = 15.dp)) {
-            restaurantInfoData.tel?.let {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_suggest), contentDescription = "",
-                    modifier = Modifier
-                        .padding(start = 10.dp, end = 20.dp)
-                        .size(20.dp)
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(text = it)
-            }
+            Image(
+                painter = painterResource(id = R.drawable.ic_suggest), contentDescription = "",
+                modifier = Modifier
+                    .padding(start = 10.dp, end = 20.dp)
+                    .size(20.dp)
+            )
+            Spacer(modifier = Modifier.width(4.dp))
+            Text(text = restaurantInfoData.tel)
         }
 
         Text(
@@ -186,7 +199,9 @@ fun PreviewRestaurantInfo() {
         hoursOfOperation = ArrayList(),
         price = "",
         rating = 4.5f,
-        reviewCount = 100
+        reviewCount = 100,
+        imageUrl = "",
+        name = "맥도날드"
     )
     RestaurantBasicInfo(
         restaurantInfoData = restaurantInfoData,

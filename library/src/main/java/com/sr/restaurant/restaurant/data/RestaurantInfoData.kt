@@ -1,19 +1,19 @@
 package com.sr.restaurant.restaurant.data
 
 data class RestaurantInfoData(
-    val foodType: String? = null,
-    val distance: String? = null,
-    val open: String? = null,
-    val close: String? = null,
-    val address: String? = null,
-    val webSite: String? = null,
-    val tel: String? = null,
-    val imageUrl: String? = null,
-    val name: String? = null,
-    val hoursOfOperation: List<HoursOfOperation>? = null,
-    val rating: Float? = null,
-    val price: String? = null,
-    val reviewCount: Int? = null
+    val foodType: String,
+    val distance: String,
+    val open: String,
+    val close: String,
+    val address: String,
+    val webSite: String,
+    val tel: String,
+    val imageUrl: String,
+    val name: String,
+    val hoursOfOperation: List<HoursOfOperation>,
+    val rating: Float,
+    val price: String,
+    val reviewCount: Int
 )
 
 fun testRestaurantInfoData(): RestaurantInfoData {

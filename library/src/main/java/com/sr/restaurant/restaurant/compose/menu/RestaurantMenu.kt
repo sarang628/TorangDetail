@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -32,7 +33,7 @@ fun RestaurantMenu(
     Column(
         Modifier.fillMaxSize()
     ) {
-        LazyVerticalGrid(columns = GridCells.Fixed(2), content = {
+        LazyVerticalGrid(columns = GridCells.Fixed(1), content = {
             items(list.size) {
                 var menu = list[it]
                 Box(
@@ -50,25 +51,25 @@ fun RestaurantMenu(
 
                     Column(
                         Modifier
-                            .align(Alignment.BottomEnd)
-                            .padding(end = 8.dp, bottom = 8.dp)
+                            .align(Alignment.BottomStart)
+                            .padding(start = 8.dp, end = 8.dp)
                     ) {
-                        Text(
-                            text = menu.menuName,
-                            color = Color.White,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 20.sp
-                        )
                         RatingBar(rating = 3.0f)
                         Text(
-                            text = menu.price.toString(),
+                            text = "${menu.menuName} (${menu.price})",
                             color = Color.White,
                             fontWeight = FontWeight.Bold,
-                            fontSize = 20.sp
+                            fontSize = 14.sp
                         )
                     }
                 }
             }
         })
     }
+}
+
+@Preview
+@Composable
+fun PreviewMenu() {
+    RestaurantMenu(list = ArrayList(), menuImageServerUrl = "")
 }

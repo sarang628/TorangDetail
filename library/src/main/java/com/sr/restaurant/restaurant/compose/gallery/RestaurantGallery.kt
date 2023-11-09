@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -26,12 +27,13 @@ fun RestaurantGallery(
         Modifier
             .fillMaxSize()
     ) {
-        LazyVerticalGrid(columns = GridCells.Adaptive(150.dp), content = {
+        LazyVerticalGrid(columns = GridCells.Adaptive(140.dp), content = {
             items(list.size) {
                 AsyncImage(
                     modifier = Modifier.padding(1.dp),
                     model = reviewImageUrl + list[it].url,
-                    contentDescription = ""
+                    contentDescription = "",
+                    contentScale = ContentScale.Crop
                 )
             }
         })

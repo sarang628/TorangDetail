@@ -1,4 +1,4 @@
-package com.sr.restaurant.restaurant.compose.basic
+package com.sr.restaurant.restaurant.compose.info
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
