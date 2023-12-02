@@ -22,7 +22,7 @@ ext {
     /** root build.gradle */
     room_version = "2.5.1"
 
-    themeVersion = '6f8e2a7a08'
-    torangRepository = '07698f9fab'
-    baseFeedVersion = '2b12e38961'
+    themeVersion = '28a1702347'
+    torangRepository = '2ddc69463b'
+    baseFeedVersion = '73fe574ec5'
 }
