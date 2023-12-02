@@ -1,21 +1,17 @@
 package com.example.myapplication
 
-import com.sr.restaurant.restaurant.compose.RestaurantScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
-import com.example.myapplication.di.restaurant_detail.toFeedUiState
 import com.google.samples.apps.sunflower.ui.TorangTheme
-import com.sarang.base_feed.ui.Feeds
+import com.sr.restaurant.restaurant.compose.RestaurantScreen
+import com.sryang.base.feed.compose.feed.Feeds
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.streams.toList
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -38,7 +34,7 @@ class MainActivity : ComponentActivity() {
                         feeds = {
                             Box {
                                 Feeds(
-                                    list = ArrayList(it.stream().map { it.toFeedUiState() }.toList()),
+                                    list = ArrayList(),
                                     onProfile = { },
                                     onMenu = { },
                                     onImage = { },
@@ -52,7 +48,9 @@ class MainActivity : ComponentActivity() {
                                     imageServerUrl = reviewImageUrl,
                                     isRefreshing = false,
                                     onRefresh = { },
-                                    ratingBar = {}
+                                    ratingBar = {},
+                                    isEmpty = false,
+                                    onBottom = {}
                                 )
                             }
                         }

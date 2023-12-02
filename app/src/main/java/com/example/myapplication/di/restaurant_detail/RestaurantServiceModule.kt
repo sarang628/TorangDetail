@@ -1,27 +1,23 @@
 package com.example.myapplication.di.restaurant_detail
 
 import android.util.Log
-import com.sarang.base_feed.uistate.FeedBottomUIState
-import com.sarang.base_feed.uistate.FeedTopUIState
-import com.sarang.base_feed.uistate.FeedUiState
-import com.sryang.torang_repository.api.ApiRestaurant
-import com.sryang.torang_repository.data.RestaurantDetail
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import com.sr.restaurant.restaurant.data.FeedData
 import com.sr.restaurant.restaurant.data.HoursOfOperation
 import com.sr.restaurant.restaurant.data.MenuData
 import com.sr.restaurant.restaurant.data.RestaurantImage
 import com.sr.restaurant.restaurant.data.RestaurantInfoData
 import com.sr.restaurant.restaurant.data.ReviewRowData
 import com.sr.restaurant.restaurant.data.ReviewSummaryData
-import com.sr.restaurant.restaurant.data.testReviewSummaryData
 import com.sr.restaurant.restaurant.usecase.RestaurantInfoService
-import com.sr.restaurant.restaurant.data.FeedData
 import com.sr.restaurant.restaurant.viewmodel.RestaurantInfoUIState
+import com.sryang.torang_repository.api.ApiRestaurant
 import com.sryang.torang_repository.api.ApiReview
+import com.sryang.torang_repository.data.RestaurantDetail
 import com.sryang.torang_repository.data.remote.response.RemoteFeed
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import retrofit2.HttpException
 
 @InstallIn(SingletonComponent::class)
@@ -56,7 +52,7 @@ class RestaurantServiceModule {
             }
 
             override suspend fun loadReviews(restaurantId: Int): List<FeedData> {
-                return apiReview.getReviews(restaurantId).stream().map { it.toFeedData() }.toList()
+                return apiReview.getReviews(restaurantId).map { it.toFeedData() }
             }
         }
     }
@@ -77,7 +73,7 @@ fun RestaurantDetail.toRestaurantInfoData(): RestaurantInfoData {
         tel = this.restaurant.tel,
         name = this.restaurant.restaurantName,
         imageUrl = this.restaurant.imgUrl1,
-        hoursOfOperation = this.hoursOfOperations.stream().map { it.toHoursOfOperation() }.toList(),
+        hoursOfOperation = this.hoursOfOperations.map { it.toHoursOfOperation() },
         rating = this.restaurant.rating,
         reviewCount = this.restaurant.reviewCount,
         price = this.restaurant.prices
@@ -93,21 +89,21 @@ fun com.sryang.torang_repository.data.HoursOfOperation.toHoursOfOperation(): Hou
 }
 
 fun RestaurantDetail.toMenus(): List<MenuData> {
-    return this.menus.stream().map {
+    return this.menus.map {
         MenuData(
             menuName = it.menu_name,
             price = it.menu_price.toFloat(),
             url = it.menu_pic_url
         )
-    }.toList()
+    }
 }
 
 fun RestaurantDetail.toRestaurantImages(): List<RestaurantImage> {
-    return this.pictures.stream().map {
+    return this.pictures.map {
         RestaurantImage(
             url = it.picture_url
         )
-    }.toList()
+    }
 }
 
 fun RestaurantDetail.toReviewSummaryData(): ReviewSummaryData {
@@ -123,55 +119,14 @@ fun RestaurantDetail.toReviewSummaryData(): ReviewSummaryData {
 }
 
 fun RestaurantDetail.toReviewRowData(): List<ReviewRowData> {
-    return this.comments.stream().map {
+    return this.comments.map {
         ReviewRowData(
             name = it.user_name,
             fullName = it.user_name,
             rating = 3.0f,
             comment = it.comment
         )
-    }.toList()
-}
-
-fun FeedData.toFeedUiState(): FeedUiState {
-    return FeedUiState(
-        reviewId = this.reviewId,
-        itemFeedBottomUiState = this.toFeedBottomUIState(),
-        itemFeedTopUiState = this.toFeedTopUIState(),
-        reviewImages = this.reviewImages
-    )
-}
-
-fun FeedData.toFeedBottomUIState(
-): FeedBottomUIState {
-    return FeedBottomUIState(
-        reviewId = this.reviewId,
-        likeAmount = this.likeAmount,
-        commentAmount = this.commentAmount,
-        author = this.author,
-        author1 = this.author1,
-        author2 = this.author2,
-        comment = this.comment,
-        comment1 = this.comment1,
-        comment2 = this.comment2,
-        isLike = this.isLike,
-        isFavorite = this.isFavorite,
-        visibleLike = this.visibleLike,
-        visibleComment = this.visibleComment,
-        contents = this.contents
-    )
-}
-
-fun FeedData.toFeedTopUIState(): FeedTopUIState {
-    return FeedTopUIState(
-        reviewId = this.reviewId,
-        userId = this.userId,
-        name = this.name,
-        restaurantName = this.restaurantName,
-        rating = this.rating,
-        profilePictureUrl = this.profilePictureUrl,
-        restaurantId = restaurantId
-    )
+    }
 }
 
 fun RemoteFeed.toFeedData(): FeedData {
@@ -195,7 +150,7 @@ fun RemoteFeed.toFeedData(): FeedData {
         visibleLike = false,
         visibleComment = false,
         contents = this.contents,
-        reviewImages = this.pictures.stream().map { it.picture_url }.toList(),
+        reviewImages = this.pictures.map { it.picture_url },
         restaurantId = this.restaurant.restaurantId
     )
 }
