@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.torang_detail">
+    package="com.sryang.torang">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <application android:usesCleartextTraffic="true"></application>
+    <application
+        android:theme="@style/Theme.MyApplication"
+        android:usesCleartextTraffic="true"></application>
 
 </manifest>
