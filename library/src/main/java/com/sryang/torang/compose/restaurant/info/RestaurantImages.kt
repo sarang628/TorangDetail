@@ -15,7 +15,7 @@ import coil.compose.AsyncImage
 import com.sryang.torang.data.restaurant.RestaurantImage
 
 @Composable
-fun RestaurantImages(url: String, list: List<RestaurantImage>? = null) {
+fun RestaurantImages(list: List<RestaurantImage>? = null) {
     if (!list.isNullOrEmpty()) {
         Box(
             Modifier
@@ -26,7 +26,7 @@ fun RestaurantImages(url: String, list: List<RestaurantImage>? = null) {
                 items(list.size, itemContent = {
                     Box {
                         AsyncImage(
-                            model = url + list[it].url,
+                            model = list[it].url,
                             contentDescription = "",
                             modifier = Modifier
                                 .height(150.dp)
@@ -44,7 +44,7 @@ fun RestaurantImages(url: String, list: List<RestaurantImage>? = null) {
 @Preview
 @Composable
 fun PreviewRestaurantImages() {
-    RestaurantImages(url = "", ArrayList<RestaurantImage>().apply {
+    RestaurantImages(ArrayList<RestaurantImage>().apply {
         add(RestaurantImage(url = "http://sarang628.iptime.org:89/restaurants/2.jpeg"))
         add(RestaurantImage(url = "http://sarang628.iptime.org:89/restaurants/2-1.jpeg"))
         add(RestaurantImage(url = "http://sarang628.iptime.org:89/restaurants/1.jpeg"))

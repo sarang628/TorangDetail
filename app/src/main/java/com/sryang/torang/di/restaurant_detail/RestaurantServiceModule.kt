@@ -4,8 +4,10 @@ import com.example.myapplication.BuildConfig
 import com.sryang.torang.compose.restaurant.info.RestaurantImages
 import com.sryang.torang.data.restaurant.Feed
 import com.sryang.torang.data.restaurant.RestaurantImage
+import com.sryang.torang.data.restaurant.RestaurantInfo
 import com.sryang.torang.uistate.RestaurantInfoUIState
 import com.sryang.torang.usecase.GetRestaurantGalleryUseCase
+import com.sryang.torang.usecase.GetRestaurantInfoUseCase
 import com.sryang.torang.usecase.RestaurantInfoService
 import com.sryang.torang_repository.api.ApiRestaurant
 import com.sryang.torang_repository.api.ApiReview
@@ -60,11 +62,16 @@ class RestaurantServiceModule {
     ): GetRestaurantGalleryUseCase {
         return object : GetRestaurantGalleryUseCase {
             override suspend fun invoke(restaurantId: Int): List<RestaurantImage> {
-                return apiRestaurant.getRestaurantDetail(restaurantId).pictures
-                    .map {
+                return apiRestaurant.getRestaurantDetail(restaurantId).toRestaurantImages()
+            }
+        }
+    }
 
-                        RestaurantImage(url = BuildConfig.REVIEW_IMAGE_SERVER_URL + it.picture_url)
-                    }
+    @Provides
+    fun ProvidesGetRestaurantInfoUseCase(apiRestaurant: ApiRestaurant): GetRestaurantInfoUseCase {
+        return object : GetRestaurantInfoUseCase {
+            override suspend fun invoke(restaurantId: Int): RestaurantInfo {
+                return apiRestaurant.getRestaurantDetail(restaurantId).toRestaurantInfoData()
             }
         }
     }

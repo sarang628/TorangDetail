@@ -22,7 +22,7 @@ import com.sryang.torang.viewmodels.RestaurantGalleryViewModel
 
 
 @Composable
-fun RestaurantGallery(
+fun RestaurantGalleryScreen(
     viewModel: RestaurantGalleryViewModel = hiltViewModel(),
     restaurantId: Int,
 ) {
@@ -50,7 +50,7 @@ fun RestaurantGallery(
 }
 
 @Composable
-fun RestaurantGallery(
+fun RestaurantGalleryScreen(
     list: List<RestaurantImage>,
     reviewImageUrl: String
 ) {
@@ -76,7 +76,7 @@ fun RestaurantGallery(
 @Preview
 @Composable
 fun PreviewRestaurantGallery() {
-    RestaurantGallery(
+    RestaurantGalleryScreen(
         list = arrayListOf(
             testRestaurantImage(),
             testRestaurantImage(),

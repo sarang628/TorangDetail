@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import com.google.samples.apps.sunflower.ui.TorangTheme
 import com.sryang.base.feed.compose.feed.Feeds
 import com.sryang.torang.compose.restaurant.RestaurantNavScreen
-import com.sryang.torang.compose.restaurant.gallery.RestaurantGallery
+import com.sryang.torang.compose.restaurant.info.RestaurantInfoScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,7 +25,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    RestaurantGallery(restaurantId = 5)
+                    //RestaurantGalleryScreen(restaurantId = 6)
+
+                    RestaurantInfoScreen(restaurantId = 6)
                 }
             }
         }

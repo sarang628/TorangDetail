@@ -1,23 +1,23 @@
 package com.sryang.torang.data.restaurant
 
-data class RestaurantInfoData(
-    val foodType: String,
-    val distance: String,
-    val open: String,
-    val close: String,
-    val address: String,
-    val webSite: String,
-    val tel: String,
-    val imageUrl: String,
-    val name: String,
-    val hoursOfOperation: List<HoursOfOperation>,
-    val rating: Float,
-    val price: String,
-    val reviewCount: Int
+data class RestaurantInfo(
+    val foodType: String = "",
+    val distance: String = "",
+    val open: String = "",
+    val close: String = "",
+    val address: String = "",
+    val webSite: String = "",
+    val tel: String = "",
+    val imageUrl: String = "",
+    val name: String = "",
+    val hoursOfOperation: List<HoursOfOperation> = arrayListOf(),
+    val rating: Float = 0.0f,
+    val price: String = "",
+    val reviewCount: Int = 0
 )
 
-fun testRestaurantInfoData(): RestaurantInfoData {
-    return RestaurantInfoData(
+fun testRestaurantInfo(): RestaurantInfo {
+    return RestaurantInfo(
         foodType = "foodType",
         distance = "distance",
         open = "open",
@@ -35,11 +35,11 @@ fun testRestaurantInfoData(): RestaurantInfoData {
 
 }
 
-val RestaurantInfoData.operationTime: String
+val RestaurantInfo.operationTime: String
     get() = toHoursOperation()
 
 
-fun RestaurantInfoData.toHoursOperation(): String {
+fun RestaurantInfo.toHoursOperation(): String {
     var str = ""
     this.hoursOfOperation?.let {
         it.forEach {

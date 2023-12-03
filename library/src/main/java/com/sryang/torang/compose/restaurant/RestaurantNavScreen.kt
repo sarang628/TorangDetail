@@ -17,17 +17,17 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.sryang.torang.compose.restaurant.gallery.RestaurantGallery
-import com.sryang.torang.compose.restaurant.info.RestaurantInfo
+import com.sryang.torang.compose.restaurant.gallery.RestaurantGalleryScreen
+import com.sryang.torang.compose.restaurant.info.RestaurantInfoScreen
 import com.sryang.torang.compose.restaurant.menu.RestaurantMenu
 import com.sryang.torang.data.restaurant.Feed
-import com.sryang.torang.viewmodels.RestaurantInfoViewModel
+import com.sryang.torang.viewmodels.RestaurantViewModel
 import kotlinx.coroutines.launch
 
 @Composable
 fun RestaurantNavScreen(
     restaurantId: Int,
-    restaurantInfoViewModel: RestaurantInfoViewModel = hiltViewModel(),
+    restaurantInfoViewModel: RestaurantViewModel = hiltViewModel(),
     reviewImageUrl: String,
     restaurantImageUrl: String,
     menuImageServerUrl: String,
@@ -58,10 +58,8 @@ fun RestaurantNavScreen(
             RestaurntTopMenu1(navController)
             NavHost(navController = navController, startDestination = "info") {
                 composable("info") {
-                    RestaurantInfo(
-                        uiState = uiState,
-                        reviewImageUrl = reviewImageUrl,
-                        restaurantImageUrl = restaurantImageUrl
+                    RestaurantInfoScreen(
+                        uiState = uiState
                     )
                 }
                 composable("menu") {
@@ -71,7 +69,7 @@ fun RestaurantNavScreen(
                     feeds.invoke(uiState.reviews)
                 }
                 composable("gallery") {
-                    RestaurantGallery(
+                    RestaurantGalleryScreen(
                         uiState.restaurantImage,
                         reviewImageUrl = reviewImageUrl
                     )

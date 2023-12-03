@@ -1,17 +1,18 @@
 package com.sryang.torang.di.restaurant_detail
 
+import com.example.myapplication.BuildConfig
 import com.sryang.torang.data.restaurant.Feed
 import com.sryang.torang.data.restaurant.HoursOfOperation
 import com.sryang.torang.data.restaurant.MenuData
 import com.sryang.torang.data.restaurant.RestaurantImage
-import com.sryang.torang.data.restaurant.RestaurantInfoData
+import com.sryang.torang.data.restaurant.RestaurantInfo
 import com.sryang.torang.data.restaurant.ReviewRowData
 import com.sryang.torang.data.restaurant.ReviewSummaryData
 import com.sryang.torang_repository.data.RestaurantDetail
 import com.sryang.torang_repository.data.remote.response.RemoteFeed
 
-fun RestaurantDetail.toRestaurantInfoData(): RestaurantInfoData {
-    return RestaurantInfoData(
+fun RestaurantDetail.toRestaurantInfoData(): RestaurantInfo {
+    return RestaurantInfo(
         foodType = this.restaurant.restaurantType,
         distance = "100m",
         open = "영업 중",
@@ -20,7 +21,7 @@ fun RestaurantDetail.toRestaurantInfoData(): RestaurantInfoData {
         webSite = this.restaurant.website,
         tel = this.restaurant.tel,
         name = this.restaurant.restaurantName,
-        imageUrl = this.restaurant.imgUrl1,
+        imageUrl = BuildConfig.RESTAURANT_IMAGE_SERVER_URL + this.restaurant.imgUrl1,
         hoursOfOperation = this.hoursOfOperations.map { it.toHoursOfOperation() },
         rating = this.restaurant.rating,
         reviewCount = this.restaurant.reviewCount,
@@ -49,7 +50,7 @@ fun RestaurantDetail.toMenus(): List<MenuData> {
 fun RestaurantDetail.toRestaurantImages(): List<RestaurantImage> {
     return this.pictures.map {
         RestaurantImage(
-            url = it.picture_url
+            url = BuildConfig.REVIEW_IMAGE_SERVER_URL + it.picture_url
         )
     }
 }
@@ -98,7 +99,7 @@ fun RemoteFeed.toFeedData(): Feed {
         visibleLike = false,
         visibleComment = false,
         contents = this.contents,
-        reviewImages = this.pictures.map { it.picture_url },
+        reviewImages = this.pictures.map { BuildConfig.REVIEW_IMAGE_SERVER_URL + it.picture_url },
         restaurantId = this.restaurant.restaurantId
     )
 }
