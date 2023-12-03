@@ -12,7 +12,9 @@ import androidx.compose.ui.Modifier
 import com.google.samples.apps.sunflower.ui.TorangTheme
 import com.sryang.base.feed.compose.feed.Feeds
 import com.sryang.torang.compose.restaurant.RestaurantNavScreen
+import com.sryang.torang.compose.restaurant.gallery.RestaurantGalleryScreen
 import com.sryang.torang.compose.restaurant.info.RestaurantInfoScreen
+import com.sryang.torang.compose.restaurant.menu.RestaurantMenuScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,9 +27,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    //RestaurantGalleryScreen(restaurantId = 6)
-
-                    RestaurantInfoScreen(restaurantId = 6)
+//                    RestaurantGalleryScreen(restaurantId = 6)
+//                    RestaurantInfoScreen(restaurantId = 6)
+//                    RestaurantMenuScreen(restaurantId = 6)
+                    Restaurant()
                 }
             }
         }
@@ -39,10 +42,7 @@ fun Restaurant() {
     val profileImageServerUrl = "http://sarang628.iptime.org:89/profile_images/"
     val reviewImageUrl = "http://sarang628.iptime.org:89/review_images/"
     RestaurantNavScreen(
-        restaurantId = 117,
-        reviewImageUrl = "http://sarang628.iptime.org:89/review_images/",
-        restaurantImageUrl = "http://sarang628.iptime.org:89/restaurant_images/",
-        menuImageServerUrl = "http://sarang628.iptime.org:89/menu_images/",
+        restaurantId = 6,
         feeds = {
             Box {
                 Feeds(

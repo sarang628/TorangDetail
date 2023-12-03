@@ -3,9 +3,11 @@ package com.sryang.torang.di.restaurant_detail
 import com.example.myapplication.BuildConfig
 import com.sryang.torang.compose.restaurant.info.RestaurantImages
 import com.sryang.torang.data.restaurant.Feed
+import com.sryang.torang.data.restaurant.MenuData
 import com.sryang.torang.data.restaurant.RestaurantImage
 import com.sryang.torang.data.restaurant.RestaurantInfo
 import com.sryang.torang.uistate.RestaurantInfoUIState
+import com.sryang.torang.usecase.GetMenuUseCase
 import com.sryang.torang.usecase.GetRestaurantGalleryUseCase
 import com.sryang.torang.usecase.GetRestaurantInfoUseCase
 import com.sryang.torang.usecase.RestaurantInfoService
@@ -57,7 +59,7 @@ class RestaurantServiceModule {
     }
 
     @Provides
-    fun ProvidesGetRestaurantGalleryUseCase(
+    fun providesGetRestaurantGalleryUseCase(
         apiRestaurant: ApiRestaurant
     ): GetRestaurantGalleryUseCase {
         return object : GetRestaurantGalleryUseCase {
@@ -68,10 +70,19 @@ class RestaurantServiceModule {
     }
 
     @Provides
-    fun ProvidesGetRestaurantInfoUseCase(apiRestaurant: ApiRestaurant): GetRestaurantInfoUseCase {
+    fun providesGetRestaurantInfoUseCase(apiRestaurant: ApiRestaurant): GetRestaurantInfoUseCase {
         return object : GetRestaurantInfoUseCase {
             override suspend fun invoke(restaurantId: Int): RestaurantInfo {
                 return apiRestaurant.getRestaurantDetail(restaurantId).toRestaurantInfoData()
+            }
+        }
+    }
+
+    @Provides
+    fun providesGetMenuUseCase(apiRestaurant: ApiRestaurant): GetMenuUseCase {
+        return object : GetMenuUseCase {
+            override suspend fun invoke(restaurantId: Int): List<MenuData> {
+                return apiRestaurant.getRestaurantDetail(restaurantId).toMenus()
             }
         }
     }

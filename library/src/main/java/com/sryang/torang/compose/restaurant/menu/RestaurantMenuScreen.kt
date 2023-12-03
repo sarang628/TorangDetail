@@ -12,6 +12,9 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,15 +24,28 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.library.RatingBar
 import com.sryang.torang.data.restaurant.MenuData
 import com.sryang.torang.data.restaurant.testMenuData
+import com.sryang.torang.viewmodels.RestaurantMenuViewModel
+
+@Composable
+fun RestaurantMenuScreen(
+    viewModel: RestaurantMenuViewModel = hiltViewModel(),
+    restaurantId: Int
+) {
+    LaunchedEffect(key1 = restaurantId, block = {
+        viewModel.loadMenu(restaurantId)
+    })
+    val uiState by viewModel.uiState.collectAsState()
+    RestaurantMenu(list = uiState)
+}
 
 @Composable
 fun RestaurantMenu(
-    list: List<MenuData>,
-    menuImageServerUrl: String
+    list: List<MenuData>
 ) {
     Column(
         Modifier.fillMaxSize()
@@ -37,14 +53,14 @@ fun RestaurantMenu(
         LazyVerticalGrid(columns = GridCells.Fixed(1), content = {
             items(list.size) {
                 var menu = list[it]
-                MenuItem(menuImageServerUrl = menuImageServerUrl, menu = menu)
+                MenuItem(menu = menu)
             }
         })
     }
 }
 
 @Composable
-fun MenuItem(menuImageServerUrl: String, menu: MenuData) {
+fun MenuItem(menu: MenuData) {
     Box(
         modifier = Modifier
             .height(200.dp)
@@ -53,7 +69,7 @@ fun MenuItem(menuImageServerUrl: String, menu: MenuData) {
     ) {
         AsyncImage(
             modifier = Modifier.fillMaxSize(),
-            model = menuImageServerUrl + menu.url,
+            model = menu.url,
             contentDescription = "",
             contentScale = ContentScale.Crop
         )
@@ -81,11 +97,11 @@ fun MenuItem(menuImageServerUrl: String, menu: MenuData) {
 @Preview
 @Composable
 fun PreviewMenuItem() {
-    MenuItem(menuImageServerUrl = "", menu = testMenuData())
+    MenuItem(menu = testMenuData())
 }
 
 @Preview
 @Composable
 fun PreviewMenu() {
-    RestaurantMenu(list = ArrayList(), menuImageServerUrl = "")
+    RestaurantMenu(list = ArrayList())
 }

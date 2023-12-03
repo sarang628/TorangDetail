@@ -51,8 +51,7 @@ fun RestaurantGalleryScreen(
 
 @Composable
 fun RestaurantGalleryScreen(
-    list: List<RestaurantImage>,
-    reviewImageUrl: String
+    list: List<RestaurantImage>
 ) {
     Column(
         Modifier
@@ -64,7 +63,7 @@ fun RestaurantGalleryScreen(
                     modifier = Modifier
                         .padding(1.dp)
                         .fillMaxSize(),
-                    model = reviewImageUrl + list[it].url,
+                    model = list[it].url,
                     //contentDescription = "",
                     //contentScale = ContentScale.Crop
                 )
@@ -106,6 +105,6 @@ fun PreviewRestaurantGallery() {
             testRestaurantImage(),
             testRestaurantImage(),
             testRestaurantImage()
-        ), reviewImageUrl = ""
+        )
     )
 }

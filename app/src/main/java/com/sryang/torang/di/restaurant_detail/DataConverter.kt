@@ -42,7 +42,7 @@ fun RestaurantDetail.toMenus(): List<MenuData> {
         MenuData(
             menuName = it.menu_name,
             price = it.menu_price.toFloat(),
-            url = it.menu_pic_url
+            url = BuildConfig.MENU_IMAGE_SERVER_URL + it.menu_pic_url
         )
     }
 }

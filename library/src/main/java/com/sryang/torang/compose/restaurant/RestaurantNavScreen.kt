@@ -19,7 +19,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.sryang.torang.compose.restaurant.gallery.RestaurantGalleryScreen
 import com.sryang.torang.compose.restaurant.info.RestaurantInfoScreen
-import com.sryang.torang.compose.restaurant.menu.RestaurantMenu
+import com.sryang.torang.compose.restaurant.menu.RestaurantMenuScreen
 import com.sryang.torang.data.restaurant.Feed
 import com.sryang.torang.viewmodels.RestaurantViewModel
 import kotlinx.coroutines.launch
@@ -28,9 +28,6 @@ import kotlinx.coroutines.launch
 fun RestaurantNavScreen(
     restaurantId: Int,
     restaurantInfoViewModel: RestaurantViewModel = hiltViewModel(),
-    reviewImageUrl: String,
-    restaurantImageUrl: String,
-    menuImageServerUrl: String,
     feeds: @Composable (List<Feed>) -> Unit
 ) {
     val navController = rememberNavController()
@@ -55,24 +52,19 @@ fun RestaurantNavScreen(
         SnackbarHost(snackbarHostState)
     }) { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues = paddingValues)) {
-            RestaurntTopMenu1(navController)
+            RestaurntTopMenu(navController)
             NavHost(navController = navController, startDestination = "info") {
                 composable("info") {
-                    RestaurantInfoScreen(
-                        uiState = uiState
-                    )
+                    RestaurantInfoScreen(restaurantId = restaurantId)
                 }
                 composable("menu") {
-                    RestaurantMenu(list = uiState.menus, menuImageServerUrl = menuImageServerUrl)
+                    RestaurantMenuScreen(restaurantId = restaurantId)
                 }
                 composable("review") {
                     feeds.invoke(uiState.reviews)
                 }
                 composable("gallery") {
-                    RestaurantGalleryScreen(
-                        uiState.restaurantImage,
-                        reviewImageUrl = reviewImageUrl
-                    )
+                    RestaurantGalleryScreen(restaurantId = restaurantId)
                 }
             }
         }
