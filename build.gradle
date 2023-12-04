@@ -25,4 +25,6 @@ ext {
     themeVersion = '28a1702347'
     torangRepository = '2ddc69463b'
     baseFeedVersion = '73fe574ec5'
+    MUI3ScrollToRefreshVersion = 'dd57844809'
+    commonImageLoaderVersion = 'a8a2733a44'
 }

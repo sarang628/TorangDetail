@@ -66,5 +66,6 @@ dependencies {
     implementation "androidx.navigation:navigation-compose:$nav_version"
     implementation "com.github.sarang628:CommonWidgets:6c400e072c"
     implementation("io.coil-kt:coil-compose:2.3.0")
-    implementation 'com.github.sarang628:CommonImageLoader:a8a2733a44'
+    implementation "com.github.sarang628:CommonImageLoader:$commonImageLoaderVersion"
+    implementation "com.github.sarang628:MUI3ScrollToRefresh:$MUI3ScrollToRefreshVersion"
 }

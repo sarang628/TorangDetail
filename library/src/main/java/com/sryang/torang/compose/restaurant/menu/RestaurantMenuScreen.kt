@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,29 +28,47 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.library.RatingBar
+import com.sryang.library.pullrefresh.PullToRefreshLayout
+import com.sryang.library.pullrefresh.PullToRefreshLayoutState
+import com.sryang.library.pullrefresh.RefreshIndicatorState
+import com.sryang.library.pullrefresh.rememberPullToRefreshState
 import com.sryang.torang.data.restaurant.MenuData
 import com.sryang.torang.data.restaurant.testMenuData
 import com.sryang.torang.viewmodels.RestaurantMenuViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun RestaurantMenuScreen(
     viewModel: RestaurantMenuViewModel = hiltViewModel(),
     restaurantId: Int
 ) {
+    val coroutine = rememberCoroutineScope()
     LaunchedEffect(key1 = restaurantId, block = {
         viewModel.loadMenu(restaurantId)
     })
     val uiState by viewModel.uiState.collectAsState()
-    RestaurantMenu(list = uiState)
+    RestaurantMenu(list = uiState, onRefresh = {
+        coroutine.launch {
+            viewModel.loadMenu(restaurantId)
+            it.updateState(RefreshIndicatorState.Default)
+        }
+    })
 }
 
 @Composable
 fun RestaurantMenu(
-    list: List<MenuData>
+    list: List<MenuData>,
+    onRefresh: (PullToRefreshLayoutState) -> Unit,
 ) {
-    Column(
-        Modifier.fillMaxSize()
-    ) {
+    val state = rememberPullToRefreshState()
+    PullToRefreshLayout(
+        pullRefreshLayoutState = state,
+        refreshThreshold = 70,
+        modifier = Modifier.fillMaxSize(),
+        onRefresh = {
+            onRefresh.invoke(state)
+        }) {
         LazyVerticalGrid(columns = GridCells.Fixed(1), content = {
             items(list.size) {
                 var menu = list[it]
@@ -103,5 +122,5 @@ fun PreviewMenuItem() {
 @Preview
 @Composable
 fun PreviewMenu() {
-    RestaurantMenu(list = ArrayList())
+    RestaurantMenu(list = ArrayList(), onRefresh = {})
 }

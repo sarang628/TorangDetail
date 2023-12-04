@@ -16,7 +16,7 @@ class RestaurantMenuViewModel @Inject constructor(val getMenuUseCase: GetMenuUse
     ViewModel() {
     private var _uiState = MutableStateFlow<List<MenuData>>(ArrayList())
     var uiState = _uiState.asStateFlow()
-    fun loadMenu(restaurantId: Int) {
+    suspend fun loadMenu(restaurantId: Int) {
         viewModelScope.launch {
             try {
                 _uiState.update {

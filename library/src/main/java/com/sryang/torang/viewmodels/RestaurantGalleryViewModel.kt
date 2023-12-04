@@ -18,7 +18,7 @@ class RestaurantGalleryViewModel @Inject constructor(
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<List<RestaurantImage>>(arrayListOf())
     val uiState = _uiState.asStateFlow()
-    fun loadImage(restaurantId: Int) {
+    suspend fun loadImage(restaurantId: Int) {
         viewModelScope.launch {
             try {
                 _uiState.update { getRestaurantGalleryUseCase.invoke(restaurantId) }

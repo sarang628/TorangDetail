@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -19,32 +20,51 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.library.RatingBar
+import com.sryang.library.pullrefresh.PullToRefreshLayout
+import com.sryang.library.pullrefresh.PullToRefreshLayoutState
+import com.sryang.library.pullrefresh.RefreshIndicatorState
+import com.sryang.library.pullrefresh.rememberPullRefreshState
+import com.sryang.library.pullrefresh.rememberPullToRefreshState
 import com.sryang.torang.uistate.RestaurantInfoUIState
 import com.sryang.torang.viewmodels.RestaurantInfoViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun RestaurantInfoScreen(
     restaurantInfoViewModel: RestaurantInfoViewModel = hiltViewModel(),
     restaurantId: Int
 ) {
+    val coroutine = rememberCoroutineScope()
     LaunchedEffect(key1 = restaurantId, block = {
         restaurantInfoViewModel.loadInfo(restaurantId)
     })
 
     val uiState by restaurantInfoViewModel.uiState.collectAsState()
     RestaurantInfoScreen(
-        uiState = uiState
+        uiState = uiState,
+        onRefresh = {
+            coroutine.launch {
+                restaurantInfoViewModel.loadInfo(restaurantId)
+                it.updateState(RefreshIndicatorState.Default)
+            }
+        }
     )
 }
 
 @Composable
 fun RestaurantInfoScreen(
-    uiState: RestaurantInfoUIState
+    uiState: RestaurantInfoUIState,
+    onRefresh: (PullToRefreshLayoutState) -> Unit,
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
+    val state = rememberPullToRefreshState()
+    PullToRefreshLayout(
+        pullRefreshLayoutState = state,
+        refreshThreshold = 70,
+        modifier = Modifier.fillMaxSize(),
+        onRefresh = {
+            onRefresh.invoke(state)
+        }) {
         LazyColumn(content = {
             items(5) {
                 if (it == 0) {
