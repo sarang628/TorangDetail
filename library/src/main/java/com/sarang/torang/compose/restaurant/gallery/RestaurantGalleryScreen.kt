@@ -1,7 +1,5 @@
 package com.sarang.torang.compose.restaurant.gallery
 
-import TorangAsyncImage
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -21,9 +19,9 @@ import com.sryang.library.pullrefresh.PullToRefreshLayout
 import com.sryang.library.pullrefresh.PullToRefreshLayoutState
 import com.sryang.library.pullrefresh.RefreshIndicatorState
 import com.sryang.library.pullrefresh.rememberPullToRefreshState
-import com.sryang.torang.data.restaurant.RestaurantImage
-import com.sryang.torang.data.restaurant.testRestaurantImage
-import com.sryang.torang.viewmodels.RestaurantGalleryViewModel
+import com.sarang.torang.data.restaurant.RestaurantImage
+import com.sarang.torang.data.restaurant.testRestaurantImage
+import com.sarang.torang.viewmodels.RestaurantGalleryViewModel
 import kotlinx.coroutines.launch
 
 

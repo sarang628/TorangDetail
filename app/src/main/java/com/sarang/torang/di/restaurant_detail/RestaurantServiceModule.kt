@@ -1,16 +1,14 @@
 package com.sarang.torang.di.restaurant_detail
 
-import com.example.myapplication.BuildConfig
-import com.sryang.torang.compose.restaurant.info.RestaurantImages
-import com.sryang.torang.data.restaurant.Feed
-import com.sryang.torang.data.restaurant.MenuData
-import com.sryang.torang.data.restaurant.RestaurantImage
-import com.sryang.torang.data.restaurant.RestaurantInfo
-import com.sryang.torang.uistate.RestaurantInfoUIState
-import com.sryang.torang.usecase.GetMenuUseCase
-import com.sryang.torang.usecase.GetRestaurantGalleryUseCase
-import com.sryang.torang.usecase.GetRestaurantInfoUseCase
-import com.sryang.torang.usecase.RestaurantInfoService
+import com.sarang.torang.data.restaurant.Feed
+import com.sarang.torang.data.restaurant.MenuData
+import com.sarang.torang.data.restaurant.RestaurantImage
+import com.sarang.torang.data.restaurant.RestaurantInfo
+import com.sarang.torang.uistate.RestaurantInfoUIState
+import com.sarang.torang.usecase.GetMenuUseCase
+import com.sarang.torang.usecase.GetRestaurantGalleryUseCase
+import com.sarang.torang.usecase.GetRestaurantInfoUseCase
+import com.sarang.torang.usecase.RestaurantInfoService
 import com.sryang.torang_repository.api.ApiRestaurant
 import com.sryang.torang_repository.api.ApiReview
 import com.sryang.torang_repository.api.handle

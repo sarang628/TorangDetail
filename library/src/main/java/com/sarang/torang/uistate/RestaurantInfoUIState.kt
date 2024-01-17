@@ -1,11 +1,11 @@
 package com.sarang.torang.uistate
 
-import com.sryang.torang.data.restaurant.Feed
-import com.sryang.torang.data.restaurant.MenuData
-import com.sryang.torang.data.restaurant.RestaurantImage
-import com.sryang.torang.data.restaurant.RestaurantInfo
-import com.sryang.torang.data.restaurant.ReviewRowData
-import com.sryang.torang.data.restaurant.ReviewSummaryData
+import com.sarang.torang.data.restaurant.Feed
+import com.sarang.torang.data.restaurant.MenuData
+import com.sarang.torang.data.restaurant.RestaurantImage
+import com.sarang.torang.data.restaurant.RestaurantInfo
+import com.sarang.torang.data.restaurant.ReviewRowData
+import com.sarang.torang.data.restaurant.ReviewSummaryData
 
 data class RestaurantInfoUIState(
     val restaurantInfoData: RestaurantInfo = RestaurantInfo(),

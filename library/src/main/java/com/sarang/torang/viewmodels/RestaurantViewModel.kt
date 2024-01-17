@@ -2,8 +2,8 @@ package com.sarang.torang.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sryang.torang.uistate.RestaurantInfoUIState
-import com.sryang.torang.usecase.RestaurantInfoService
+import com.sarang.torang.uistate.RestaurantInfoUIState
+import com.sarang.torang.usecase.RestaurantInfoService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

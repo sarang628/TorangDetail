@@ -1,13 +1,13 @@
 package com.sarang.torang.di.restaurant_detail
 
-import com.example.myapplication.BuildConfig
-import com.sryang.torang.data.restaurant.Feed
-import com.sryang.torang.data.restaurant.HoursOfOperation
-import com.sryang.torang.data.restaurant.MenuData
-import com.sryang.torang.data.restaurant.RestaurantImage
-import com.sryang.torang.data.restaurant.RestaurantInfo
-import com.sryang.torang.data.restaurant.ReviewRowData
-import com.sryang.torang.data.restaurant.ReviewSummaryData
+import com.sarang.torang.BuildConfig
+import com.sarang.torang.data.restaurant.Feed
+import com.sarang.torang.data.restaurant.HoursOfOperation
+import com.sarang.torang.data.restaurant.MenuData
+import com.sarang.torang.data.restaurant.RestaurantImage
+import com.sarang.torang.data.restaurant.RestaurantInfo
+import com.sarang.torang.data.restaurant.ReviewRowData
+import com.sarang.torang.data.restaurant.ReviewSummaryData
 import com.sryang.torang_repository.data.RestaurantDetail
 import com.sryang.torang_repository.data.remote.response.RemoteFeed
 

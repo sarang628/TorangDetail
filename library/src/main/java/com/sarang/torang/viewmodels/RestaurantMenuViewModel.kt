@@ -2,8 +2,8 @@ package com.sarang.torang.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sryang.torang.data.restaurant.MenuData
-import com.sryang.torang.usecase.GetMenuUseCase
+import com.sarang.torang.data.restaurant.MenuData
+import com.sarang.torang.usecase.GetMenuUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

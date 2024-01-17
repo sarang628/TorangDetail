@@ -20,8 +20,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.library.RatingBar
-import com.sryang.torang.data.restaurant.ReviewRowData
+import com.sarang.torang.data.restaurant.ReviewRowData
+import com.sarang.torang.widgets.RatingBar
 
 @Composable
 fun RestaurantReviews(reviewRowData: List<ReviewRowData>?) {

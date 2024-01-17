@@ -19,14 +19,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.library.RatingBar
 import com.sryang.library.pullrefresh.PullToRefreshLayout
 import com.sryang.library.pullrefresh.PullToRefreshLayoutState
 import com.sryang.library.pullrefresh.RefreshIndicatorState
 import com.sryang.library.pullrefresh.rememberPullRefreshState
 import com.sryang.library.pullrefresh.rememberPullToRefreshState
-import com.sryang.torang.uistate.RestaurantInfoUIState
-import com.sryang.torang.viewmodels.RestaurantInfoViewModel
+import com.sarang.torang.uistate.RestaurantInfoUIState
+import com.sarang.torang.viewmodels.RestaurantInfoViewModel
+import com.sarang.torang.widgets.RatingBar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

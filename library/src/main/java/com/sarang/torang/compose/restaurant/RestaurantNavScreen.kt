@@ -17,11 +17,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.sryang.torang.compose.restaurant.gallery.RestaurantGalleryScreen
-import com.sryang.torang.compose.restaurant.info.RestaurantInfoScreen
-import com.sryang.torang.compose.restaurant.menu.RestaurantMenuScreen
-import com.sryang.torang.data.restaurant.Feed
-import com.sryang.torang.viewmodels.RestaurantViewModel
+import com.sarang.torang.compose.restaurant.gallery.RestaurantGalleryScreen
+import com.sarang.torang.compose.restaurant.info.RestaurantInfoScreen
+import com.sarang.torang.compose.restaurant.menu.RestaurantMenuScreen
+import com.sarang.torang.data.restaurant.Feed
+import com.sarang.torang.viewmodels.RestaurantViewModel
 import kotlinx.coroutines.launch
 
 @Composable
@@ -42,7 +42,7 @@ fun RestaurantNavScreen(
     LaunchedEffect(key1 = uiState.errorMessage, block = {
         uiState.errorMessage?.let {
             coroutine.launch {
-                snackbarHostState.showSnackbar(it, duration = SnackbarDuration.Short)
+                snackbarHostState.showSnackbar(message = it, duration = SnackbarDuration.Short)
                 restaurantInfoViewModel.clearErrorMessage()
             }
         }

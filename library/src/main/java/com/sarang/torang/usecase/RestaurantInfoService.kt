@@ -1,7 +1,7 @@
 package com.sarang.torang.usecase
 
-import com.sryang.torang.data.restaurant.Feed
-import com.sryang.torang.uistate.RestaurantInfoUIState
+import com.sarang.torang.data.restaurant.Feed
+import com.sarang.torang.uistate.RestaurantInfoUIState
 
 
 interface RestaurantInfoService {

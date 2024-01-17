@@ -3,8 +3,8 @@ package com.sarang.torang.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.sryang.torang.data.restaurant.RestaurantImage
-import com.sryang.torang.usecase.GetRestaurantGalleryUseCase
+import com.sarang.torang.data.restaurant.RestaurantImage
+import com.sarang.torang.usecase.GetRestaurantGalleryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

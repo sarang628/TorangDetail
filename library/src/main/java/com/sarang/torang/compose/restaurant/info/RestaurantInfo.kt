@@ -27,10 +27,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.example.library.RatingBar
-import com.sryang.torang.R
-import com.sryang.torang.data.restaurant.RestaurantInfo
-import com.sryang.torang.data.restaurant.operationTime
+import com.sarang.torang.R
+import com.sarang.torang.data.restaurant.RestaurantInfo
+import com.sarang.torang.data.restaurant.operationTime
+import com.sarang.torang.widgets.RatingBar
 
 
 @Composable
