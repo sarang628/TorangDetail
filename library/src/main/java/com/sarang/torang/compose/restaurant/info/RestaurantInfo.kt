@@ -2,17 +2,18 @@ package com.sarang.torang.compose.restaurant.info
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,13 +22,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.ConstraintSet
 import coil.compose.AsyncImage
 import com.sarang.torang.R
+import com.sarang.torang.data.restaurant.HoursOfOperation
 import com.sarang.torang.data.restaurant.RestaurantInfo
 import com.sarang.torang.data.restaurant.operationTime
 import com.sarang.torang.widgets.RatingBar
@@ -35,163 +40,272 @@ import com.sarang.torang.widgets.RatingBar
 
 @Composable
 fun RestaurantInfo(
-    restaurantInfoData: RestaurantInfo
+    restaurantInfoData: RestaurantInfo,
+    onLocation: (() -> Unit)? = null,
+    onWeb: (() -> Unit)? = null,
+    onCall: (() -> Unit)? = null,
 ) {
-    Column(Modifier.fillMaxWidth()) {
+    ConstraintLayout(constraintSet = restauarntInfoConstraintSet()) {
 
-        Box(
+        AsyncImage(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(300.dp)
+                .layoutId("img"),
+            model = restaurantInfoData.imageUrl,
+            contentDescription = "",
+            contentScale = ContentScale.Crop
+        )
+
+        RestaurantTitleAnd(
+            modifier = Modifier.layoutId("restaurantTitleBox"),
+            restaurantName = restaurantInfoData.name,
+            rating = restaurantInfoData.rating,
+            reviewCount = restaurantInfoData.reviewCount
+        )
+
+        Image(
+            painter = painterResource(id = R.drawable.ic_info), contentDescription = "",
+            modifier = Modifier
+                .size(50.dp)
+                .padding(15.dp)
+                .layoutId("icInfo")
+        )
+        Text(text = restaurantInfoData.foodType, modifier = Modifier.layoutId("foodType"))
+        Text(text = restaurantInfoData.distance, modifier = Modifier.layoutId("distance"))
+        Text(text = restaurantInfoData.price, modifier = Modifier.layoutId("price"))
+        HorizontalDivider(Modifier.layoutId("foodTypeDivider"))
+
+        Image(
+            painter = painterResource(id = R.drawable.ic_loc), contentDescription = "",
+            modifier = Modifier
+                .size(50.dp)
+                .padding(15.dp)
+                .layoutId("icLoc")
+                .clickable {
+                    onLocation?.invoke()
+                }
+        )
+        Text(
+            text = restaurantInfoData.address,
+            Modifier
+                .layoutId("address")
+                .padding(top = 10.dp, bottom = 10.dp)
+                .clickable {
+                    onLocation?.invoke()
+                },
+        )
+        HorizontalDivider(Modifier.layoutId("locDivider"))
+
+        Image(
+            painter = painterResource(id = R.drawable.ic_web), contentDescription = "",
+            modifier = Modifier
+                .layoutId("icSite")
+                .size(50.dp)
+                .padding(15.dp)
+                .clickable {
+                    onWeb?.invoke()
+                }
+        )
+
+        Text(text = restaurantInfoData.webSite, modifier = Modifier
+            .layoutId("webSite")
+            .clickable {
+                onWeb?.invoke()
+            })
+
+        HorizontalDivider(Modifier.layoutId("siteDivider"))
+
+        Image(
+            painter = painterResource(id = R.drawable.ic_time), contentDescription = "",
+            modifier = Modifier
+                .size(50.dp)
+                .padding(15.dp)
+                .layoutId("icTime")
+        )
+
+        Text(text = restaurantInfoData.operationTime, modifier = Modifier.layoutId("operationTime"))
+
+        HorizontalDivider(Modifier.layoutId("timeDivider"))
+
+        Image(
+            painter = painterResource(id = R.drawable.ic_phone), contentDescription = "",
+            modifier = Modifier
+                .size(50.dp)
+                .padding(15.dp)
+                .layoutId("icTel")
+                .clickable {
+                    onCall?.invoke()
+                }
+        )
+
+        Text(text = restaurantInfoData.tel, modifier = Modifier
+            .layoutId("tel")
+            .clickable {
+                onCall?.invoke()
+            })
+
+        HorizontalDivider(Modifier.layoutId("telDivider"))
+    }
+}
+
+fun restauarntInfoConstraintSet(): ConstraintSet {
+    return ConstraintSet {
+        val img = createRefFor("img")
+        val restaurantTitleBox = createRefFor("restaurantTitleBox")
+        val icInfo = createRefFor("icInfo")
+        val foodType = createRefFor("foodType")
+        val distance = createRefFor("distance")
+        val price = createRefFor("price")
+        val foodTypeDivider = createRefFor("foodTypeDivider")
+
+        val icLoc = createRefFor("icLoc")
+        val address = createRefFor("address")
+        val locDivider = createRefFor("locDivider")
+        val icSite = createRefFor("icSite")
+        val webSite = createRefFor("webSite")
+        val siteDivider = createRefFor("siteDivider")
+
+        val icTime = createRefFor("icTime")
+        val operationTime = createRefFor("operationTime")
+        val timeDivider = createRefFor("timeDivider")
+
+        val icTel = createRefFor("icTel")
+        val tel = createRefFor("tel")
+        val telDivider = createRefFor("telDivider")
+
+
+        constrain(restaurantTitleBox) {
+            bottom.linkTo(img.bottom)
+            end.linkTo(img.end)
+        }
+
+        constrain(icInfo) {
+            top.linkTo(img.bottom, margin = 5.dp)
+        }
+
+        constrain(foodType) {
+            top.linkTo(icInfo.top)
+            bottom.linkTo(icInfo.bottom)
+            start.linkTo(icInfo.end)
+        }
+
+        constrain(distance) {
+            top.linkTo(icInfo.top)
+            bottom.linkTo(icInfo.bottom)
+            start.linkTo(foodType.end, margin = 5.dp)
+        }
+
+        constrain(price) {
+            top.linkTo(icInfo.top)
+            bottom.linkTo(icInfo.bottom)
+            start.linkTo(distance.end, margin = 5.dp)
+        }
+
+        constrain(foodTypeDivider) {
+            top.linkTo(icInfo.bottom)
+        }
+
+        constrain(foodTypeDivider) {
+            top.linkTo(icInfo.bottom)
+        }
+
+        constrain(icLoc) {
+            top.linkTo(foodTypeDivider.bottom)
+        }
+
+        constrain(address) {
+            top.linkTo(icLoc.top)
+            bottom.linkTo(icLoc.bottom)
+            start.linkTo(icLoc.end)
+        }
+
+        constrain(locDivider) {
+            top.linkTo(icLoc.bottom)
+        }
+
+        constrain(icSite) {
+            top.linkTo(locDivider.bottom)
+        }
+
+        constrain(webSite) {
+            top.linkTo(icSite.top)
+            bottom.linkTo(icSite.bottom)
+            start.linkTo(icInfo.end)
+        }
+
+        constrain(siteDivider) {
+            top.linkTo(icSite.bottom)
+        }
+
+        constrain(icTime) {
+            top.linkTo(siteDivider.bottom)
+        }
+
+        constrain(operationTime) {
+            top.linkTo(icTime.top)
+            start.linkTo(icInfo.end)
+        }
+
+        constrain(timeDivider) {
+            top.linkTo(icTime.bottom)
+        }
+
+        constrain(icTel) {
+            top.linkTo(timeDivider.bottom)
+        }
+        constrain(tel) {
+            top.linkTo(icTel.top)
+            bottom.linkTo(icTel.bottom)
+            start.linkTo(icTel.end)
+        }
+        constrain(telDivider) {
+            top.linkTo(icTel.bottom)
+        }
+    }
+}
+
+
+@Composable
+fun RestaurantTitleAnd(
+    modifier: Modifier = Modifier,
+    restaurantName: String,
+    rating: Float,
+    reviewCount: Int,
+) {
+    Box(
+        modifier
+            .padding(8.dp)
+            .clip(RoundedCornerShape(8.dp))
+    ) {
+        Column(
+            Modifier
+                .background(Color(0x55000000))
+                .padding(8.dp),
+            horizontalAlignment = Alignment.End
         ) {
-            AsyncImage(
-                modifier = Modifier.fillMaxSize(),
-                model = restaurantInfoData.imageUrl,
-                contentDescription = "",
-                contentScale = ContentScale.Crop
+            Text(
+                text = restaurantName,
+                fontSize = 25.sp,
+                color = Color.White,
+                fontWeight = FontWeight.Bold
             )
-            Box(
-                Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(8.dp)
-                    .clip(RoundedCornerShape(8.dp))
-            ) {
-                Column(
-                    Modifier
-                        .background(Color(0x55000000))
-                        .padding(8.dp),
-                    horizontalAlignment = Alignment.End
-                ) {
-                    Text(
-                        text = restaurantInfoData.name,
-                        fontSize = 25.sp,
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Row {
-                        Text(
-                            text = restaurantInfoData.rating.toString(),
-                            fontSize = 25.sp,
-                            color = Color.White,
-                            fontWeight = FontWeight.Bold
-                        )
-                        Spacer(modifier = Modifier.width(5.dp))
-                        RatingBar(rating = restaurantInfoData.rating)
-                        Spacer(modifier = Modifier.width(5.dp))
-                        Text(
-                            text = "(${restaurantInfoData.reviewCount})",
-                            color = MaterialTheme.colorScheme.primaryContainer
-                        )
-                    }
-                }
-            }
-        }
-
-        Column {
-            Row(Modifier.padding(top = 15.dp, bottom = 15.dp)) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_loc), contentDescription = "",
-                    modifier = Modifier
-                        .padding(start = 10.dp, end = 20.dp)
-                        .size(20.dp)
+            Row {
+                Text(
+                    text = rating.toString(),
+                    fontSize = 25.sp,
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold
                 )
-                Column {
-                    Row {
-                        Text(text = restaurantInfoData.foodType)
-                        Spacer(modifier = Modifier.width(5.dp))
-                        Text(text = restaurantInfoData.distance)
-                    }
-                    Text(text = restaurantInfoData.price)
-                }
-
-            }
-        }
-
-
-        Text(
-            text = "",
-            Modifier
-                .fillMaxWidth()
-                .height(1.dp)
-                .background(Color.LightGray)
-        )
-        Row(Modifier.padding(top = 15.dp, bottom = 15.dp)) {
-            restaurantInfoData.address.let {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_loc), contentDescription = "",
-                    modifier = Modifier
-                        .padding(start = 10.dp, end = 20.dp)
-                        .size(20.dp)
+                Spacer(modifier = Modifier.width(5.dp))
+                RatingBar(rating = rating)
+                Spacer(modifier = Modifier.width(5.dp))
+                Text(
+                    text = "(${reviewCount})",
+                    color = MaterialTheme.colorScheme.primaryContainer
                 )
-                Text(text = it)
             }
         }
-        Text(
-            text = "",
-            Modifier
-                .fillMaxWidth()
-                .height(1.dp)
-                .background(Color.LightGray)
-        )
-
-        Row(Modifier.padding(top = 15.dp, bottom = 15.dp)) {
-            restaurantInfoData.webSite.let {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_site), contentDescription = "",
-                    modifier = Modifier
-                        .padding(start = 10.dp, end = 20.dp)
-                        .size(20.dp)
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(text = it)
-            }
-        }
-
-        Text(
-            text = "",
-            Modifier
-                .fillMaxWidth()
-                .height(1.dp)
-                .background(Color.LightGray)
-        )
-
-        Row(Modifier.padding(top = 15.dp, bottom = 15.dp)) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_time), contentDescription = "",
-                modifier = Modifier
-                    .padding(start = 10.dp, end = 20.dp)
-                    .size(20.dp)
-            )
-            Spacer(modifier = Modifier.width(4.dp))
-            Text(text = restaurantInfoData.operationTime)
-        }
-
-        Text(
-            text = "",
-            Modifier
-                .fillMaxWidth()
-                .height(1.dp)
-                .background(Color.LightGray)
-        )
-
-        Row(Modifier.padding(top = 15.dp, bottom = 15.dp)) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_suggest), contentDescription = "",
-                modifier = Modifier
-                    .padding(start = 10.dp, end = 20.dp)
-                    .size(20.dp)
-            )
-            Spacer(modifier = Modifier.width(4.dp))
-            Text(text = restaurantInfoData.tel)
-        }
-
-        Text(
-            text = "",
-            Modifier
-                .fillMaxWidth()
-                .height(1.dp)
-                .background(Color.LightGray)
-        )
     }
 }
 
@@ -199,15 +313,19 @@ fun RestaurantInfo(
 @Composable
 fun PreviewRestaurantInfo() {
     val restaurantInfoData = RestaurantInfo(
-        foodType = "패스트푸드점",
+        foodType = "fastfood",
         distance = "100m",
         open = "영업 중",
         close = "오후 9:00에 영업 종료",
         address = "서울특별시 강남구 삼성동 삼성로 3000",
         webSite = "https://torang.co.korea",
         tel = "02-1234-5678",
-        hoursOfOperation = ArrayList(),
-        price = "",
+        hoursOfOperation = ArrayList<HoursOfOperation>().apply {
+            add(HoursOfOperation("mon", "10:00", "22:00"))
+            add(HoursOfOperation("tue", "10:00", "22:00"))
+            add(HoursOfOperation("wed", "10:00", "22:00"))
+        },
+        price = "$$$",
         rating = 4.5f,
         reviewCount = 100,
         imageUrl = "",

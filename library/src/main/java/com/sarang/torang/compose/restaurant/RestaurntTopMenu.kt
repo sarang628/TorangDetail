@@ -2,6 +2,7 @@ package com.sarang.torang.compose.restaurant
 
 import android.util.Log
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
@@ -17,6 +18,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RestaurntTopMenu(navController: NavController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()

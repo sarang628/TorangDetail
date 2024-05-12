@@ -40,8 +40,6 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Restaurant() {
-    val profileImageServerUrl = "http://sarang628.iptime.org:89/profile_images/"
-    val reviewImageUrl = "http://sarang628.iptime.org:89/review_images/"
     RestaurantNavScreen(
         restaurantId = 6,
         feeds = {

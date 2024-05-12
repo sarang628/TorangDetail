@@ -1,5 +1,6 @@
 package com.sarang.torang.compose.restaurant.info
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -33,7 +34,10 @@ import kotlinx.coroutines.launch
 @Composable
 fun RestaurantInfoScreen(
     restaurantInfoViewModel: RestaurantInfoViewModel = hiltViewModel(),
-    restaurantId: Int
+    restaurantId: Int,
+    onLocation: (() -> Unit)? = null,
+    onWeb: (() -> Unit)? = null,
+    onCall: (() -> Unit)? = null,
 ) {
     val coroutine = rememberCoroutineScope()
     LaunchedEffect(key1 = restaurantId, block = {
@@ -48,14 +52,19 @@ fun RestaurantInfoScreen(
                 restaurantInfoViewModel.loadInfo(restaurantId)
                 it.updateState(RefreshIndicatorState.Default)
             }
-        }
+        }, onCall = onCall,
+        onWeb = onWeb,
+        onLocation = onLocation
     )
 }
 
 @Composable
 fun RestaurantInfoScreen(
     uiState: RestaurantInfoUIState,
-    onRefresh: (PullToRefreshLayoutState) -> Unit,
+    onRefresh: ((PullToRefreshLayoutState) -> Unit)? = null,
+    onLocation: (() -> Unit)? = null,
+    onWeb: (() -> Unit)? = null,
+    onCall: (() -> Unit)? = null,
 ) {
     val state = rememberPullToRefreshState()
     PullToRefreshLayout(
@@ -63,16 +72,22 @@ fun RestaurantInfoScreen(
         refreshThreshold = 70,
         modifier = Modifier.fillMaxSize(),
         onRefresh = {
-            onRefresh.invoke(state)
+            if (onRefresh == null) {
+                Log.w("__RestaurantInfoScreen", "onRefreshListener is null")
+            }
+            onRefresh?.invoke(state)
         }) {
         LazyColumn(content = {
             items(5) {
                 if (it == 0) {
                     // 레스토랑 기본정보
-                    uiState.restaurantInfoData.let {
-                        RestaurantInfo(restaurantInfoData = uiState.restaurantInfoData)
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
+                    RestaurantInfo(
+                        restaurantInfoData = uiState.restaurantInfoData,
+                        onLocation,
+                        onWeb,
+                        onCall
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
                 } else if (it == 1) {
                     // 레스토랑 이미지
                     RestaurantImages(list = uiState.restaurantImage)
@@ -122,4 +137,5 @@ fun RestaurantInfoTitle() {
 @Preview
 @Composable
 fun PreviewRestaurantInformation() {
+    RestaurantInfoScreen(uiState = RestaurantInfoUIState())
 }
