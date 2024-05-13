@@ -20,6 +20,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.sryang.library.pullrefresh.PullToRefreshLayout
 import com.sryang.library.pullrefresh.PullToRefreshLayoutState
 import com.sryang.library.pullrefresh.RefreshIndicatorState
@@ -35,27 +38,36 @@ import kotlinx.coroutines.launch
 fun RestaurantInfoScreen(
     restaurantInfoViewModel: RestaurantInfoViewModel = hiltViewModel(),
     restaurantId: Int,
-    onLocation: (() -> Unit)? = null,
     onWeb: (() -> Unit)? = null,
     onCall: (() -> Unit)? = null,
+    map: @Composable () -> Unit,
 ) {
+    val navController = rememberNavController()
     val coroutine = rememberCoroutineScope()
+    val uiState by restaurantInfoViewModel.uiState.collectAsState()
     LaunchedEffect(key1 = restaurantId, block = {
         restaurantInfoViewModel.loadInfo(restaurantId)
     })
 
-    val uiState by restaurantInfoViewModel.uiState.collectAsState()
-    RestaurantInfoScreen(
-        uiState = uiState,
-        onRefresh = {
-            coroutine.launch {
-                restaurantInfoViewModel.loadInfo(restaurantId)
-                it.updateState(RefreshIndicatorState.Default)
-            }
-        }, onCall = onCall,
-        onWeb = onWeb,
-        onLocation = onLocation
-    )
+    NavHost(navController = navController, startDestination = "info") {
+        composable("info") {
+            RestaurantInfoScreen(
+                uiState = uiState,
+                onRefresh = {
+                    coroutine.launch {
+                        restaurantInfoViewModel.loadInfo(restaurantId)
+                        it.updateState(RefreshIndicatorState.Default)
+                    }
+                }, onCall = onCall,
+                onWeb = onWeb,
+                onLocation = {navController.navigate("map")}
+            )
+        }
+        composable("map") {
+            map.invoke()
+        }
+    }
+
 }
 
 @Composable

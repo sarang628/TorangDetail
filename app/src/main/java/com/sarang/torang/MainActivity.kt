@@ -52,6 +52,7 @@ fun Restaurant() {
                     FeedsUiState.Success(ArrayList())
                 )
             }
-        }
+        },
+        map = {}
     )
 }

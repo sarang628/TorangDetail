@@ -60,9 +60,9 @@ fun RestaurantNavScreen(
                 composable("info") {
                     RestaurantInfoScreen(
                         restaurantId = restaurantId,
-                        onLocation = { navController.navigate("map") },
                         onWeb = onWeb,
-                        onCall = onCall
+                        onCall = onCall,
+                        map = map
                     )
                 }
                 composable("menu") {
@@ -73,9 +73,6 @@ fun RestaurantNavScreen(
                 }
                 composable("gallery") {
                     RestaurantGalleryScreen(restaurantId = restaurantId)
-                }
-                composable("map") {
-                    map.invoke()
                 }
             }
         }
