@@ -28,10 +28,10 @@ import kotlinx.coroutines.launch
 fun RestaurantNavScreen(
     restaurantId: Int,
     restaurantInfoViewModel: RestaurantViewModel = hiltViewModel(),
-    onLocation: (() -> Unit)? = null,
     onWeb: (() -> Unit)? = null,
     onCall: (() -> Unit)? = null,
     feeds: @Composable (Int) -> Unit,
+    map: @Composable () -> Unit,
 ) {
     val navController = rememberNavController()
     val uiState by restaurantInfoViewModel.uiState.collectAsState()
@@ -60,7 +60,7 @@ fun RestaurantNavScreen(
                 composable("info") {
                     RestaurantInfoScreen(
                         restaurantId = restaurantId,
-                        onLocation = onLocation,
+                        onLocation = { navController.navigate("map") },
                         onWeb = onWeb,
                         onCall = onCall
                     )
@@ -73,6 +73,9 @@ fun RestaurantNavScreen(
                 }
                 composable("gallery") {
                     RestaurantGalleryScreen(restaurantId = restaurantId)
+                }
+                composable("map") {
+                    map.invoke()
                 }
             }
         }
