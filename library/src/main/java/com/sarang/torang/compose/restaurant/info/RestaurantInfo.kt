@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -15,6 +14,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
+import androidx.constraintlayout.compose.Dimension
 import coil.compose.AsyncImage
 import com.sarang.torang.R
 import com.sarang.torang.data.restaurant.HoursOfOperation
@@ -77,38 +79,32 @@ fun RestaurantInfo(
         Text(text = restaurantInfoData.price, modifier = Modifier.layoutId("price"))
         HorizontalDivider(Modifier.layoutId("foodTypeDivider"))
 
-        Image(
-            painter = painterResource(id = R.drawable.ic_loc), contentDescription = "",
-            modifier = Modifier
-                .size(50.dp)
-                .padding(15.dp)
-                .layoutId("icLoc")
-                .clickable {
-                    onLocation?.invoke()
-                }
-        )
+        IconButton(onClick = { onLocation?.invoke() }, modifier = Modifier.layoutId("icLoc")) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_loc),
+                contentDescription = "",
+                modifier = Modifier.size(21.dp)
+            )
+        }
+
         Text(
             text = restaurantInfoData.address,
             Modifier
                 .layoutId("address")
-                .padding(top = 10.dp, bottom = 10.dp)
+                .padding(top = 5.dp, bottom = 5.dp)
                 .clickable {
                     onLocation?.invoke()
                 }
         )
         HorizontalDivider(Modifier.layoutId("locDivider"))
 
-        Image(
-            painter = painterResource(id = R.drawable.ic_web), contentDescription = "",
-            modifier = Modifier
-                .layoutId("icSite")
-                .size(50.dp)
-                .padding(15.dp)
-                .clickable {
-                    onWeb?.invoke()
-                }
-        )
-
+        IconButton(onClick = { onWeb?.invoke() }, modifier = Modifier.layoutId("icSite")) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_web),
+                contentDescription = "",
+                modifier = Modifier.size(21.dp)
+            )
+        }
         Text(text = restaurantInfoData.webSite, modifier = Modifier
             .layoutId("webSite")
             .clickable {
@@ -134,16 +130,13 @@ fun RestaurantInfo(
         }
         HorizontalDivider(Modifier.layoutId("timeDivider"))
 
-        Image(
-            painter = painterResource(id = R.drawable.ic_phone), contentDescription = "",
-            modifier = Modifier
-                .size(50.dp)
-                .padding(15.dp)
-                .layoutId("icTel")
-                .clickable {
-                    onCall?.invoke()
-                }
-        )
+        IconButton(onClick = { onCall?.invoke() }, modifier = Modifier.layoutId("icTel")) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_phone),
+                contentDescription = "",
+                modifier = Modifier.size(21.dp)
+            )
+        }
 
         Text(text = restaurantInfoData.tel, modifier = Modifier
             .layoutId("tel")
@@ -224,6 +217,8 @@ fun restauarntInfoConstraintSet(): ConstraintSet {
             top.linkTo(icLoc.top)
             bottom.linkTo(icLoc.bottom)
             start.linkTo(icLoc.end)
+            end.linkTo(parent.end, margin = 5.dp)
+            width = Dimension.fillToConstraints
         }
 
         constrain(locDivider) {
