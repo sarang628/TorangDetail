@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -116,16 +117,21 @@ fun RestaurantInfo(
 
         HorizontalDivider(Modifier.layoutId("siteDivider"))
 
-        Image(
-            painter = painterResource(id = R.drawable.ic_time), contentDescription = "",
-            modifier = Modifier
-                .size(50.dp)
-                .padding(15.dp)
-                .layoutId("icTime")
-        )
+        Row(Modifier.layoutId("icTime"), verticalAlignment = Alignment.CenterVertically) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_time), contentDescription = "",
+                modifier = Modifier
+                    .size(50.dp)
+                    .padding(15.dp)
+            )
 
-        Text(text = restaurantInfoData.operationTime, modifier = Modifier.layoutId("operationTime"))
-
+            Text(
+                text = restaurantInfoData.operationTime,
+                modifier = Modifier
+                    .layoutId("operationTime")
+                    .padding(top = 5.dp, bottom = 5.dp)
+            )
+        }
         HorizontalDivider(Modifier.layoutId("timeDivider"))
 
         Image(
@@ -324,6 +330,10 @@ fun PreviewRestaurantInfo() {
             add(HoursOfOperation("mon", "10:00", "22:00"))
             add(HoursOfOperation("tue", "10:00", "22:00"))
             add(HoursOfOperation("wed", "10:00", "22:00"))
+            add(HoursOfOperation("thu", "10:00", "22:00"))
+            add(HoursOfOperation("fri", "10:00", "22:00"))
+            add(HoursOfOperation("sat", "10:00", "22:00"))
+            add(HoursOfOperation("sun", "10:00", "22:00"))
         },
         price = "$$$",
         rating = 4.5f,
