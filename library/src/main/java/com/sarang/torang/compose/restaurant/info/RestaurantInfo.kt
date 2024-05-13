@@ -341,7 +341,7 @@ fun PreviewRestaurantInfo() {
         imageUrl = "",
         name = "맥도날드"
     )
-    RestaurantInfo(
+    RestaurantInfo(/*Preview*/
         restaurantInfoData = restaurantInfoData
     )
 }
@@ -372,7 +372,7 @@ fun PreviewRestaurantInfo1() {
         imageUrl = "",
         name = "맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드"
     )
-    RestaurantInfo(
+    RestaurantInfo(/*Preview*/
         restaurantInfoData = restaurantInfoData
     )
 }

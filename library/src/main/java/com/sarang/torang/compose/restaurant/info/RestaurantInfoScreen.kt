@@ -31,8 +31,8 @@ import kotlinx.coroutines.launch
 fun RestaurantInfoScreen(
     restaurantInfoViewModel: RestaurantInfoViewModel = hiltViewModel(),
     restaurantId: Int,
-    onWeb: (() -> Unit)? = null,
-    onCall: (() -> Unit)? = null,
+    onWeb: ((String) -> Unit)? = null,
+    onCall: ((String) -> Unit)? = null,
     /**
      * @param String title of restaurant
      * @param Double latitude
@@ -57,8 +57,8 @@ fun RestaurantInfoScreen(
                         restaurantInfoViewModel.loadInfo(restaurantId)
                         it.updateState(RefreshIndicatorState.Default)
                     }
-                }, onCall = onCall,
-                onWeb = onWeb,
+                }, onCall = {onCall?.invoke(uiState.restaurantInfoData.tel)},
+                onWeb = { onWeb?.invoke(uiState.restaurantInfoData.webSite) },
                 onLocation = { navController.navigate("map") }
             )
         }

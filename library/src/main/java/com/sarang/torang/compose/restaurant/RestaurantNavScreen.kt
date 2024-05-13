@@ -28,8 +28,8 @@ import kotlinx.coroutines.launch
 fun RestaurantNavScreen(
     restaurantId: Int,
     restaurantInfoViewModel: RestaurantViewModel = hiltViewModel(),
-    onWeb: (() -> Unit)? = null,
-    onCall: (() -> Unit)? = null,
+    onWeb: ((String) -> Unit)? = null,
+    onCall: ((String) -> Unit)? = null,
     feeds: @Composable (Int) -> Unit,
     map: @Composable ((String, Double, Double, String) -> Unit)? = null,
 ) {
