@@ -93,7 +93,7 @@ fun RestaurantInfo(
                 .padding(top = 10.dp, bottom = 10.dp)
                 .clickable {
                     onLocation?.invoke()
-                },
+                }
         )
         HorizontalDivider(Modifier.layoutId("locDivider"))
 
