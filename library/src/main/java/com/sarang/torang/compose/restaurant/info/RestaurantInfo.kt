@@ -26,7 +26,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -79,23 +81,25 @@ fun RestaurantInfo(
         Text(text = restaurantInfoData.price, modifier = Modifier.layoutId("price"))
         HorizontalDivider(Modifier.layoutId("foodTypeDivider"))
 
-        IconButton(onClick = { onLocation?.invoke() }, modifier = Modifier.layoutId("icLoc")) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_loc),
-                contentDescription = "",
-                modifier = Modifier.size(21.dp)
+        Row(Modifier.layoutId("icLoc")) {
+            IconButton(onClick = { onLocation?.invoke() }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_loc),
+                    contentDescription = "",
+                    modifier = Modifier.size(21.dp)
+                )
+            }
+
+            Text(
+                text = restaurantInfoData.address,
+                Modifier
+                    .layoutId("address")
+                    .padding(top = 5.dp, bottom = 5.dp)
+                    .clickable {
+                        onLocation?.invoke()
+                    }
             )
         }
-
-        Text(
-            text = restaurantInfoData.address,
-            Modifier
-                .layoutId("address")
-                .padding(top = 5.dp, bottom = 5.dp)
-                .clickable {
-                    onLocation?.invoke()
-                }
-        )
         HorizontalDivider(Modifier.layoutId("locDivider"))
 
         IconButton(onClick = { onWeb?.invoke() }, modifier = Modifier.layoutId("icSite")) {
@@ -287,6 +291,7 @@ fun RestaurantTitleAnd(
         ) {
             Text(
                 text = restaurantName,
+                maxLines = 1,
                 fontSize = 25.sp,
                 color = Color.White,
                 fontWeight = FontWeight.Bold
@@ -335,6 +340,37 @@ fun PreviewRestaurantInfo() {
         reviewCount = 100,
         imageUrl = "",
         name = "맥도날드"
+    )
+    RestaurantInfo(
+        restaurantInfoData = restaurantInfoData
+    )
+}
+
+@Preview
+@Composable
+fun PreviewRestaurantInfo1() {
+    val restaurantInfoData = RestaurantInfo(
+        foodType = "fastfood fastfood fastfood fastfood fastfood fastfood fastfood fastfood fastfood fastfood fastfood",
+        distance = "100m 100m 100m 100m 100m 100m 100m 100m 100m 100m 100m 100m",
+        open = "영업 중",
+        close = "오후 9:00에 영업 종료",
+        address = "서울특별시 강남구 삼성동 삼성로 3000 서울특별시 강남구 삼성동 삼성로 3000 서울특별시 강남구 삼성동 삼성로 3000 서울특별시 강남구 삼성동 삼성로 3000 서울특별시 강남구 삼성동 삼성로 3000 서울특별시 강남구 삼성동 삼성로 3000 서울특별시 강남구 삼성동 삼성로 3000 서울특별시 강남구 삼성동 삼성로 3000 서울특별시 강남구 삼성동 삼성로 3000 서울특별시 강남구 삼성동 삼성로 3000 서울특별시 강남구 삼성동 삼성로 3000 서울특별시 강남구 삼성동 삼성로 3000 서울특별시 강남구 삼성동 삼성로 3000 서울특별시 강남구 삼성동 삼성로 3000 서울특별시 강남구 삼성동 삼성로 3000",
+        webSite = "https://torang.co.korea",
+        tel = "02-1234-5678",
+        hoursOfOperation = ArrayList<HoursOfOperation>().apply {
+            add(HoursOfOperation("mon", "10:00", "22:00"))
+            add(HoursOfOperation("tue", "10:00", "22:00"))
+            add(HoursOfOperation("wed", "10:00", "22:00"))
+            add(HoursOfOperation("thu", "10:00", "22:00"))
+            add(HoursOfOperation("fri", "10:00", "22:00"))
+            add(HoursOfOperation("sat", "10:00", "22:00"))
+            add(HoursOfOperation("sun", "10:00", "22:00"))
+        },
+        price = "$$$$$ aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        rating = 4.5f,
+        reviewCount = 100,
+        imageUrl = "",
+        name = "맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드"
     )
     RestaurantInfo(
         restaurantInfoData = restaurantInfoData
