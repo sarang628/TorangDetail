@@ -25,7 +25,9 @@ fun RestaurantDetail.toRestaurantInfoData(): RestaurantInfo {
         hoursOfOperation = this.hoursOfOperations.map { it.toHoursOfOperation() },
         rating = this.restaurant.rating,
         reviewCount = this.restaurant.reviewCount,
-        price = this.restaurant.prices
+        price = this.restaurant.prices,
+        lon = this.restaurant.lon,
+        lat = this.restaurant.lat
     )
 }
 

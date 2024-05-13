@@ -53,6 +53,6 @@ fun Restaurant() {
                 )
             }
         },
-        map = {}
+        map = null
     )
 }

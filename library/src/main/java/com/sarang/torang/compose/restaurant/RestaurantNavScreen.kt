@@ -31,7 +31,7 @@ fun RestaurantNavScreen(
     onWeb: (() -> Unit)? = null,
     onCall: (() -> Unit)? = null,
     feeds: @Composable (Int) -> Unit,
-    map: @Composable () -> Unit,
+    map: @Composable ((String, Double, Double, String) -> Unit)? = null,
 ) {
     val navController = rememberNavController()
     val uiState by restaurantInfoViewModel.uiState.collectAsState()

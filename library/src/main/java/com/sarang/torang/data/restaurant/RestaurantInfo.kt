@@ -13,7 +13,9 @@ data class RestaurantInfo(
     val hoursOfOperation: List<HoursOfOperation> = arrayListOf(),
     val rating: Float = 0.0f,
     val price: String = "",
-    val reviewCount: Int = 0
+    val reviewCount: Int = 0,
+    val lat: Double = 0.0,
+    val lon: Double = 0.0,
 )
 
 fun testRestaurantInfo(): RestaurantInfo {

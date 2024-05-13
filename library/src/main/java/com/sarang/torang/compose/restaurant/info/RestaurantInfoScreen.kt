@@ -34,17 +34,26 @@ import com.sarang.torang.widgets.RatingBar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+/**
+ * @param map map compose
+ */
 @Composable
 fun RestaurantInfoScreen(
     restaurantInfoViewModel: RestaurantInfoViewModel = hiltViewModel(),
     restaurantId: Int,
     onWeb: (() -> Unit)? = null,
     onCall: (() -> Unit)? = null,
-    map: @Composable () -> Unit,
+    /**
+     * @param String title of restaurant
+     * @param Double latitude
+     * @param Double longitude
+     * @param Double type of food
+     */
+    map: @Composable ((String, Double, Double, String) -> Unit)? = null,
 ) {
     val navController = rememberNavController()
     val coroutine = rememberCoroutineScope()
-    val uiState by restaurantInfoViewModel.uiState.collectAsState()
+    val uiState: RestaurantInfoUIState by restaurantInfoViewModel.uiState.collectAsState()
     LaunchedEffect(key1 = restaurantId, block = {
         restaurantInfoViewModel.loadInfo(restaurantId)
     })
@@ -60,11 +69,19 @@ fun RestaurantInfoScreen(
                     }
                 }, onCall = onCall,
                 onWeb = onWeb,
-                onLocation = {navController.navigate("map")}
+                onLocation = { navController.navigate("map") }
             )
         }
         composable("map") {
-            map.invoke()
+            if (map == null) {
+                Log.w("__RestaurantInfoScreen", "not assigned map composable!")
+            }
+            map?.invoke(
+                uiState.restaurantInfoData.name,
+                uiState.restaurantInfoData.lat,
+                uiState.restaurantInfoData.lon,
+                uiState.restaurantInfoData.foodType
+            )
         }
     }
 
