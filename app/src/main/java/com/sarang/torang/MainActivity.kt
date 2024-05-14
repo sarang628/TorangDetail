@@ -48,7 +48,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Restaurant() {
-    var show by remember { mutableStateOf(false) }
+    val context = LocalContext.current
     RestaurantNavScreen(
         restaurantId = 6,
         feeds = {
@@ -62,23 +62,9 @@ fun Restaurant() {
                 )
             }
         },
+        map = null,
         onCall = {
-            show = true
-        },
-        map = null
+            Toast.makeText(context, "call:${it}", Toast.LENGTH_SHORT).show()
+        }
     )
-    if (show) {
-        val context = LocalContext.current
-        SimplePermissionDialog(
-            permission = Manifest.permission.CALL_PHONE,
-            permissionMessage = "require phone call permission",
-            onPermissionRequest = {
-                if (it == 0) {
-                    Toast.makeText(context, "call", Toast.LENGTH_SHORT).show()
-                    show = false
-                }
-            },
-            onCancle = { show = false }
-        )
-    }
 }
