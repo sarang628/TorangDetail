@@ -88,4 +88,5 @@ dependencies {
     implementation "com.github.sarang628:TorangRepository:$torangRepository"
     implementation "com.github.sarang628:BaseFeed:$baseFeedVersion"
     implementation "com.github.sarang628:Theme:$themeVersion"
+    implementation 'com.github.sarang628:ComposePermissionTest:0f86ef39ec'
 }
