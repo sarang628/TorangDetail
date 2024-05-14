@@ -1,6 +1,8 @@
 package com.sarang.torang
 
 import android.Manifest
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -39,7 +41,13 @@ class MainActivity : ComponentActivity() {
 //                    RestaurantGalleryScreen(restaurantId = 6)
 //                    RestaurantInfoScreen(restaurantId = 6)
 //                    RestaurantMenuScreen(restaurantId = 6)
-                    Restaurant()
+                    Restaurant(onCall = {
+                        startActivity(
+                            Intent(Intent.ACTION_DIAL).apply {
+                                setData(Uri.parse("tel:$it"))
+                            }
+                        )
+                    })
                 }
             }
         }
@@ -47,7 +55,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Restaurant() {
+fun Restaurant(onCall: ((String) -> Unit)? = null) {
     val context = LocalContext.current
     RestaurantNavScreen(
         restaurantId = 6,
@@ -65,6 +73,7 @@ fun Restaurant() {
         map = null,
         onCall = {
             Toast.makeText(context, "call:${it}", Toast.LENGTH_SHORT).show()
+            onCall?.invoke(it)
         }
     )
 }
