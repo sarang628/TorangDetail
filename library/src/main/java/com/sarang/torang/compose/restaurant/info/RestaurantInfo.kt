@@ -1,5 +1,6 @@
 package com.sarang.torang.compose.restaurant.info
 
+import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -69,7 +70,7 @@ fun RestaurantInfo(
             reviewCount = restaurantInfoData.reviewCount
         )
 
-        Image(
+        Icon(
             painter = painterResource(id = R.drawable.ic_info), contentDescription = "",
             modifier = Modifier
                 .size(50.dp)
@@ -118,7 +119,7 @@ fun RestaurantInfo(
         HorizontalDivider(Modifier.layoutId("siteDivider"))
 
         Row(Modifier.layoutId("icTime"), verticalAlignment = Alignment.CenterVertically) {
-            Image(
+            Icon(
                 painter = painterResource(id = R.drawable.ic_time), contentDescription = "",
                 modifier = Modifier
                     .size(50.dp)
@@ -296,7 +297,7 @@ fun RestaurantTitleAnd(
                 color = Color.White,
                 fontWeight = FontWeight.Bold
             )
-            Row {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     text = rating.toString(),
                     fontSize = 25.sp,
@@ -308,7 +309,7 @@ fun RestaurantTitleAnd(
                 Spacer(modifier = Modifier.width(5.dp))
                 Text(
                     text = "(${reviewCount})",
-                    color = MaterialTheme.colorScheme.primaryContainer
+                    color = Color.White
                 )
             }
         }

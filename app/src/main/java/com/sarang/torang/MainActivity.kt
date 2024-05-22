@@ -21,8 +21,11 @@ import androidx.compose.ui.platform.LocalContext
 import com.google.samples.apps.sunflower.ui.TorangTheme
 import com.sarang.torang.compose.restaurant.RestaurantNavScreen
 import com.sarang.torang.compose.restaurant.gallery.RestaurantGalleryScreen
+import com.sarang.torang.compose.restaurant.info.RestaurantInfo
 import com.sarang.torang.compose.restaurant.info.RestaurantInfoScreen
 import com.sarang.torang.compose.restaurant.menu.RestaurantMenuScreen
+import com.sarang.torang.data.restaurant.HoursOfOperation
+import com.sarang.torang.data.restaurant.RestaurantInfo
 import com.sryang.library.compose.SimplePermissionDialog
 import com.sryang.torang.compose.feed.Feeds
 import com.sryang.torang.uistate.FeedsUiState
@@ -76,4 +79,37 @@ fun Restaurant(onCall: ((String) -> Unit)? = null) {
             onCall?.invoke(it)
         }
     )
+}
+
+@ThemePreviews
+@Composable
+fun PreviewRestaurantInfo1() {
+    val restaurantInfoData = RestaurantInfo(
+        foodType = "fastfood fastfood fastfood fastfood fastfood fastfood fastfood fastfood fastfood fastfood fastfood",
+        distance = "100m 100m 100m 100m 100m 100m 100m 100m 100m 100m 100m 100m",
+        open = "영업 중",
+        close = "오후 9:00에 영업 종료",
+        address = "서울특별시 강남구 삼성동 삼성로 3000 서울특별시 강남구 삼성동 삼성로 3000 서울특별시 강남구 삼성동 삼성로 3000 서울특별시 강남구 삼성동 삼성로 3000 서울특별시 강남구 삼성동 삼성로 3000 서울특별시 강남구 삼성동 삼성로 3000 서울특별시 강남구 삼성동 삼성로 3000 서울특별시 강남구 삼성동 삼성로 3000 서울특별시 강남구 삼성동 삼성로 3000 서울특별시 강남구 삼성동 삼성로 3000 서울특별시 강남구 삼성동 삼성로 3000 서울특별시 강남구 삼성동 삼성로 3000 서울특별시 강남구 삼성동 삼성로 3000 서울특별시 강남구 삼성동 삼성로 3000 서울특별시 강남구 삼성동 삼성로 3000",
+        webSite = "https://torang.co.korea",
+        tel = "02-1234-5678",
+        hoursOfOperation = ArrayList<HoursOfOperation>().apply {
+            add(HoursOfOperation("mon", "10:00", "22:00"))
+            add(HoursOfOperation("tue", "10:00", "22:00"))
+            add(HoursOfOperation("wed", "10:00", "22:00"))
+            add(HoursOfOperation("thu", "10:00", "22:00"))
+            add(HoursOfOperation("fri", "10:00", "22:00"))
+            add(HoursOfOperation("sat", "10:00", "22:00"))
+            add(HoursOfOperation("sun", "10:00", "22:00"))
+        },
+        price = "$$$$$ aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        rating = 4.5f,
+        reviewCount = 100,
+        imageUrl = "",
+        name = "맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드"
+    )
+    TorangTheme {
+        RestaurantInfo(/*Preview*/
+            restaurantInfoData = restaurantInfoData
+        )
+    }
 }
