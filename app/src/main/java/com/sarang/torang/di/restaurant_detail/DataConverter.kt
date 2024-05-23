@@ -1,6 +1,7 @@
 package com.sarang.torang.di.restaurant_detail
 
 import com.sarang.torang.BuildConfig
+import com.sarang.torang.data.RestaurantDetail
 import com.sarang.torang.data.restaurant.Feed
 import com.sarang.torang.data.restaurant.HoursOfOperation
 import com.sarang.torang.data.restaurant.MenuData
@@ -8,8 +9,7 @@ import com.sarang.torang.data.restaurant.RestaurantImage
 import com.sarang.torang.data.restaurant.RestaurantInfo
 import com.sarang.torang.data.restaurant.ReviewRowData
 import com.sarang.torang.data.restaurant.ReviewSummaryData
-import com.sryang.torang_repository.data.RestaurantDetail
-import com.sryang.torang_repository.data.remote.response.RemoteFeed
+import com.sarang.torang.data.remote.response.RemoteFeed
 
 fun RestaurantDetail.toRestaurantInfoData(): RestaurantInfo {
     return RestaurantInfo(
@@ -31,7 +31,7 @@ fun RestaurantDetail.toRestaurantInfoData(): RestaurantInfo {
     )
 }
 
-fun com.sryang.torang_repository.data.HoursOfOperation.toHoursOfOperation(): HoursOfOperation {
+fun com.sarang.torang.data.HoursOfOperation.toHoursOfOperation(): HoursOfOperation {
     return HoursOfOperation(
         day = this.day,
         startTime = this.start_time,
