@@ -1,6 +1,5 @@
 package com.sarang.torang.compose.restaurant
 
-import android.Manifest
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -11,11 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.Dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -32,7 +31,15 @@ fun RestaurantNavScreen(
     restaurantInfoViewModel: RestaurantViewModel = hiltViewModel(),
     onWeb: ((String) -> Unit)? = null,
     onCall: ((String) -> Unit)? = null,
+    onImage: ((Int) -> Unit)? = null,
     feeds: @Composable (Int) -> Unit,
+    image: @Composable ((
+        Modifier,
+        String,
+        Dp?,
+        Dp?,
+        ContentScale?,
+    ) -> Unit)? = null,
     map: @Composable ((String, Double, Double, String) -> Unit)? = null,
 ) {
     //var show: String? by remember { mutableStateOf(null) }
@@ -67,7 +74,9 @@ fun RestaurantNavScreen(
                         onCall = {
                             onCall?.invoke(it)
                         },
-                        map = map
+                        map = map,
+                        image = image,
+                        onImage = onImage
                     )
                 }
                 composable("menu") {

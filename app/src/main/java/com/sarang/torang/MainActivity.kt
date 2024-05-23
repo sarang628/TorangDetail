@@ -1,5 +1,6 @@
 package com.sarang.torang
 
+import TorangAsyncImage
 import android.Manifest
 import android.content.Intent
 import android.net.Uri
@@ -9,6 +10,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -26,6 +28,7 @@ import com.sarang.torang.compose.restaurant.info.RestaurantInfoScreen
 import com.sarang.torang.compose.restaurant.menu.RestaurantMenuScreen
 import com.sarang.torang.data.restaurant.HoursOfOperation
 import com.sarang.torang.data.restaurant.RestaurantInfo
+import com.sarang.torang.di.image.provideTorangAsyncImage
 import com.sryang.library.compose.SimplePermissionDialog
 import com.sryang.torang.compose.feed.Feeds
 import com.sryang.torang.uistate.FeedsUiState
@@ -77,7 +80,9 @@ fun Restaurant(onCall: ((String) -> Unit)? = null) {
         onCall = {
             Toast.makeText(context, "call:${it}", Toast.LENGTH_SHORT).show()
             onCall?.invoke(it)
-        }
+        },
+        image = provideTorangAsyncImage(),
+        onImage = {}
     )
 }
 

@@ -11,6 +11,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
@@ -33,6 +35,14 @@ fun RestaurantInfoScreen(
     restaurantId: Int,
     onWeb: ((String) -> Unit)? = null,
     onCall: ((String) -> Unit)? = null,
+    onImage: ((Int) -> Unit)? = null,
+    image: @Composable ((
+        Modifier,
+        String,
+        Dp?,
+        Dp?,
+        ContentScale?,
+    ) -> Unit)? = null,
     /**
      * @param String title of restaurant
      * @param Double latitude
@@ -59,7 +69,9 @@ fun RestaurantInfoScreen(
                     }
                 }, onCall = {onCall?.invoke(uiState.restaurantInfoData.tel)},
                 onWeb = { onWeb?.invoke(uiState.restaurantInfoData.webSite) },
-                onLocation = { navController.navigate("map") }
+                onLocation = { navController.navigate("map") },
+                onImage = onImage,
+                image = image
             )
         }
         composable("map") {
@@ -84,6 +96,14 @@ fun RestaurantInfoScreen(
     onLocation: (() -> Unit)? = null,
     onWeb: (() -> Unit)? = null,
     onCall: (() -> Unit)? = null,
+    onImage: ((Int) -> Unit)? = null,
+    image: @Composable ((
+        Modifier,
+        String,
+        Dp?,
+        Dp?,
+        ContentScale?,
+    ) -> Unit)? = null,
 ) {
     val state = rememberPullToRefreshState()
     PullToRefreshLayout(
@@ -109,7 +129,7 @@ fun RestaurantInfoScreen(
                     Spacer(modifier = Modifier.height(8.dp))
                 } else if (it == 1) {
                     // 레스토랑 이미지
-                    RestaurantImages(list = uiState.restaurantImage)
+                    RestaurantImages(list = uiState.restaurantImage, image = image, onImage = onImage)
                     Spacer(modifier = Modifier.height(8.dp))
                 } else if (it == 2) {
                     // 레스토랑 메뉴
