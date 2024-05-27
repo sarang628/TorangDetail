@@ -13,6 +13,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -33,6 +34,7 @@ fun RestaurantNavScreen(
     onCall: ((String) -> Unit)? = null,
     onImage: ((Int) -> Unit)? = null,
     feeds: @Composable (Int) -> Unit,
+    progressTintColor: Color? = null,
     image: @Composable ((
         Modifier,
         String,
@@ -76,11 +78,15 @@ fun RestaurantNavScreen(
                         },
                         map = map,
                         image = image,
-                        onImage = onImage
+                        onImage = onImage,
+                        progressTintColor = progressTintColor
                     )
                 }
                 composable("menu") {
-                    RestaurantMenuScreen(restaurantId = restaurantId)
+                    RestaurantMenuScreen(
+                        restaurantId = restaurantId,
+                        progressTintColor = progressTintColor
+                    )
                 }
                 composable("review") {
                     feeds.invoke(restaurantId)

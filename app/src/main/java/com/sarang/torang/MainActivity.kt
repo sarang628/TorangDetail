@@ -1,7 +1,5 @@
 package com.sarang.torang
 
-import TorangAsyncImage
-import android.Manifest
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -10,26 +8,18 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import com.google.samples.apps.sunflower.ui.TorangTheme
 import com.sarang.torang.compose.restaurant.RestaurantNavScreen
-import com.sarang.torang.compose.restaurant.gallery.RestaurantGalleryScreen
 import com.sarang.torang.compose.restaurant.info.RestaurantInfo
-import com.sarang.torang.compose.restaurant.info.RestaurantInfoScreen
-import com.sarang.torang.compose.restaurant.menu.RestaurantMenuScreen
 import com.sarang.torang.data.restaurant.HoursOfOperation
 import com.sarang.torang.data.restaurant.RestaurantInfo
 import com.sarang.torang.di.image.provideTorangAsyncImage
-import com.sryang.library.compose.SimplePermissionDialog
 import com.sryang.torang.compose.feed.Feeds
 import com.sryang.torang.uistate.FeedsUiState
 import dagger.hilt.android.AndroidEntryPoint
@@ -53,7 +43,7 @@ class MainActivity : ComponentActivity() {
                                 setData(Uri.parse("tel:$it"))
                             }
                         )
-                    })
+                    }, progressTintColor = Color.Yellow)
                 }
             }
         }
@@ -61,10 +51,11 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Restaurant(onCall: ((String) -> Unit)? = null) {
+fun Restaurant(onCall: ((String) -> Unit)? = null, progressTintColor: Color? = null,) {
     val context = LocalContext.current
     RestaurantNavScreen(
         restaurantId = 12,
+        progressTintColor = progressTintColor ,
         feeds = {
             Box {
                 Feeds(
@@ -114,7 +105,8 @@ fun PreviewRestaurantInfo1() {
     )
     TorangTheme {
         RestaurantInfo(/*Preview*/
-            restaurantInfoData = restaurantInfoData
+            restaurantInfoData = restaurantInfoData,
+            progressTintColor = Color.Yellow
         )
     }
 }

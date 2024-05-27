@@ -21,12 +21,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sarang.torang.data.restaurant.ReviewRowData
-import com.sarang.torang.widgets.RatingBar
 
 @Composable
-fun RestaurantReviews(reviewRowData: List<ReviewRowData>?) {
+fun RestaurantReviews(reviewRowData: List<ReviewRowData>?, progressTintColor: Color? = null,) {
     if (!reviewRowData.isNullOrEmpty()) {
-        Column(Modifier.fillMaxWidth().padding(start = 8.dp, end = 8.dp)) {
+        Column(
+            Modifier
+                .fillMaxWidth()
+                .padding(start = 8.dp, end = 8.dp)) {
             RestaurantInfoTitle("Review")
             Spacer(modifier = Modifier.height(8.dp))
             for (reviewData in reviewRowData) {
@@ -34,7 +36,8 @@ fun RestaurantReviews(reviewRowData: List<ReviewRowData>?) {
                     name = reviewData.name,
                     fullName = reviewData.fullName,
                     rating = reviewData.rating,
-                    comment = reviewData.comment
+                    comment = reviewData.comment,
+                    progressTintColor = progressTintColor
                 )
             }
         }
@@ -57,7 +60,13 @@ fun PreviewReviews() {
 }
 
 @Composable
-fun ReviewRow(name: String, fullName: String, rating: Float, comment: String) {
+fun ReviewRow(
+    name: String,
+    fullName: String,
+    rating: Float,
+    comment: String,
+    progressTintColor: Color? = null,
+) {
     Row {
         Box(modifier = Modifier.size(35.dp), contentAlignment = Alignment.Center) {
             Button(onClick = { }, modifier = Modifier.size(35.dp)) {}
@@ -72,7 +81,7 @@ fun ReviewRow(name: String, fullName: String, rating: Float, comment: String) {
         Column {
             Row {
                 Text(text = fullName)
-                RatingBar(rating = rating)
+                AndroidViewRatingBar(rating = rating, progressTintColor = progressTintColor)
                 Text(text = rating.toString())
             }
             Text(text = comment, maxLines = 3, overflow = TextOverflow.Ellipsis)

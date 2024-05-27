@@ -11,6 +11,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -36,6 +37,7 @@ fun RestaurantInfoScreen(
     onWeb: ((String) -> Unit)? = null,
     onCall: ((String) -> Unit)? = null,
     onImage: ((Int) -> Unit)? = null,
+    progressTintColor: Color? = null,
     image: @Composable ((
         Modifier,
         String,
@@ -67,11 +69,12 @@ fun RestaurantInfoScreen(
                         restaurantInfoViewModel.loadInfo(restaurantId)
                         it.updateState(RefreshIndicatorState.Default)
                     }
-                }, onCall = {onCall?.invoke(uiState.restaurantInfoData.tel)},
+                }, onCall = { onCall?.invoke(uiState.restaurantInfoData.tel) },
                 onWeb = { onWeb?.invoke(uiState.restaurantInfoData.webSite) },
                 onLocation = { navController.navigate("map") },
                 onImage = onImage,
-                image = image
+                image = image,
+                progressTintColor = progressTintColor
             )
         }
         composable("map") {
@@ -97,6 +100,7 @@ fun RestaurantInfoScreen(
     onWeb: (() -> Unit)? = null,
     onCall: (() -> Unit)? = null,
     onImage: ((Int) -> Unit)? = null,
+    progressTintColor: Color? = null,
     image: @Composable ((
         Modifier,
         String,
@@ -124,12 +128,17 @@ fun RestaurantInfoScreen(
                         restaurantInfoData = uiState.restaurantInfoData,
                         onLocation,
                         onWeb,
-                        onCall
+                        onCall,
+                        progressTintColor = progressTintColor
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                 } else if (it == 1) {
                     // 레스토랑 이미지
-                    RestaurantImages(list = uiState.restaurantImage, image = image, onImage = onImage)
+                    RestaurantImages(
+                        list = uiState.restaurantImage,
+                        image = image,
+                        onImage = onImage
+                    )
                     Spacer(modifier = Modifier.height(8.dp))
                 } else if (it == 2) {
                     // 레스토랑 메뉴
@@ -137,11 +146,11 @@ fun RestaurantInfoScreen(
                     Spacer(modifier = Modifier.height(8.dp))
                 } else if (it == 3) {
                     // 레스토랑 리뷰요약
-                    RestaurantReviewSummary(uiState.reviewSummaryData)
+                    RestaurantReviewSummary(uiState.reviewSummaryData, progressTintColor = progressTintColor)
                     Spacer(modifier = Modifier.height(8.dp))
                 } else if (it == 4) {
                     // 레스토랑 리뷰
-                    RestaurantReviews(uiState.reviewRowData)
+                    RestaurantReviews(uiState.reviewRowData, progressTintColor = progressTintColor)
                 }
             }
         })

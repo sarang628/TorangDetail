@@ -1,6 +1,8 @@
 package com.sarang.torang.compose.restaurant.info
 
+import android.content.res.ColorStateList
 import android.content.res.Configuration
+import android.widget.RatingBar
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -33,6 +35,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
@@ -41,7 +44,6 @@ import com.sarang.torang.R
 import com.sarang.torang.data.restaurant.HoursOfOperation
 import com.sarang.torang.data.restaurant.RestaurantInfo
 import com.sarang.torang.data.restaurant.operationTime
-import com.sarang.torang.widgets.RatingBar
 
 
 @Composable
@@ -50,6 +52,7 @@ fun RestaurantInfo(
     onLocation: (() -> Unit)? = null,
     onWeb: (() -> Unit)? = null,
     onCall: (() -> Unit)? = null,
+    progressTintColor: Color? = null,
 ) {
     ConstraintLayout(constraintSet = restauarntInfoConstraintSet()) {
 
@@ -67,7 +70,8 @@ fun RestaurantInfo(
             modifier = Modifier.layoutId("restaurantTitleBox"),
             restaurantName = restaurantInfoData.name,
             rating = restaurantInfoData.rating,
-            reviewCount = restaurantInfoData.reviewCount
+            reviewCount = restaurantInfoData.reviewCount,
+            progressTintColor = progressTintColor
         )
 
         Icon(
@@ -278,6 +282,7 @@ fun RestaurantTitleAnd(
     restaurantName: String,
     rating: Float,
     reviewCount: Int,
+    progressTintColor: Color? = null,
 ) {
     Box(
         modifier
@@ -305,7 +310,12 @@ fun RestaurantTitleAnd(
                     fontWeight = FontWeight.Bold
                 )
                 Spacer(modifier = Modifier.width(5.dp))
-                RatingBar(rating = rating)
+                AndroidViewRatingBar(
+                    rating = rating,
+                    progressTintColor = progressTintColor,
+                    changable = false,
+                    isSmall = true
+                )
                 Spacer(modifier = Modifier.width(5.dp))
                 Text(
                     text = "(${reviewCount})",
@@ -342,9 +352,7 @@ fun PreviewRestaurantInfo() {
         imageUrl = "",
         name = "맥도날드"
     )
-    RestaurantInfo(/*Preview*/
-        restaurantInfoData = restaurantInfoData
-    )
+
 }
 
 @Preview
@@ -372,8 +380,5 @@ fun PreviewRestaurantInfo1() {
         reviewCount = 100,
         imageUrl = "",
         name = "맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드맥도날드"
-    )
-    RestaurantInfo(/*Preview*/
-        restaurantInfoData = restaurantInfoData
     )
 }

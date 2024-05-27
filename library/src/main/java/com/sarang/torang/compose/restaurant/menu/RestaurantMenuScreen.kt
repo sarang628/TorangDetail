@@ -27,39 +27,41 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.sarang.torang.widgets.RatingBar
+import com.sarang.torang.data.restaurant.MenuData
+import com.sarang.torang.data.restaurant.testMenuData
+import com.sarang.torang.viewmodels.RestaurantMenuViewModel
 import com.sryang.library.pullrefresh.PullToRefreshLayout
 import com.sryang.library.pullrefresh.PullToRefreshLayoutState
 import com.sryang.library.pullrefresh.RefreshIndicatorState
 import com.sryang.library.pullrefresh.rememberPullToRefreshState
-import com.sarang.torang.data.restaurant.MenuData
-import com.sarang.torang.data.restaurant.testMenuData
-import com.sarang.torang.viewmodels.RestaurantMenuViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
 fun RestaurantMenuScreen(
     viewModel: RestaurantMenuViewModel = hiltViewModel(),
-    restaurantId: Int
+    restaurantId: Int,
+    progressTintColor: Color? = null,
 ) {
     val coroutine = rememberCoroutineScope()
     LaunchedEffect(key1 = restaurantId, block = {
         viewModel.loadMenu(restaurantId)
     })
     val uiState by viewModel.uiState.collectAsState()
-    RestaurantMenu(list = uiState, onRefresh = {
-        coroutine.launch {
-            viewModel.loadMenu(restaurantId)
-            it.updateState(RefreshIndicatorState.Default)
-        }
-    })
+    RestaurantMenu(list = uiState,
+        progressTintColor = progressTintColor,
+        onRefresh = {
+            coroutine.launch {
+                viewModel.loadMenu(restaurantId)
+                it.updateState(RefreshIndicatorState.Default)
+            }
+        })
 }
 
 @Composable
 fun RestaurantMenu(
     list: List<MenuData>,
     onRefresh: (PullToRefreshLayoutState) -> Unit,
+    progressTintColor: Color? = null,
 ) {
     val state = rememberPullToRefreshState()
     PullToRefreshLayout(
@@ -72,14 +74,14 @@ fun RestaurantMenu(
         LazyVerticalGrid(columns = GridCells.Fixed(1), content = {
             items(list.size) {
                 var menu = list[it]
-                MenuItem(menu = menu)
+                MenuItem(menu = menu, progressTintColor = progressTintColor)
             }
         })
     }
 }
 
 @Composable
-fun MenuItem(menu: MenuData) {
+fun MenuItem(menu: MenuData, progressTintColor: Color? = null) {
     Box(
         modifier = Modifier
             .height(200.dp)
@@ -101,7 +103,7 @@ fun MenuItem(menu: MenuData) {
                 .background(Color(0x99000000))
         ) {
             Column(Modifier.padding(4.dp)) {
-                RatingBar(rating = 3.0f)
+                AndroidViewRatingBar(rating = 3.0f, progressTintColor = progressTintColor)
                 Text(
                     text = "${menu.menuName} (${menu.price})",
                     color = Color.White,
