@@ -64,7 +64,7 @@ class MainActivity : ComponentActivity() {
 fun Restaurant(onCall: ((String) -> Unit)? = null) {
     val context = LocalContext.current
     RestaurantNavScreen(
-        restaurantId = 6,
+        restaurantId = 12,
         feeds = {
             Box {
                 Feeds(
