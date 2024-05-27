@@ -36,6 +36,7 @@ fun RestaurantGalleryScreen(
     viewModel: RestaurantGalleryViewModel = hiltViewModel(),
     restaurantId: Int,
     image: (@Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit)? = null,
+    onImage: (Int) -> Unit = {},
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val coroutine = rememberCoroutineScope()
@@ -44,12 +45,15 @@ fun RestaurantGalleryScreen(
         viewModel.loadImage(restaurantId)
     })
 
-    RestaurantGalleryScreen(list = uiState, onRefresh = {
-        coroutine.launch {
-            viewModel.loadImage(restaurantId)
-            it.updateState(RefreshIndicatorState.Default)
-        }
-    }, image = image)
+    RestaurantGalleryScreen(
+        list = uiState, onRefresh = {
+            coroutine.launch {
+                viewModel.loadImage(restaurantId)
+                it.updateState(RefreshIndicatorState.Default)
+            }
+        }, image = image,
+        onImage = onImage
+    )
 }
 
 @Composable
@@ -80,8 +84,7 @@ fun RestaurantGalleryScreen(
                             .wrapContentSize()
                             .clickable {
                                 onImage.invoke(list[it].id)
-                            }
-                        ,
+                            },
                         list[it].url,
                         null,
                         null,
@@ -95,7 +98,7 @@ fun RestaurantGalleryScreen(
 @Preview
 @Composable
 fun PreviewRestaurantGallery() {
-    RestaurantGalleryScreen(
+    RestaurantGalleryScreen(/*Preview*/
         list = arrayListOf(
             testRestaurantImage(),
             testRestaurantImage(),

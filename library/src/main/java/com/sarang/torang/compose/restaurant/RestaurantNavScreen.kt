@@ -92,7 +92,10 @@ fun RestaurantNavScreen(
                     feeds.invoke(restaurantId)
                 }
                 composable("gallery") {
-                    RestaurantGalleryScreen(restaurantId = restaurantId, image = image)
+                    RestaurantGalleryScreen(
+                        restaurantId = restaurantId,
+                        image = image,
+                        onImage = { onImage?.invoke(it) })
                 }
             }
         }
