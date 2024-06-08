@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -12,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -30,6 +33,7 @@ import kotlinx.coroutines.launch
 /**
  * @param map map compose
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RestaurantInfoScreen(
     restaurantInfoViewModel: RestaurantInfoViewModel = hiltViewModel(),
@@ -38,6 +42,7 @@ fun RestaurantInfoScreen(
     onCall: ((String) -> Unit)? = null,
     onImage: ((Int) -> Unit)? = null,
     progressTintColor: Color? = null,
+    scrollBehavior: TopAppBarScrollBehavior? = null,
     image: @Composable ((
         Modifier,
         String,
@@ -74,6 +79,7 @@ fun RestaurantInfoScreen(
                 onLocation = { navController.navigate("map") },
                 onImage = onImage,
                 image = image,
+                scrollBehavior = scrollBehavior,
                 progressTintColor = progressTintColor
             )
         }
@@ -92,6 +98,7 @@ fun RestaurantInfoScreen(
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RestaurantInfoScreen(
     uiState: RestaurantInfoUIState,
@@ -101,6 +108,7 @@ fun RestaurantInfoScreen(
     onCall: (() -> Unit)? = null,
     onImage: ((Int) -> Unit)? = null,
     progressTintColor: Color? = null,
+    scrollBehavior: TopAppBarScrollBehavior? = null,
     image: @Composable ((
         Modifier,
         String,
@@ -120,39 +128,47 @@ fun RestaurantInfoScreen(
             }
             onRefresh?.invoke(state)
         }) {
-        LazyColumn(content = {
-            items(5) {
-                if (it == 0) {
-                    // 레스토랑 기본정보
-                    RestaurantInfo(
-                        restaurantInfoData = uiState.restaurantInfoData,
-                        onLocation,
-                        onWeb,
-                        onCall,
-                        progressTintColor = progressTintColor
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                } else if (it == 1) {
-                    // 레스토랑 이미지
-                    RestaurantImages(
-                        list = uiState.restaurantImage,
-                        image = image,
-                        onImage = onImage
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                } else if (it == 2) {
-                    // 레스토랑 메뉴
-                    RestaurantMenus(menus = uiState.menus)
-                    Spacer(modifier = Modifier.height(8.dp))
-                } else if (it == 3) {
-                    // 레스토랑 리뷰요약
-                    RestaurantReviewSummary(uiState.reviewSummaryData, progressTintColor = progressTintColor)
-                    Spacer(modifier = Modifier.height(8.dp))
-                } else if (it == 4) {
-                    // 레스토랑 리뷰
-                    RestaurantReviews(uiState.reviewRowData, progressTintColor = progressTintColor)
+        LazyColumn(
+            modifier = if (scrollBehavior != null) Modifier.nestedScroll(scrollBehavior.nestedScrollConnection) else Modifier,
+            content = {
+                items(5) {
+                    if (it == 0) {
+                        // 레스토랑 기본정보
+                        RestaurantInfo(
+                            restaurantInfoData = uiState.restaurantInfoData,
+                            onLocation,
+                            onWeb,
+                            onCall,
+                            progressTintColor = progressTintColor
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                    } else if (it == 1) {
+                        // 레스토랑 이미지
+                        RestaurantImages(
+                            list = uiState.restaurantImage,
+                            image = image,
+                            onImage = onImage
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                    } else if (it == 2) {
+                        // 레스토랑 메뉴
+                        RestaurantMenus(menus = uiState.menus)
+                        Spacer(modifier = Modifier.height(8.dp))
+                    } else if (it == 3) {
+                        // 레스토랑 리뷰요약
+                        RestaurantReviewSummary(
+                            uiState.reviewSummaryData,
+                            progressTintColor = progressTintColor
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                    } else if (it == 4) {
+                        // 레스토랑 리뷰
+                        RestaurantReviews(
+                            uiState.reviewRowData,
+                            progressTintColor = progressTintColor
+                        )
+                    }
                 }
-            }
-        })
+            })
     }
 }

@@ -37,6 +37,7 @@ fun RestaurantGalleryScreen(
     restaurantId: Int,
     image: (@Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit)? = null,
     onImage: (Int) -> Unit = {},
+    modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val coroutine = rememberCoroutineScope()
@@ -52,7 +53,8 @@ fun RestaurantGalleryScreen(
                 it.updateState(RefreshIndicatorState.Default)
             }
         }, image = image,
-        onImage = onImage
+        onImage = onImage,
+        modifier = modifier
     )
 }
 
@@ -61,6 +63,7 @@ fun RestaurantGalleryScreen(
     list: List<RestaurantImage>,
     onRefresh: (PullToRefreshLayoutState) -> Unit,
     onImage: (Int) -> Unit = {},
+    modifier: Modifier = Modifier,
     image: (@Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit)? = null,
 ) {
     val state = rememberPullToRefreshState()
@@ -73,7 +76,7 @@ fun RestaurantGalleryScreen(
         }
     ) {
         LazyVerticalStaggeredGrid(
-            modifier = Modifier.fillMaxSize(),
+            modifier = modifier.fillMaxSize(),
             verticalItemSpacing = 4.dp,
             horizontalArrangement = Arrangement.spacedBy(4.dp),
             columns = StaggeredGridCells.Adaptive(200.dp), content = {

@@ -51,12 +51,12 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Restaurant(onCall: ((String) -> Unit)? = null, progressTintColor: Color? = null,) {
+fun Restaurant(onCall: ((String) -> Unit)? = null, progressTintColor: Color? = null) {
     val context = LocalContext.current
     RestaurantNavScreen(
         restaurantId = 12,
-        progressTintColor = progressTintColor ,
-        feeds = {
+        progressTintColor = progressTintColor,
+        feeds = { reviewId, modifier ->
             Box {
                 Feeds(
                     onRefresh = { },
@@ -73,7 +73,8 @@ fun Restaurant(onCall: ((String) -> Unit)? = null, progressTintColor: Color? = n
             onCall?.invoke(it)
         },
         image = provideTorangAsyncImage(),
-        onImage = {}
+        onImage = {},
+        onBack = {}
     )
 }
 
