@@ -1,5 +1,6 @@
 package com.sarang.torang.compose.restaurant.info
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,12 +24,18 @@ import androidx.compose.ui.unit.sp
 import com.sarang.torang.data.restaurant.ReviewRowData
 
 @Composable
-fun RestaurantReviews(reviewRowData: List<ReviewRowData>?, progressTintColor: Color? = null,) {
+fun RestaurantReviews(
+    reviewRowData: List<ReviewRowData>?,
+    progressTintColor: Color? = null,
+    onProfile: (Int) -> Unit,
+    onContents: (Int) -> Unit,
+) {
     if (!reviewRowData.isNullOrEmpty()) {
         Column(
             Modifier
                 .fillMaxWidth()
-                .padding(start = 8.dp, end = 8.dp)) {
+                .padding(start = 8.dp, end = 8.dp)
+        ) {
             RestaurantInfoTitle("Review")
             Spacer(modifier = Modifier.height(8.dp))
             for (reviewData in reviewRowData) {
@@ -37,7 +44,9 @@ fun RestaurantReviews(reviewRowData: List<ReviewRowData>?, progressTintColor: Co
                     fullName = reviewData.fullName,
                     rating = reviewData.rating,
                     comment = reviewData.comment,
-                    progressTintColor = progressTintColor
+                    progressTintColor = progressTintColor,
+                    onProfile = { onProfile.invoke(reviewData.userId) },
+                    onContents = { onContents.invoke(reviewData.reviewId) }
                 )
             }
         }
@@ -51,12 +60,48 @@ class MenuDate(manuName: String, price: String)
 fun PreviewReviews() {
     val reviews = ArrayList<ReviewRowData>()
         .apply {
-            add(ReviewRowData(name = "JM", fullName = "강아지", rating = 3.0f, comment = "서비스가 훌륭함"))
-            add(ReviewRowData(name = "DY", fullName = "대한민국", rating = 3.0f, comment = "맛있음"))
-            add(ReviewRowData(name = "CA", fullName = "희망찬", rating = 3.0f, comment = "저렴함"))
-            add(ReviewRowData(name = "OY", fullName = "고양이", rating = 3.0f, comment = "가까움"))
+            add(
+                ReviewRowData(
+                    name = "JM",
+                    fullName = "강아지",
+                    rating = 3.0f,
+                    comment = "서비스가 훌륭함",
+                    reviewId = 0,
+                    userId = 0
+                )
+            )
+            add(
+                ReviewRowData(
+                    name = "DY",
+                    fullName = "대한민국",
+                    rating = 3.0f,
+                    comment = "맛있음",
+                    reviewId = 0,
+                    userId = 0
+                )
+            )
+            add(
+                ReviewRowData(
+                    name = "CA",
+                    fullName = "희망찬",
+                    rating = 3.0f,
+                    comment = "저렴함",
+                    reviewId = 0,
+                    userId = 0
+                )
+            )
+            add(
+                ReviewRowData(
+                    name = "OY",
+                    fullName = "고양이",
+                    rating = 3.0f,
+                    comment = "가까움",
+                    reviewId = 0,
+                    userId = 0
+                )
+            )
         }
-    RestaurantReviews(reviews)
+    RestaurantReviews(reviews, onContents = {}, onProfile = {})
 }
 
 @Composable
@@ -66,10 +111,12 @@ fun ReviewRow(
     rating: Float,
     comment: String,
     progressTintColor: Color? = null,
+    onProfile: () -> Unit,
+    onContents: () -> Unit,
 ) {
     Row {
         Box(modifier = Modifier.size(35.dp), contentAlignment = Alignment.Center) {
-            Button(onClick = { }, modifier = Modifier.size(35.dp)) {}
+            Button(onClick = onProfile, modifier = Modifier.size(35.dp)) {}
             Text(
                 text = if (name.length > 2) name.substring(0, 2) else name,
                 color = Color.White,
@@ -80,11 +127,15 @@ fun ReviewRow(
         Spacer(modifier = Modifier.width(8.dp))
         Column {
             Row {
-                Text(text = fullName)
+                Text(text = fullName, Modifier.clickable { onProfile.invoke() })
                 AndroidViewRatingBar(rating = rating, progressTintColor = progressTintColor)
                 Text(text = rating.toString())
             }
-            Text(text = comment, maxLines = 3, overflow = TextOverflow.Ellipsis)
+            Text(
+                text = comment,
+                maxLines = 3,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.clickable { onContents.invoke() })
         }
     }
     Spacer(modifier = Modifier.height(4.dp))

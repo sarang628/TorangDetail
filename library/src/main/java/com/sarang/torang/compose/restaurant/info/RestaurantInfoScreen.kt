@@ -43,6 +43,8 @@ fun RestaurantInfoScreen(
     onImage: ((Int) -> Unit)? = null,
     progressTintColor: Color? = null,
     scrollBehavior: TopAppBarScrollBehavior? = null,
+    onProfile: (Int) -> Unit,
+    onContents: (Int) -> Unit,
     image: @Composable ((
         Modifier,
         String,
@@ -80,7 +82,9 @@ fun RestaurantInfoScreen(
                 onImage = onImage,
                 image = image,
                 scrollBehavior = scrollBehavior,
-                progressTintColor = progressTintColor
+                progressTintColor = progressTintColor,
+                onContents = onContents,
+                onProfile = onProfile
             )
         }
         composable("map") {
@@ -108,6 +112,8 @@ fun RestaurantInfoScreen(
     onCall: (() -> Unit)? = null,
     onImage: ((Int) -> Unit)? = null,
     progressTintColor: Color? = null,
+    onProfile: (Int) -> Unit,
+    onContents: (Int) -> Unit,
     scrollBehavior: TopAppBarScrollBehavior? = null,
     image: @Composable ((
         Modifier,
@@ -165,7 +171,9 @@ fun RestaurantInfoScreen(
                         // 레스토랑 리뷰
                         RestaurantReviews(
                             uiState.reviewRowData,
-                            progressTintColor = progressTintColor
+                            progressTintColor = progressTintColor,
+                            onProfile = onProfile,
+                            onContents = onContents
                         )
                     }
                 }

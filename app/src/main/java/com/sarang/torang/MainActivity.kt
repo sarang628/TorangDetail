@@ -74,7 +74,9 @@ fun Restaurant(onCall: ((String) -> Unit)? = null, progressTintColor: Color? = n
         },
         image = provideTorangAsyncImage(),
         onImage = {},
-        onBack = {}
+        onBack = {},
+        onProfile = {},
+        onContents = {}
     )
 }
 

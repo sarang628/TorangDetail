@@ -49,6 +49,8 @@ fun RestaurantNavScreen(
     onImage: ((Int) -> Unit)? = null,
     feeds: @Composable (Int, Modifier) -> Unit,
     progressTintColor: Color? = null,
+    onProfile: (Int) -> Unit,
+    onContents: (Int) -> Unit,
     image: @Composable ((
         Modifier,
         String,
@@ -116,7 +118,9 @@ fun RestaurantNavScreen(
                         image = image,
                         onImage = onImage,
                         scrollBehavior = scrollBehavior,
-                        progressTintColor = progressTintColor
+                        progressTintColor = progressTintColor,
+                        onProfile = onProfile,
+                        onContents = onContents
                     )
                 }
                 composable("menu") {
