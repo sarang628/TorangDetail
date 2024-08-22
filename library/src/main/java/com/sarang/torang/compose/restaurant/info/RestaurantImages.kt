@@ -42,8 +42,8 @@ fun RestaurantImages(
                                 .width(150.dp)
                                 .clickable { onImage?.invoke(list[it].id) },
                             list[it].url,
-                            150.dp,
-                            150.dp,
+                            30.dp,
+                            30.dp,
                             ContentScale.Crop
                         )
                     }

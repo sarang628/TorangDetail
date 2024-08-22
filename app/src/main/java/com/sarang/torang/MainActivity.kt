@@ -8,6 +8,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -15,13 +16,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import com.google.samples.apps.sunflower.ui.TorangTheme
+import com.sarang.torang.compose.feed.component.Feeds
 import com.sarang.torang.compose.restaurant.RestaurantNavScreen
 import com.sarang.torang.compose.restaurant.info.RestaurantInfo
 import com.sarang.torang.data.restaurant.HoursOfOperation
 import com.sarang.torang.data.restaurant.RestaurantInfo
 import com.sarang.torang.di.image.provideTorangAsyncImage
-import com.sryang.torang.compose.feed.Feeds
-import com.sryang.torang.uistate.FeedsUiState
+import com.sarang.torang.uistate.FeedsUiState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -50,6 +51,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Restaurant(onCall: ((String) -> Unit)? = null, progressTintColor: Color? = null) {
     val context = LocalContext.current
@@ -58,13 +60,11 @@ fun Restaurant(onCall: ((String) -> Unit)? = null, progressTintColor: Color? = n
         progressTintColor = progressTintColor,
         feeds = { reviewId, modifier ->
             Box {
-                Feeds(
+                /*Feeds(
                     onRefresh = { },
                     onBottom = {},
                     isRefreshing = false,
-                    ratingBar = { _, _ -> },
-                    FeedsUiState.Success(ArrayList())
-                )
+                )*/
             }
         },
         map = null,

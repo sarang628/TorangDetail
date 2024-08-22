@@ -2,3 +2,9 @@
 [submodule "app/src/main/java/com/sarang/torang/di/repository"]
 	path = app/src/main/java/com/sarang/torang/di/repository
 	url = https://github.com/sarang628/repository.git
+[submodule "gradle/TorangToml"]
+	path = gradle/TorangToml
+	url = https://github.com/sarang628/TorangToml.git
+[submodule "app/src/main/java/com/sarang/torang/di/feed_di"]
+	path = app/src/main/java/com/sarang/torang/di/feed_di
+	url = https://github.com/sarang628/feed_di.git
