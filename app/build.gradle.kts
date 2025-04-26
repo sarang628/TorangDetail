@@ -131,4 +131,6 @@ dependencies {
     implementation(libs.feed)
     implementation(libs.commonImageLoader)
     implementation("com.github.sarang628:ComposePermissionTest:0f86ef39ec")
+    implementation(libs.bottomdetectlazycolunm)
+    implementation(libs.expandableText)
 }

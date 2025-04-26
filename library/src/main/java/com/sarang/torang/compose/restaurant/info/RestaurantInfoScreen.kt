@@ -16,12 +16,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.sarang.torang.data.restaurant.RestaurantInfo
 import com.sarang.torang.uistate.RestaurantInfoUIState
 import com.sarang.torang.viewmodels.RestaurantInfoViewModel
 import com.sryang.library.pullrefresh.PullToRefreshLayout
@@ -38,20 +40,14 @@ import kotlinx.coroutines.launch
 fun RestaurantInfoScreen(
     restaurantInfoViewModel: RestaurantInfoViewModel = hiltViewModel(),
     restaurantId: Int,
-    onWeb: ((String) -> Unit)? = null,
-    onCall: ((String) -> Unit)? = null,
-    onImage: ((Int) -> Unit)? = null,
+    onWeb: (String) -> Unit = {},
+    onCall: (String) -> Unit = {},
+    onImage: (Int) -> Unit = {},
     progressTintColor: Color? = null,
     scrollBehavior: TopAppBarScrollBehavior? = null,
-    onProfile: (Int) -> Unit,
-    onContents: (Int) -> Unit,
-    image: @Composable ((
-        Modifier,
-        String,
-        Dp?,
-        Dp?,
-        ContentScale?,
-    ) -> Unit)? = null,
+    onProfile: (Int) -> Unit = {},
+    onContents: (Int) -> Unit = {},
+    image: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _, _, _, _, _ -> },
     /**
      * @param String title of restaurant
      * @param Double latitude
@@ -69,15 +65,15 @@ fun RestaurantInfoScreen(
 
     NavHost(navController = navController, startDestination = "info") {
         composable("info") {
-            RestaurantInfoScreen(
+            _RestaurantInfoScreen(
                 uiState = uiState,
                 onRefresh = {
                     coroutine.launch {
                         restaurantInfoViewModel.loadInfo(restaurantId)
                         it.updateState(RefreshIndicatorState.Default)
                     }
-                }, onCall = { onCall?.invoke(uiState.restaurantInfoData.tel) },
-                onWeb = { onWeb?.invoke(uiState.restaurantInfoData.webSite) },
+                }, onCall = { onCall.invoke(uiState.restaurantInfoData.tel) },
+                onWeb = { onWeb.invoke(uiState.restaurantInfoData.webSite) },
                 onLocation = { navController.navigate("map") },
                 onImage = onImage,
                 image = image,
@@ -104,43 +100,36 @@ fun RestaurantInfoScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RestaurantInfoScreen(
+fun _RestaurantInfoScreen(
     uiState: RestaurantInfoUIState,
-    onRefresh: ((PullToRefreshLayoutState) -> Unit)? = null,
+    onRefresh: (PullToRefreshLayoutState) -> Unit = {
+        Log.w(
+            "__RestaurantInfoScreen",
+            "onRefreshListener is null"
+        )
+    },
     onLocation: (() -> Unit)? = null,
     onWeb: (() -> Unit)? = null,
     onCall: (() -> Unit)? = null,
     onImage: ((Int) -> Unit)? = null,
     progressTintColor: Color? = null,
-    onProfile: (Int) -> Unit,
-    onContents: (Int) -> Unit,
+    onProfile: (Int) -> Unit = {},
+    onContents: (Int) -> Unit = {},
     scrollBehavior: TopAppBarScrollBehavior? = null,
-    image: @Composable ((
-        Modifier,
-        String,
-        Dp?,
-        Dp?,
-        ContentScale?,
-    ) -> Unit)? = null,
+    image: @Composable ((Modifier, String, Dp?, Dp?, ContentScale?) -> Unit)? = null,
 ) {
     val state = rememberPullToRefreshState()
     PullToRefreshLayout(
         pullRefreshLayoutState = state,
         refreshThreshold = 70,
         modifier = Modifier.fillMaxSize(),
-        onRefresh = {
-            if (onRefresh == null) {
-                Log.w("__RestaurantInfoScreen", "onRefreshListener is null")
-            }
-            onRefresh?.invoke(state)
-        }) {
+        onRefresh = { onRefresh.invoke(state) }) {
         LazyColumn(
             modifier = if (scrollBehavior != null) Modifier.nestedScroll(scrollBehavior.nestedScrollConnection) else Modifier,
             content = {
                 items(5) {
                     if (it == 0) {
-                        // 레스토랑 기본정보
-                        RestaurantInfo(
+                        RestaurantInfo( // 레스토랑 기본정보
                             restaurantInfoData = uiState.restaurantInfoData,
                             onLocation,
                             onWeb,
@@ -149,27 +138,23 @@ fun RestaurantInfoScreen(
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                     } else if (it == 1) {
-                        // 레스토랑 이미지
-                        RestaurantImages(
+                        RestaurantImages( // 레스토랑 이미지
                             list = uiState.restaurantImage,
                             image = image,
                             onImage = onImage
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                     } else if (it == 2) {
-                        // 레스토랑 메뉴
-                        RestaurantMenus(menus = uiState.menus)
+                        RestaurantMenus(menus = uiState.menus) // 레스토랑 메뉴
                         Spacer(modifier = Modifier.height(8.dp))
                     } else if (it == 3) {
-                        // 레스토랑 리뷰요약
-                        RestaurantReviewSummary(
+                        RestaurantReviewSummary( // 레스토랑 리뷰요약
                             uiState.reviewSummaryData,
                             progressTintColor = progressTintColor
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                     } else if (it == 4) {
-                        // 레스토랑 리뷰
-                        RestaurantReviews(
+                        RestaurantReviews( // 레스토랑 리뷰
                             uiState.reviewRowData,
                             progressTintColor = progressTintColor,
                             onProfile = onProfile,
@@ -179,4 +164,11 @@ fun RestaurantInfoScreen(
                 }
             })
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview
+@Composable
+fun PreviewRestaurantInfoScreen() {
+    _RestaurantInfoScreen(uiState = RestaurantInfoUIState())
 }

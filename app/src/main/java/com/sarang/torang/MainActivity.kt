@@ -15,14 +15,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import com.google.samples.apps.sunflower.ui.TorangTheme
-import com.sarang.torang.compose.feed.component.Feeds
 import com.sarang.torang.compose.restaurant.RestaurantNavScreen
 import com.sarang.torang.compose.restaurant.info.RestaurantInfo
 import com.sarang.torang.data.restaurant.HoursOfOperation
 import com.sarang.torang.data.restaurant.RestaurantInfo
 import com.sarang.torang.di.image.provideTorangAsyncImage
-import com.sarang.torang.uistate.FeedsUiState
+import com.sryang.torang.ui.TorangTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

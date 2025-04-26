@@ -44,20 +44,14 @@ import kotlinx.coroutines.launch
 fun RestaurantNavScreen(
     restaurantId: Int,
     restaurantInfoViewModel: RestaurantViewModel = hiltViewModel(),
-    onWeb: ((String) -> Unit)? = null,
-    onCall: ((String) -> Unit)? = null,
-    onImage: ((Int) -> Unit)? = null,
+    onWeb: (String) -> Unit = { },
+    onCall: (String) -> Unit = { },
+    onImage: (Int) -> Unit = { },
     feeds: @Composable (Int, Modifier) -> Unit,
     progressTintColor: Color? = null,
     onProfile: (Int) -> Unit,
     onContents: (Int) -> Unit,
-    image: @Composable ((
-        Modifier,
-        String,
-        Dp?,
-        Dp?,
-        ContentScale?,
-    ) -> Unit)? = null,
+    image: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _, _, _, _, _ -> },
     map: @Composable ((String, Double, Double, String) -> Unit)? = null,
     onBack: (() -> Unit),
 ) {
@@ -94,7 +88,7 @@ fun RestaurantNavScreen(
                 },
                 title = {
                     Text(
-                        text = "${uiState.restaurantInfoData.name}",
+                        text = uiState.restaurantInfoData.name,
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp
                     )
@@ -112,7 +106,7 @@ fun RestaurantNavScreen(
                         restaurantId = restaurantId,
                         onWeb = onWeb,
                         onCall = {
-                            onCall?.invoke(it)
+                            onCall.invoke(it)
                         },
                         map = map,
                         image = image,
@@ -140,7 +134,7 @@ fun RestaurantNavScreen(
                         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
                         restaurantId = restaurantId,
                         image = image,
-                        onImage = { onImage?.invoke(it) })
+                        onImage = { onImage.invoke(it) })
                 }
             }
         }
