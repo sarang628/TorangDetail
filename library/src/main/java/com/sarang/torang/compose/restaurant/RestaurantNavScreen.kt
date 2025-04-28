@@ -8,7 +8,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -17,8 +16,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -27,14 +24,13 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.sarang.torang.compose.restaurant.gallery.RestaurantGalleryScreen
-import com.sarang.torang.compose.restaurant.info.RestaurantInfoScreen
+import com.sarang.torang.compose.restaurant.info.RestaurantDetailNavigationScreen
 import com.sarang.torang.compose.restaurant.menu.RestaurantMenuScreen
 import com.sarang.torang.viewmodels.RestaurantViewModel
 import kotlinx.coroutines.launch
@@ -51,12 +47,12 @@ fun RestaurantNavScreen(
     progressTintColor: Color? = null,
     onProfile: (Int) -> Unit,
     onContents: (Int) -> Unit,
-    image: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _, _, _, _, _ -> },
+    imageLoader: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _, _, _, _, _ -> },
     map: @Composable ((String, Double, Double, String) -> Unit)? = null,
     onBack: (() -> Unit),
 ) {
     val navController = rememberNavController()
-    val uiState by restaurantInfoViewModel.uiState.collectAsState()
+    val uiState = restaurantInfoViewModel.uiState
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutine = rememberCoroutineScope()
     val scrollBehavior =
@@ -64,15 +60,6 @@ fun RestaurantNavScreen(
 
     LaunchedEffect(key1 = restaurantId, block = {
         restaurantInfoViewModel.loadRestaurant(restaurantId = restaurantId)
-    })
-
-    LaunchedEffect(key1 = uiState.errorMessage, block = {
-        uiState.errorMessage?.let {
-            coroutine.launch {
-                snackbarHostState.showSnackbar(message = it, duration = SnackbarDuration.Short)
-                restaurantInfoViewModel.clearErrorMessage()
-            }
-        }
     })
 
     Scaffold(
@@ -88,7 +75,8 @@ fun RestaurantNavScreen(
                 },
                 title = {
                     Text(
-                        text = uiState.restaurantInfoData.name,
+                        //text = uiState.restaurantInfoData.name,
+                        text = "",
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp
                     )
@@ -102,25 +90,31 @@ fun RestaurantNavScreen(
             RestaurntTopMenu(navController)
             NavHost(navController = navController, startDestination = "info") {
                 composable("info") {
-                    RestaurantInfoScreen(
+                    RestaurantDetailNavigationScreen(
                         restaurantId = restaurantId,
                         onWeb = onWeb,
                         onCall = {
                             onCall.invoke(it)
                         },
                         map = map,
-                        image = image,
+                        imageLoader = imageLoader,
                         onImage = onImage,
                         scrollBehavior = scrollBehavior,
                         progressTintColor = progressTintColor,
                         onProfile = onProfile,
-                        onContents = onContents
+                        onContents = onContents,
+                        onError = {
+                            coroutine.launch {
+                                snackbarHostState.showSnackbar(it)
+                            }
+                        }
                     )
                 }
                 composable("menu") {
                     RestaurantMenuScreen(
                         restaurantId = restaurantId,
-                        progressTintColor = progressTintColor
+                        progressTintColor = progressTintColor,
+                        imageLoader = imageLoader
                     )
                 }
                 composable("review") {
@@ -133,7 +127,7 @@ fun RestaurantNavScreen(
                     RestaurantGalleryScreen(
                         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
                         restaurantId = restaurantId,
-                        image = image,
+                        image = imageLoader,
                         onImage = { onImage.invoke(it) })
                 }
             }

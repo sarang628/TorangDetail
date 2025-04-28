@@ -6,13 +6,13 @@ import com.sarang.torang.data.restaurant.Feed
 import com.sarang.torang.data.restaurant.HoursOfOperation
 import com.sarang.torang.data.restaurant.MenuData
 import com.sarang.torang.data.restaurant.RestaurantImage
-import com.sarang.torang.data.restaurant.RestaurantInfo
+import com.sarang.torang.data.restaurant.RestaurantInfoData
 import com.sarang.torang.data.restaurant.ReviewRowData
 import com.sarang.torang.data.restaurant.ReviewSummaryData
 import com.sarang.torang.data.remote.response.FeedApiModel
 
-fun RestaurantDetail.toRestaurantInfoData(): RestaurantInfo {
-    return RestaurantInfo(
+fun RestaurantDetail.toRestaurantInfoData(): RestaurantInfoData {
+    return RestaurantInfoData(
         foodType = this.restaurant.restaurantType,
         distance = "100m",
         open = "영업 중",

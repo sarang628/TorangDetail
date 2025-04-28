@@ -7,7 +7,7 @@ import com.sarang.torang.data.RestaurantDetail
 import com.sarang.torang.data.restaurant.Feed
 import com.sarang.torang.data.restaurant.MenuData
 import com.sarang.torang.data.restaurant.RestaurantImage
-import com.sarang.torang.data.restaurant.RestaurantInfo
+import com.sarang.torang.data.restaurant.RestaurantInfoData
 import com.sarang.torang.repository.RestaurantRepository
 import com.sarang.torang.uistate.RestaurantInfoUIState
 import com.sarang.torang.usecase.GetMenuUseCase
@@ -33,7 +33,7 @@ class RestaurantServiceModule {
                 try {
                     val result: RestaurantDetail =
                         restaurantRepository.loadRestaurantDetail(restaurantId)
-                    return RestaurantInfoUIState(
+                    return RestaurantInfoUIState.Success(
                         restaurantInfoData = result.toRestaurantInfoData(),
                         menus = result.toMenus(),
                         restaurantImage = result.toRestaurantImages(),
@@ -45,6 +45,8 @@ class RestaurantServiceModule {
                 } catch (e: HttpException) {
                     val message = e.handle()
                     throw Exception(message)
+                } catch (e : Exception){
+                    throw Exception(e.message)
                 }
             }
 
@@ -72,7 +74,7 @@ class RestaurantServiceModule {
     @Provides
     fun providesGetRestaurantInfoUseCase(apiRestaurant: ApiRestaurant): GetRestaurantInfoUseCase {
         return object : GetRestaurantInfoUseCase {
-            override suspend fun invoke(restaurantId: Int): RestaurantInfo {
+            override suspend fun invoke(restaurantId: Int): RestaurantInfoData {
                 return apiRestaurant.getRestaurantDetail(restaurantId).toRestaurantInfoData()
             }
         }

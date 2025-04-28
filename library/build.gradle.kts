@@ -86,8 +86,6 @@ dependencies {
     // Navigation end
 
     implementation(libs.constraintlayout.compose)
-    implementation(libs.mui3scrolltorefresh)
-    implementation("io.coil-kt:coil-compose:2.6.0")
 }
 
 afterEvaluate {

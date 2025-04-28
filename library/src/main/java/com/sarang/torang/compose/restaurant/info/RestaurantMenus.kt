@@ -27,7 +27,7 @@ fun RestaurantMenus(menus: List<MenuData>?) {
             RestaurantInfoTitle("Menu")
             Spacer(modifier = Modifier.height(8.dp))
             for (i in 0 until menus.size) {
-                RestaurantMenu(
+                RestaurantMenu1(
                     menuData1 = menus[i]
                 )
                 Divider(
@@ -44,7 +44,7 @@ fun RestaurantMenus(menus: List<MenuData>?) {
 }
 
 @Composable
-fun RestaurantMenu(menuData1: MenuData) {
+fun RestaurantMenu1(menuData1: MenuData) {
     Row {
         Row(Modifier.weight(1f)) {
             Text(text = menuData1.menuName + "..." + menuData1.price.toString())

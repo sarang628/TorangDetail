@@ -1,16 +1,23 @@
 package com.sarang.torang.compose.restaurant.menu
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -22,78 +29,132 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImage
 import com.sarang.torang.data.restaurant.MenuData
 import com.sarang.torang.data.restaurant.testMenuData
 import com.sarang.torang.viewmodels.RestaurantMenuViewModel
-import com.sryang.library.pullrefresh.PullToRefreshLayout
-import com.sryang.library.pullrefresh.PullToRefreshLayoutState
-import com.sryang.library.pullrefresh.RefreshIndicatorState
-import com.sryang.library.pullrefresh.rememberPullToRefreshState
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RestaurantMenuScreen(
     viewModel: RestaurantMenuViewModel = hiltViewModel(),
     restaurantId: Int,
     progressTintColor: Color? = null,
+    columnCount: Int = 1,
+    imageLoader: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _, _, _, _, _ -> },
+    pullToRefreshLayout: @Composable (isRefreshing: Boolean, onRefresh: (() -> Unit), contents: @Composable (() -> Unit)) -> Unit = { _, _, _ -> }
 ) {
     val coroutine = rememberCoroutineScope()
     LaunchedEffect(key1 = restaurantId, block = {
         viewModel.loadMenu(restaurantId)
     })
     val uiState by viewModel.uiState.collectAsState()
-    RestaurantMenu(list = uiState,
-        progressTintColor = progressTintColor,
-        onRefresh = {
+    val state = rememberPullToRefreshState()
+    pullToRefreshLayout.invoke(
+        false,
+        {
             coroutine.launch {
                 viewModel.loadMenu(restaurantId)
-                it.updateState(RefreshIndicatorState.Default)
+                //state.updateState(RefreshIndicatorState.Default)
             }
-        })
+        }) {
+        RestaurantMenu(
+            list = uiState,
+            progressTintColor = progressTintColor,
+            imageLoader = imageLoader,
+            columnCount = columnCount
+        )
+    }
 }
 
 @Composable
 fun RestaurantMenu(
     list: List<MenuData>,
-    onRefresh: (PullToRefreshLayoutState) -> Unit,
     progressTintColor: Color? = null,
+    columnCount: Int = 1,
+    isSmallMenuItem: Boolean = false,
+    imageLoader: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _, _, _, _, _ -> }
 ) {
-    val state = rememberPullToRefreshState()
-    PullToRefreshLayout(
-        pullRefreshLayoutState = state,
-        refreshThreshold = 70,
-        modifier = Modifier.fillMaxSize(),
-        onRefresh = {
-            onRefresh.invoke(state)
-        }) {
-        LazyVerticalGrid(columns = GridCells.Fixed(1), content = {
-            items(list.size) {
-                var menu = list[it]
-                MenuItem(menu = menu, progressTintColor = progressTintColor)
+    LazyVerticalGrid(columns = GridCells.Fixed(columnCount), content = {
+        items(list.size) {
+            var menu = list[it]
+            if (!isSmallMenuItem) {
+                MenuItem(
+                    menu = menu,
+                    progressTintColor = progressTintColor,
+                    imageLoader = imageLoader
+                )
+            } else {
+                SmallMenuItem(
+                    menu = menu,
+                    progressTintColor = progressTintColor,
+                    imageLoader = imageLoader
+                )
             }
-        })
+        }
+    })
+}
+
+@Composable
+fun RestaurantMenuColumn(
+    modifier: Modifier = Modifier,
+    menus: List<MenuData> = listOf(),
+    progressTintColor: Color? = null,
+    columnCount: Int = 1,
+    isSmallMenuItem: Boolean = false,
+    imageLoader: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _, _, _, _, _ -> }
+) {
+    Column(modifier) {
+        menus.chunked(columnCount).forEach { rowItems ->
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                rowItems.forEach { menu ->
+                    if (isSmallMenuItem) {
+                        SmallMenuItem(
+                            menu = menu,
+                            progressTintColor = progressTintColor,
+                            modifier = Modifier.weight(1f),
+                            imageLoader = imageLoader
+                        )
+                    } else {
+                        MenuItem(
+                            menu = menu,
+                            progressTintColor = progressTintColor,
+                            imageLoader = imageLoader
+                        )
+                    }
+                }
+                // 빈 칸 채우기
+                repeat(columnCount - rowItems.size) {
+                    Spacer(modifier = Modifier.weight(1f))
+                }
+            }
+        }
     }
 }
 
 @Composable
-fun MenuItem(menu: MenuData, progressTintColor: Color? = null) {
+fun MenuItem(
+    modifier: Modifier = Modifier,
+    menu: MenuData,
+    progressTintColor: Color? = null,
+    imageLoader: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _, _, _, _, _ -> }
+) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .height(200.dp)
             .fillMaxWidth()
             .padding(start = 2.dp, end = 2.dp, top = 2.dp, bottom = 2.dp)
     ) {
-        AsyncImage(
-            modifier = Modifier.fillMaxSize(),
-            model = menu.url,
-            contentDescription = "",
-            contentScale = ContentScale.Crop
-        )
+        imageLoader.invoke(Modifier.fillMaxSize(), menu.url, null, null, ContentScale.Crop)
 
         Box(
             Modifier
@@ -108,7 +169,45 @@ fun MenuItem(menu: MenuData, progressTintColor: Color? = null) {
                     text = "${menu.menuName} (${menu.price})",
                     color = Color.White,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp
+                    fontSize = 20.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun SmallMenuItem(
+    modifier: Modifier = Modifier,
+    menu: MenuData,
+    progressTintColor: Color? = null,
+    imageLoader: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _, _, _, _, _ -> }
+) {
+    Box(
+        modifier = modifier
+            .height(100.dp)
+            .fillMaxWidth()
+            .padding(start = 2.dp, end = 2.dp, top = 2.dp, bottom = 2.dp)
+    ) {
+        imageLoader.invoke(Modifier.fillMaxSize(), menu.url, 20.dp, 20.dp, ContentScale.Crop)
+        Box(
+            Modifier
+                .align(Alignment.BottomStart)
+                .clip(RoundedCornerShape(5.dp))
+                .padding(start = 4.dp, bottom = 4.dp)
+                .background(Color(0x66000000))
+        ) {
+            Column(Modifier.padding(2.dp)) {
+                Text(
+                    text = "${menu.menuName}-${menu.price.toInt()}",
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 12.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+
                 )
             }
         }
@@ -123,6 +222,34 @@ fun PreviewMenuItem() {
 
 @Preview
 @Composable
-fun PreviewMenu() {
-    RestaurantMenu(list = ArrayList(), onRefresh = {})
+fun PreviewSmallMenuItem() {
+    SmallMenuItem(menu = MenuData.empty().copy(menuName = "menuName", price = 4000f))
+}
+
+@Preview
+@Composable
+fun PreviewRestaurantMenuColumn(imageLoader: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _, _, _, _, _ -> }) {
+    RestaurantMenuColumn(
+        //@formatter:off
+        menus = listOf(
+            testMenuData().copy(url = "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/RedDot_Burger.jpg/500px-RedDot_Burger.jpg", menuName = "hanburgerhanburgerhanburger", price = 12000f),
+            testMenuData().copy(url = "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/RedDot_Burger.jpg/500px-RedDot_Burger.jpg", menuName = "hanburger", price = 12000f),
+            testMenuData().copy(url = "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/RedDot_Burger.jpg/500px-RedDot_Burger.jpg", menuName = "hanburger", price = 12000f),
+            testMenuData().copy(url = "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/RedDot_Burger.jpg/500px-RedDot_Burger.jpg", menuName = "hanburger", price = 12000f),
+            testMenuData().copy(url = "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/RedDot_Burger.jpg/500px-RedDot_Burger.jpg", menuName = "hanburger", price = 12000f),
+            testMenuData().copy(url = "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/RedDot_Burger.jpg/500px-RedDot_Burger.jpg", menuName = "hanburger", price = 12000f),
+            testMenuData().copy(url = "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/RedDot_Burger.jpg/500px-RedDot_Burger.jpg", menuName = "hanburger", price = 12000f),
+            testMenuData().copy(url = "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/RedDot_Burger.jpg/500px-RedDot_Burger.jpg", menuName = "hanburger", price = 12000f),
+            testMenuData().copy(url = "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/RedDot_Burger.jpg/500px-RedDot_Burger.jpg", menuName = "hanburger", price = 12000f),
+            testMenuData().copy(url = "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/RedDot_Burger.jpg/500px-RedDot_Burger.jpg", menuName = "hanburger", price = 12000f),
+            testMenuData().copy(url = "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/RedDot_Burger.jpg/500px-RedDot_Burger.jpg", menuName = "hanburger", price = 12000f),
+            testMenuData().copy(url = "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/RedDot_Burger.jpg/500px-RedDot_Burger.jpg", menuName = "hanburger", price = 12000f),
+            testMenuData().copy(url = "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/RedDot_Burger.jpg/500px-RedDot_Burger.jpg", menuName = "hanburger", price = 12000f),
+            testMenuData().copy(url = "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/RedDot_Burger.jpg/500px-RedDot_Burger.jpg", menuName = "hanburger", price = 12000f),
+        ),
+        columnCount = 3,
+        isSmallMenuItem = true,
+        imageLoader = imageLoader
+        //@formatter:on
+    )
 }

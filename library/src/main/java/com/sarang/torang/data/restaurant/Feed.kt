@@ -22,4 +22,30 @@ data class Feed(
     val visibleComment: Boolean,
     val contents: String,
     val reviewImages: List<String> = ArrayList()
-)
+) {
+    companion object {
+        fun empty() = Feed(
+            reviewId = 0,
+            restaurantId = 0,
+            userId = 0,
+            name = "",
+            restaurantName = "",
+            rating = 0.0f,
+            profilePictureUrl = "",
+            likeAmount = 0,
+            commentAmount = 0,
+            author = "author",
+            author1 = "author1",
+            author2 = "author2",
+            comment = "comment",
+            comment1 = "comment1",
+            comment2 = "comment2",
+            isLike = true,
+            isFavorite = true,
+            visibleLike = true,
+            visibleComment = true,
+            contents = "contents",
+            reviewImages = listOf()
+        )
+    }
+}

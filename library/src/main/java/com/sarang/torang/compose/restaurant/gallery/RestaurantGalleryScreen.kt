@@ -3,12 +3,11 @@ package com.sarang.torang.compose.restaurant.gallery
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -20,60 +19,55 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImage
-import com.sryang.library.pullrefresh.PullToRefreshLayout
-import com.sryang.library.pullrefresh.PullToRefreshLayoutState
-import com.sryang.library.pullrefresh.RefreshIndicatorState
-import com.sryang.library.pullrefresh.rememberPullToRefreshState
 import com.sarang.torang.data.restaurant.RestaurantImage
 import com.sarang.torang.data.restaurant.testRestaurantImage
 import com.sarang.torang.viewmodels.RestaurantGalleryViewModel
 import kotlinx.coroutines.launch
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RestaurantGalleryScreen(
+    modifier: Modifier = Modifier,
     viewModel: RestaurantGalleryViewModel = hiltViewModel(),
     restaurantId: Int,
     image: (@Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit)? = null,
     onImage: (Int) -> Unit = {},
-    modifier: Modifier = Modifier
+    pullToRefreshLayout: @Composable (isRefreshing: Boolean, onRefresh: (() -> Unit), contents: @Composable (() -> Unit)) -> Unit = {_,_,_->}
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val coroutine = rememberCoroutineScope()
+    val state = rememberPullToRefreshState()
 
     LaunchedEffect(key1 = restaurantId, block = {
         viewModel.loadImage(restaurantId)
     })
 
-    RestaurantGalleryScreen(
+    _RestaurantGalleryScreen(
         list = uiState, onRefresh = {
             coroutine.launch {
                 viewModel.loadImage(restaurantId)
-                it.updateState(RefreshIndicatorState.Default)
+                //state.updateState(RefreshIndicatorState.Default)
             }
         }, image = image,
         onImage = onImage,
-        modifier = modifier
+        pullToRefreshLayout = pullToRefreshLayout
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RestaurantGalleryScreen(
+fun _RestaurantGalleryScreen(
     list: List<RestaurantImage>,
-    onRefresh: (PullToRefreshLayoutState) -> Unit,
+    onRefresh: () -> Unit,
     onImage: (Int) -> Unit = {},
     modifier: Modifier = Modifier,
     image: (@Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit)? = null,
+    pullToRefreshLayout: @Composable (isRefreshing: Boolean, onRefresh: (() -> Unit), contents: @Composable (() -> Unit)) -> Unit = {_,_,_->}
 ) {
-    val state = rememberPullToRefreshState()
-    PullToRefreshLayout(
-        modifier = Modifier.fillMaxSize(),
-        pullRefreshLayoutState = state,
-        refreshThreshold = 70,
-        onRefresh = {
-            onRefresh.invoke(state)
-        }
+    pullToRefreshLayout.invoke(
+        false,
+        { onRefresh.invoke() },
     ) {
         LazyVerticalStaggeredGrid(
             modifier = modifier.fillMaxSize(),
@@ -101,7 +95,7 @@ fun RestaurantGalleryScreen(
 @Preview
 @Composable
 fun PreviewRestaurantGallery() {
-    RestaurantGalleryScreen(/*Preview*/
+    _RestaurantGalleryScreen(/*Preview*/
         list = arrayListOf(
             testRestaurantImage(),
             testRestaurantImage(),
