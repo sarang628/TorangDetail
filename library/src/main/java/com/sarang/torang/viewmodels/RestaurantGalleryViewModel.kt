@@ -1,5 +1,9 @@
 package com.sarang.torang.viewmodels
 
+import android.util.Log
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -16,14 +20,16 @@ import javax.inject.Inject
 class RestaurantGalleryViewModel @Inject constructor(
     private val getRestaurantGalleryUseCase: GetRestaurantGalleryUseCase
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow<List<RestaurantImage>>(arrayListOf())
-    val uiState = _uiState.asStateFlow()
-    suspend fun loadImage(restaurantId: Int) {
+    val tag = "__RestaurantGalleryViewModel"
+    var uiState: List<RestaurantImage> by mutableStateOf((arrayListOf()))
+        private set
+
+    fun loadImage(restaurantId: Int) {
         viewModelScope.launch {
             try {
-                _uiState.update { getRestaurantGalleryUseCase.invoke(restaurantId) }
+                uiState = getRestaurantGalleryUseCase.invoke(restaurantId)
             } catch (e: Exception) {
-
+                Log.e(tag, "$e")
             }
         }
     }

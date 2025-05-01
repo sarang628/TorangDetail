@@ -90,7 +90,7 @@ fun FeedApiModel.toFeedData(): Feed {
         name = this.user.userName,
         restaurantName = this.restaurant.restaurantName,
         rating = this.rating,
-        profilePictureUrl = this.user.profilePicUrl,
+        profilePictureUrl = BuildConfig.PROFILE_IMAGE_SERVER_URL + this.user.profilePicUrl,
         likeAmount = this.like_amount,
         commentAmount = this.comment_amount,
         author = "",

@@ -10,8 +10,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -33,9 +31,9 @@ fun RestaurantGalleryScreen(
     restaurantId: Int,
     image: (@Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit)? = null,
     onImage: (Int) -> Unit = {},
-    pullToRefreshLayout: @Composable (isRefreshing: Boolean, onRefresh: (() -> Unit), contents: @Composable (() -> Unit)) -> Unit = {_,_,_->}
+    pullToRefreshLayout: @Composable (isRefreshing: Boolean, onRefresh: (() -> Unit), contents: @Composable (() -> Unit)) -> Unit = { _, _, _ -> }
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState = viewModel.uiState
     val coroutine = rememberCoroutineScope()
     val state = rememberPullToRefreshState()
 
@@ -63,7 +61,7 @@ fun _RestaurantGalleryScreen(
     onImage: (Int) -> Unit = {},
     modifier: Modifier = Modifier,
     image: (@Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit)? = null,
-    pullToRefreshLayout: @Composable (isRefreshing: Boolean, onRefresh: (() -> Unit), contents: @Composable (() -> Unit)) -> Unit = {_,_,_->}
+    pullToRefreshLayout: @Composable (isRefreshing: Boolean, onRefresh: (() -> Unit), contents: @Composable (() -> Unit)) -> Unit = { _, _, _ -> }
 ) {
     pullToRefreshLayout.invoke(
         false,

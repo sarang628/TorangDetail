@@ -1,8 +1,5 @@
-package com.sarang.torang.compose.restaurant.info
+package com.sarang.torang.compose.restaurant.detail
 
-import android.R
-import android.content.res.ColorStateList
-import android.widget.RatingBar
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,14 +12,57 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.sarang.torang.compose.restaurant.detail.components.AndroidViewRatingBar
+import com.sarang.torang.compose.restaurant.detail.components.RestaurantInfoTitle
 import com.sarang.torang.data.restaurant.ReviewSummaryData
+import com.sarang.torang.viewmodels.RestaurantReviewSummaryViewModel
+
+@Composable
+fun RestaurantReviewSummary_(viewModel: RestaurantReviewSummaryViewModel = hiltViewModel(), restaurantId : Int, progressTintColor: Color? = null) {
+
+    val uiState = viewModel.uiState
+
+    LaunchedEffect(restaurantId) {
+        viewModel.fetch(restaurantId)
+    }
+
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .padding(start = 8.dp, end = 8.dp)) {
+        RestaurantInfoTitle(title = "Summery")
+        Row(Modifier.height(80.dp), verticalAlignment = Alignment.CenterVertically) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Text(text = uiState.rating.toString(), fontSize = 30.sp)
+                AndroidViewRatingBar(rating = uiState.rating, progressTintColor = progressTintColor)
+                Text(text = "(${uiState.totalReviewer})")
+            }
+            Spacer(modifier = Modifier.width(5.dp))
+            Column(
+                verticalArrangement = Arrangement.SpaceEvenly,
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth()
+            ) {
+                LinearProgressIndicator(uiState.score5, Modifier.fillMaxWidth())
+                LinearProgressIndicator(uiState.score4, Modifier.fillMaxWidth())
+                LinearProgressIndicator(uiState.score3, Modifier.fillMaxWidth())
+                LinearProgressIndicator(uiState.score2, Modifier.fillMaxWidth())
+                LinearProgressIndicator(uiState.score1, Modifier.fillMaxWidth())
+            }
+        }
+    }
+}
 
 @Composable
 fun RestaurantReviewSummary(data: ReviewSummaryData, progressTintColor: Color? = null) {

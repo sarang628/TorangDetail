@@ -17,3 +17,14 @@ fun provideTorangAsyncImage(): @Composable (Modifier, String, Dp?, Dp?, ContentS
             contentScale = contentScale ?: ContentScale.Fit
         )
     }
+
+fun provideTorangAsyncImage1(): @Composable (Modifier, String, Dp?, Dp?, ContentScale?, Dp?) -> Unit =
+    { modifier, model, progressSize, errorIconSize, contentScale, height ->
+        TorangAsyncImage(
+            modifier = modifier,
+            model = model,
+            progressSize = progressSize ?: 50.dp,
+            errorIconSize = errorIconSize ?: 50.dp,
+            contentScale = contentScale ?: ContentScale.Fit
+        )
+    }

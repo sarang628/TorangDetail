@@ -5,30 +5,32 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.sarang.torang.uistate.RestaurantInfoUIState
+import com.sarang.torang.data.restaurant.RestaurantInfoData
+import com.sarang.torang.usecase.FetchRestaurantUseCase
 import com.sarang.torang.usecase.GetRestaurantInfoUseCase
-import com.sarang.torang.usecase.RestaurantInfoService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class RestaurantInfoViewModel @Inject constructor(
-    private val restaurantInfoService: RestaurantInfoService,
+    private val fetchRestaurantUseCase: FetchRestaurantUseCase,
+    private val getRestaurantInfoUseCase: GetRestaurantInfoUseCase
 ) :
     ViewModel() {
     val tag = "__RestaurantInfoViewModel"
-    var uiState: RestaurantInfoUIState by mutableStateOf(RestaurantInfoUIState.Loading)
+    var uiState: RestaurantInfoData by mutableStateOf(RestaurantInfoData())
         private set
 
     suspend fun fetchRestaurantInfo(restaurantId: Int) {
         try {
-            uiState = restaurantInfoService.loadRestaurant(restaurantId)
-            uiState = (uiState as RestaurantInfoUIState.Success).copy(
-                reviews = restaurantInfoService.loadReviews(restaurantId = restaurantId)
-            )
+            val result = fetchRestaurantUseCase.invoke(restaurantId)
+            uiState = result
         } catch (e: Exception) {
-            uiState = RestaurantInfoUIState.Error(e.message.toString())
             Log.e(tag, "failed load restaurant info: ${e.message.toString()}")
         }
+    }
+
+    suspend fun fetchRestaurantInfo1(restaurantId: Int): RestaurantInfoData {
+        return getRestaurantInfoUseCase.invoke(restaurantId)
     }
 }

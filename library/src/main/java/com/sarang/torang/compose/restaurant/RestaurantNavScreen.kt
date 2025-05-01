@@ -15,7 +15,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -25,21 +24,18 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.sarang.torang.compose.restaurant.gallery.RestaurantGalleryScreen
-import com.sarang.torang.compose.restaurant.info.RestaurantDetailNavigationScreen
+import com.sarang.torang.compose.restaurant.detail.RestaurantDetailNavigationScreen
 import com.sarang.torang.compose.restaurant.menu.RestaurantMenuScreen
-import com.sarang.torang.viewmodels.RestaurantViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RestaurantNavScreen(
     restaurantId: Int,
-    restaurantInfoViewModel: RestaurantViewModel = hiltViewModel(),
     onWeb: (String) -> Unit = { },
     onCall: (String) -> Unit = { },
     onImage: (Int) -> Unit = { },
@@ -52,15 +48,10 @@ fun RestaurantNavScreen(
     onBack: (() -> Unit),
 ) {
     val navController = rememberNavController()
-    val uiState = restaurantInfoViewModel.uiState
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutine = rememberCoroutineScope()
     val scrollBehavior =
         TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
-
-    LaunchedEffect(key1 = restaurantId, block = {
-        restaurantInfoViewModel.loadRestaurant(restaurantId = restaurantId)
-    })
 
     Scaffold(
         topBar = {
