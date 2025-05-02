@@ -50,8 +50,7 @@ fun RestaurantDetailScreen(
     scrollBehavior: TopAppBarScrollBehavior? = null,
     imageLoader: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _, _, _, _, _ -> Log.w(tag, "imageLoader is null") },
     feed: @Composable (Feed) -> Unit = { Log.w(tag, "feed is null") },
-    pullToRefreshLayout: @Composable (isRefreshing: Boolean, onRefresh: (() -> Unit),
-      contents: @Composable (() -> Unit)) -> Unit = { _, _, contents -> Log.w("__RestaurantInfoScreen", "pullToRefreshLayout is null"); contents() }
+    pullToRefreshLayout: @Composable (isRefreshing: Boolean, onRefresh: (() -> Unit), contents: @Composable () -> Unit) -> Unit = { _, _, contents -> Log.w("__RestaurantInfoScreen", "pullToRefreshLayout is null"); contents() }
 ) {
     pullToRefreshLayout.invoke(false, { onRefresh.invoke() }) {
         LazyColumn(

@@ -128,16 +128,11 @@ fun RestaurantNavScreenTest(onCall: ((String) -> Unit)? = null, progressTintColo
                 )*/
             }
         },
-        map = null,
         onCall = {
             Toast.makeText(context, "call:${it}", Toast.LENGTH_SHORT).show()
             onCall?.invoke(it)
         },
         imageLoader = provideTorangAsyncImage(),
-        onImage = {},
-        onBack = {},
-        onProfile = {},
-        onContents = {}
     )
 }
 

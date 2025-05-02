@@ -49,13 +49,14 @@ import com.sarang.torang.viewmodels.RestaurantInfoViewModel
 @Composable
 fun RestaurantInfo_(
     viewModel: RestaurantInfoViewModel = hiltViewModel(),
+    tag : String = "__RestaurantInfo",
     restaurantId: Int,
     modifier: Modifier = Modifier,
-    onLocation: () -> Unit = { },
-    onWeb: (String) -> Unit = { },
-    onCall: (String) -> Unit = { },
+    onLocation: () -> Unit = { Log.w(tag, "onLocation doesn't set") },
+    onWeb: (String) -> Unit = { Log.w(tag, "onWeb doesn't set") },
+    onCall: (String) -> Unit = { Log.w(tag, "onCall doesn't set") },
     progressTintColor: Color? = null,
-    imageLoader: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _, _, _, _, _ -> }
+    imageLoader: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _, _, _, _, _ -> Log.w(tag, "imageLoader doesn't set") }
 ) {
     var restaurantInfoData by remember { mutableStateOf(RestaurantInfoData()) }
     LaunchedEffect(restaurantId) {
@@ -67,19 +68,20 @@ fun RestaurantInfo_(
         }
     }
 
-    RestaurantInfo(modifier, restaurantInfoData, onLocation, { onWeb.invoke(restaurantInfoData.webSite) }, { onCall.invoke(restaurantInfoData.tel) }, progressTintColor, imageLoader)
+    RestaurantInfo(modifier, restaurantInfoData = restaurantInfoData, onLocation = onLocation, onWeb =  { onWeb.invoke(restaurantInfoData.webSite) }, onCall =  { onCall.invoke(restaurantInfoData.tel) }, progressTintColor = progressTintColor, imageLoader =  imageLoader)
 
 }
 
 @Composable
 fun RestaurantInfo(
     modifier: Modifier = Modifier,
+    tag : String = "__RestaurantInfo",
     restaurantInfoData: RestaurantInfoData = RestaurantInfoData(),
-    onLocation: () -> Unit = { },
-    onWeb: () -> Unit = { },
-    onCall: () -> Unit = { },
+    onLocation: () -> Unit = { Log.w(tag, "onLocation doesn't set") },
+    onWeb: () -> Unit = { Log.w(tag, "onWeb doesn't set") },
+    onCall: () -> Unit = { Log.w(tag, "onCall doesn't set") },
     progressTintColor: Color? = null,
-    imageLoader: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _, _, _, _, _ -> }
+    imageLoader: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _, _, _, _, _ -> Log.w(tag, "imageLoader doesn't set") }
 ) {
     //@formatter:off
     Column(modifier = modifier) {

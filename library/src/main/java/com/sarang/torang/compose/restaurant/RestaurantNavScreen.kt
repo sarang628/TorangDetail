@@ -1,5 +1,6 @@
 package com.sarang.torang.compose.restaurant
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -35,17 +36,19 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RestaurantNavScreen(
+    tag : String = "__RestaurantNavScreen",
     restaurantId: Int,
-    onWeb: (String) -> Unit = { },
-    onCall: (String) -> Unit = { },
-    onImage: (Int) -> Unit = { },
-    feeds: @Composable (Int, Modifier) -> Unit,
+    onWeb: (String) -> Unit = { { Log.w(tag, "onWeb doesn't set") } },
+    onCall: (String) -> Unit = { { Log.w(tag, "onCall doesn't set") } },
+    onImage: (Int) -> Unit = { { Log.w(tag, "onImage doesn't set") } },
+    feeds: @Composable (Int, Modifier) -> Unit = {_,_-> { Log.w(tag, "feeds doesn't set") } },
     progressTintColor: Color? = null,
-    onProfile: (Int) -> Unit,
-    onContents: (Int) -> Unit,
-    imageLoader: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _, _, _, _, _ -> },
-    map: @Composable ((String, Double, Double, String) -> Unit)? = null,
-    onBack: (() -> Unit),
+    onProfile: (Int) -> Unit = { { Log.w(tag, "onProfile doesn't set") } },
+    onContents: (Int) -> Unit = { { Log.w(tag, "onContents doesn't set") } },
+    imageLoader: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _,_,_,_,_->  Log.w(tag, "image doesn't set") },
+    map: @Composable (String, Double, Double, String) -> Unit = { _,_,_,_-> Log.w(tag, "map doesn't set") },
+    onBack: (() -> Unit) = { Log.w(tag, "map doesn't set") },
+    pullToRefreshLayout: @Composable (isRefreshing: Boolean, onRefresh: (() -> Unit), contents: @Composable () -> Unit) -> Unit = { _, _, contents -> Log.w("__RestaurantInfoScreen", "pullToRefreshLayout is null"); contents() }
 ) {
     val navController = rememberNavController()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -84,9 +87,7 @@ fun RestaurantNavScreen(
                     RestaurantDetailNavigationScreen(
                         restaurantId = restaurantId,
                         onWeb = onWeb,
-                        onCall = {
-                            onCall.invoke(it)
-                        },
+                        onCall = { onCall.invoke(it) },
                         map = map,
                         imageLoader = imageLoader,
                         onImage = onImage,
@@ -94,18 +95,16 @@ fun RestaurantNavScreen(
                         progressTintColor = progressTintColor,
                         onProfile = onProfile,
                         onContents = onContents,
-                        onError = {
-                            coroutine.launch {
-                                snackbarHostState.showSnackbar(it)
-                            }
-                        }
+                        onError = { coroutine.launch { snackbarHostState.showSnackbar(it) } },
+                        pullToRefreshLayout = pullToRefreshLayout
                     )
                 }
                 composable("menu") {
                     RestaurantMenuScreen(
                         restaurantId = restaurantId,
                         progressTintColor = progressTintColor,
-                        imageLoader = imageLoader
+                        imageLoader = imageLoader,
+                        pullToRefreshLayout = pullToRefreshLayout
                     )
                 }
                 composable("review") {
@@ -119,7 +118,8 @@ fun RestaurantNavScreen(
                         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
                         restaurantId = restaurantId,
                         image = imageLoader,
-                        onImage = { onImage.invoke(it) })
+                        onImage = { onImage.invoke(it) },
+                        pullToRefreshLayout = pullToRefreshLayout)
                 }
             }
         }

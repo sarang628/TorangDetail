@@ -1,5 +1,6 @@
 package com.sarang.torang.compose.restaurant.gallery
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,11 +28,12 @@ import kotlinx.coroutines.launch
 @Composable
 fun RestaurantGalleryScreen(
     modifier: Modifier = Modifier,
+    tag : String = "__RestaurantGalleryScreen",
     viewModel: RestaurantGalleryViewModel = hiltViewModel(),
     restaurantId: Int,
-    image: (@Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit)? = null,
-    onImage: (Int) -> Unit = {},
-    pullToRefreshLayout: @Composable (isRefreshing: Boolean, onRefresh: (() -> Unit), contents: @Composable (() -> Unit)) -> Unit = { _, _, _ -> }
+    image: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _,_,_,_,_->  Log.w(tag, "image doesn't set") },
+    onImage: (Int) -> Unit = { Log.w(tag, "onImage doesn't set") },
+    pullToRefreshLayout: @Composable (isRefreshing: Boolean, onRefresh: (() -> Unit), contents: @Composable (() -> Unit)) -> Unit = { _, _, _ -> Log.w(tag, "pullToRefreshLayout doesn't set") }
 ) {
     val uiState = viewModel.uiState
     val coroutine = rememberCoroutineScope()
@@ -42,26 +44,25 @@ fun RestaurantGalleryScreen(
     })
 
     _RestaurantGalleryScreen(
-        list = uiState, onRefresh = {
+        modifier = modifier, list = uiState, onRefresh = {
             coroutine.launch {
                 viewModel.loadImage(restaurantId)
                 //state.updateState(RefreshIndicatorState.Default)
             }
-        }, image = image,
-        onImage = onImage,
-        pullToRefreshLayout = pullToRefreshLayout
+        }, image = image, onImage = onImage, pullToRefreshLayout = pullToRefreshLayout
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun _RestaurantGalleryScreen(
-    list: List<RestaurantImage>,
-    onRefresh: () -> Unit,
-    onImage: (Int) -> Unit = {},
     modifier: Modifier = Modifier,
-    image: (@Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit)? = null,
-    pullToRefreshLayout: @Composable (isRefreshing: Boolean, onRefresh: (() -> Unit), contents: @Composable (() -> Unit)) -> Unit = { _, _, _ -> }
+    tag : String = "__RestaurantGalleryScreen",
+    list: List<RestaurantImage>,
+    onRefresh: () -> Unit = { Log.w(tag, "onRefresh doesn't set") },
+    onImage: (Int) -> Unit = { Log.w(tag, "onImage doesn't set") },
+    image: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _,_,_,_,_->  Log.w(tag, "image doesn't set") },
+    pullToRefreshLayout: @Composable (isRefreshing: Boolean, onRefresh: (() -> Unit), contents: @Composable (() -> Unit)) -> Unit = { _, _, _ -> Log.w(tag, "pullToRefreshLayout doesn't set") }
 ) {
     pullToRefreshLayout.invoke(
         false,
