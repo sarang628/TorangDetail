@@ -53,8 +53,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Main() {
-    //RestaurantNavScreenTest_() // 정보 탭, 메뉴 탭, 갤러리 탭, 리뷰 탭 내비게이션
-    RestaurantDetailNavigationScreen_() // 정보, 지도 내비게이션
+    RestaurantNavScreenTest_() // 정보 탭, 메뉴 탭, 갤러리 탭, 리뷰 탭 내비게이션
+    //RestaurantDetailNavigationScreen_() // 정보, 지도 내비게이션
     //RestaurantInfo_() // 정보
     //RestaurantGalleryScreen_()
     //PreviewRestaurantInfoScreen_()
