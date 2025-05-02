@@ -31,6 +31,7 @@ import androidx.navigation.compose.rememberNavController
 import com.sarang.torang.compose.restaurant.gallery.RestaurantGalleryScreen
 import com.sarang.torang.compose.restaurant.detail.RestaurantDetailNavigationScreen
 import com.sarang.torang.compose.restaurant.menu.RestaurantMenuScreen
+import com.sarang.torang.data.restaurant.Feed
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -48,6 +49,7 @@ fun RestaurantNavScreen(
     imageLoader: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _,_,_,_,_->  Log.w(tag, "image doesn't set") },
     map: @Composable (String, Double, Double, String) -> Unit = { _,_,_,_-> Log.w(tag, "map doesn't set") },
     onBack: (() -> Unit) = { Log.w(tag, "map doesn't set") },
+    feed: @Composable (Feed) -> Unit = { Log.w(tag, "feed doesn't set") },
     pullToRefreshLayout: @Composable (isRefreshing: Boolean, onRefresh: (() -> Unit), contents: @Composable () -> Unit) -> Unit = { _, _, contents -> Log.w("__RestaurantInfoScreen", "pullToRefreshLayout is null"); contents() }
 ) {
     val navController = rememberNavController()
@@ -96,7 +98,8 @@ fun RestaurantNavScreen(
                         onProfile = onProfile,
                         onContents = onContents,
                         onError = { coroutine.launch { snackbarHostState.showSnackbar(it) } },
-                        pullToRefreshLayout = pullToRefreshLayout
+                        pullToRefreshLayout = pullToRefreshLayout,
+                        feed = feed
                     )
                 }
                 composable("menu") {
