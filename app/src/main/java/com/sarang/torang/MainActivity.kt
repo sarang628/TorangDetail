@@ -18,10 +18,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.net.toUri
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sarang.torang.compose.feed.Feed
 import com.sarang.torang.compose.restaurant.RestaurantNavScreen
 import com.sarang.torang.compose.restaurant.detail.RestaurantDetailNavigationScreen
 import com.sarang.torang.compose.restaurant.detail.RestaurantInfo
+import com.sarang.torang.compose.restaurant.detail.RestaurantInfo_
 import com.sarang.torang.compose.restaurant.gallery.RestaurantGalleryScreen
 import com.sarang.torang.compose.restaurant.menu.RestaurantMenuColumn
 import com.sarang.torang.compose.restaurant.menu.RestaurantMenuScreen
@@ -33,6 +35,7 @@ import com.sarang.torang.data.restaurant.testRestaurantInfo1
 import com.sarang.torang.di.image.provideTorangAsyncImage
 import com.sarang.torang.di.image.provideTorangAsyncImage1
 import com.sryang.library.ExpandableText
+import com.sryang.library.compose.workflow.BestPracticeViewModel
 import com.sryang.torang.ui.TorangTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -53,21 +56,32 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Main() {
-    RestaurantNavScreenTest_() // 정보 탭, 메뉴 탭, 갤러리 탭, 리뷰 탭 내비게이션
+    //RestaurantNavScreenTest_() // 정보 탭, 메뉴 탭, 갤러리 탭, 리뷰 탭 내비게이션
     //RestaurantDetailNavigationScreen_() // 정보, 지도 내비게이션
-    //RestaurantInfo_() // 정보
+    //RestaurantInfoWithDummyData() // 정보 더미 데이터
+    //RestaurantInfoWithViewModel() // 정보 뷰모델
     //RestaurantGalleryScreen_()
     //PreviewRestaurantInfoScreen_()
     //RestaurantMenuScreen_()
     //PreviewRestaurantMenuColumn()
     //PreviewRestaurantMenuColumn1()
+    RestaurantInfoWithPermission(viewModel = BestPracticeViewModel())
 }
 
 @Composable
-fun RestaurantInfo_() {
+fun RestaurantInfoWithDummyData() {
     RestaurantInfo(
         modifier = Modifier.verticalScroll(rememberScrollState()),
         restaurantInfoData = testRestaurantInfo1(),
+        imageLoader = provideTorangAsyncImage()
+    )
+}
+
+@Composable
+fun RestaurantInfoWithViewModel() {
+    RestaurantInfo_(
+        modifier = Modifier.verticalScroll(rememberScrollState()),
+        restaurantId = 234,
         imageLoader = provideTorangAsyncImage()
     )
 }

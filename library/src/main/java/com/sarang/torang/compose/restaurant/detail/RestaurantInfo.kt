@@ -56,6 +56,8 @@ fun RestaurantInfo_(
     onWeb: (String) -> Unit = { Log.w(tag, "onWeb doesn't set") },
     onCall: (String) -> Unit = { Log.w(tag, "onCall doesn't set") },
     progressTintColor: Color? = null,
+    isLocationPermissionGranted : Boolean = false,
+    onRequestPermission: () -> Unit = { Log.w(tag, "onRequestPermission doesn't set") },
     imageLoader: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _, _, _, _, _ -> Log.w(tag, "imageLoader doesn't set") }
 ) {
     var restaurantInfoData by remember { mutableStateOf(RestaurantInfoData()) }
@@ -68,7 +70,7 @@ fun RestaurantInfo_(
         }
     }
 
-    RestaurantInfo(modifier, restaurantInfoData = restaurantInfoData, onLocation = onLocation, onWeb =  { onWeb.invoke(restaurantInfoData.webSite) }, onCall =  { onCall.invoke(restaurantInfoData.tel) }, progressTintColor = progressTintColor, imageLoader =  imageLoader)
+    RestaurantInfo(modifier, restaurantInfoData = restaurantInfoData, onLocation = onLocation, onWeb =  { onWeb.invoke(restaurantInfoData.webSite) }, onCall =  { onCall.invoke(restaurantInfoData.tel) }, progressTintColor = progressTintColor, imageLoader =  imageLoader, onRequestPermission = onRequestPermission)
 
 }
 
@@ -80,7 +82,9 @@ fun RestaurantInfo(
     onLocation: () -> Unit = { Log.w(tag, "onLocation doesn't set") },
     onWeb: () -> Unit = { Log.w(tag, "onWeb doesn't set") },
     onCall: () -> Unit = { Log.w(tag, "onCall doesn't set") },
+    onRequestPermission: () -> Unit = { Log.w(tag, "onRequestPermission doesn't set") },
     progressTintColor: Color? = null,
+    isLocationPermissionGranted : Boolean = false,
     imageLoader: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _, _, _, _, _ -> Log.w(tag, "imageLoader doesn't set") }
 ) {
     //@formatter:off
@@ -91,7 +95,7 @@ fun RestaurantInfo(
         }
         Row { // 음식점 종류, 거리, 가격
             IconButton({}){ Icon  (modifier = Modifier.size(50.dp).padding(10.dp), painter = painterResource(id = R.drawable.ic_info), contentDescription = "") }
-            Text  (modifier = Modifier.align(Alignment.CenterVertically), text = "${restaurantInfoData.foodType} ${restaurantInfoData.distance} ${restaurantInfoData.price}")
+            Text  (modifier = Modifier.align(Alignment.CenterVertically).clickable(onClick = onRequestPermission), text = "${restaurantInfoData.foodType} • ${if(isLocationPermissionGranted)restaurantInfoData.distance else "(위치 권한 필요.)"} • ${restaurantInfoData.price}")
         }
         HorizontalDivider()
         Row { // 주소

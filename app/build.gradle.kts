@@ -134,4 +134,5 @@ dependencies {
     implementation(libs.bottomdetectlazycolunm)
     implementation(libs.expandableText)
     implementation(libs.basefeed)
+    implementation ("com.google.accompanist:accompanist-permissions:0.29.1-alpha")
 }

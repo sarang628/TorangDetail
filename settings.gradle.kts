@@ -15,6 +15,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Restaurant"
+rootProject.name = "TorangDetail"
 include(":app")
 include(":library")

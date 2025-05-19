@@ -1,36 +1,23 @@
 # Restaurant Module
 
-## Convention
+음식점의 상세 화면 모듈
 
-### package
-<img src = "screenshot/package.png" />
+# 메뉴
+- 상세정보
+- 이미지 그리드
+- 메뉴 그리드
+- 리뷰 리스트
 
-### function
-- Restaurant + Nav +Screen
-- Restaurant + Gallery + Screen
-- Restaurant + BasicInfo + Screen
-- Restaurant + Reviews + Screen
-- Restaurant + Menu + Screen
+## 상세 정보
+RestaurantInfo
+제공 정보 
 
-## Case
+- 메인 사진
+- 음식점 명
+- 평점
+- 음식 종류
+- 내 위치로부터 거리
+- 웹사이트
+- 운영시간
+- 전화번호
 
-## Architecture
-
-### UI Layer
-
-#### UI element
-UI elements such as activities and fragments that display the data
-
-#### UI state
-The UI state is what the app says they should see.
-
-#### State holder(ViewModel)
-Responsible for the production of UI state and contain the necessary logic for that task
-
-## Illustrating cycle of event
-
-## UnitTest
-
-## What was difficult
-
-## Preview
