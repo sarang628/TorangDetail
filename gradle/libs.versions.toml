@@ -50,7 +50,7 @@ bottomDetectLazyColunmVersion = '8968918dca'
 chatVersion = 'ea29716da1'
 torangGridVersion = 'f31f7a31e6'
 expandableTextVersion = '547e79fc42'
-composePermissionTestVersion = 'be2b9647fc'
+composePermissionTestVersion = '5159bc3d34'
 featureDeliveryVersion = "2.1.0"
 serialization = "1.7.10"
 media3Exoplayer = "1.4.0"
@@ -59,6 +59,9 @@ appcompatVersion = "1.7.0"
 materialVersion = "1.12.0"
 activityVersion = "1.9.2"
 constraintlayoutVersion = "2.1.4"
+accompanist = "0.32.0"
+play-services-location = "21.1.0"
+coroutines = "1.7.3"
 
 # @formatter:off
 [libraries]
@@ -152,6 +155,10 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 material = { group = "com.google.android.material", name = "material", version.ref = "materialVersion" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activityVersion" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayoutVersion" }
+accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist" }
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "play-services-location" }
+kotlin-coroutines-play = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "coroutines" }
+androidx-work-runtime-ktx = "androidx.work:work-runtime-ktx:2.9.0"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

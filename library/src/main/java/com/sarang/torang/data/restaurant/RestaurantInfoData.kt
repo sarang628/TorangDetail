@@ -2,7 +2,6 @@ package com.sarang.torang.data.restaurant
 
 data class RestaurantInfoData(
     val foodType: String = "",
-    val distance: String = "",
     val open: String = "",
     val close: String = "",
     val address: String = "",
@@ -16,11 +15,30 @@ data class RestaurantInfoData(
     val reviewCount: Int = 0,
     val lat: Double = 0.0,
     val lon: Double = 0.0,
+    val myLatitude : Double? = null,
+    val myLongitude : Double? = null
 )
+
+val RestaurantInfoData.distanceM : Int? get() = calculateDistance(lat, lon, myLatitude, myLongitude)?.toInt()
+val RestaurantInfoData.distanceKm : Int? get() = calculateDistance(lat, lon, myLatitude, myLongitude)?.div(1000)?.toInt()
+val RestaurantInfoData.distance : String get() = if(distanceM == null) "" else if(distanceM!! < 1000) "${distanceM}m" else "${distanceKm}km"
+fun calculateDistance(
+    lat: Double,
+    lon: Double,
+    myLatitude: Double?,
+    myLongitude: Double?
+): Int? {
+    if (myLatitude == null || myLongitude == null) return null
+
+    var results = FloatArray(1)
+
+    android.location.Location.distanceBetween(myLatitude, myLongitude, lat, lon, results)
+
+    return results[0].toInt();
+}
 
 fun testRestaurantInfo(): RestaurantInfoData = RestaurantInfoData(
     foodType = "foodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodTypefoodType",
-    distance = "distancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistancedistance",
     open = "openopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopenopen",
     close = "closeclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclosecloseclose",
     address = "addressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddressaddress",
@@ -36,7 +54,6 @@ fun testRestaurantInfo(): RestaurantInfoData = RestaurantInfoData(
 
 fun testRestaurantInfo1(): RestaurantInfoData = RestaurantInfoData(
     foodType = "Korean",
-    distance = "250m",
     open = "open",
     close = "close",
     address = "300 Olympic-ro, Songpa District, Seoul",

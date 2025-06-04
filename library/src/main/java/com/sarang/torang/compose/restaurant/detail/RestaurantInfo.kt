@@ -42,6 +42,7 @@ import com.sarang.torang.R
 import com.sarang.torang.compose.restaurant.detail.components.AndroidViewRatingBar
 import com.sarang.torang.data.restaurant.HoursOfOperation
 import com.sarang.torang.data.restaurant.RestaurantInfoData
+import com.sarang.torang.data.restaurant.distance
 import com.sarang.torang.data.restaurant.toDayOfOperation
 import com.sarang.torang.data.restaurant.toHoursOfOperation
 import com.sarang.torang.viewmodels.RestaurantInfoViewModel
@@ -49,43 +50,71 @@ import com.sarang.torang.viewmodels.RestaurantInfoViewModel
 @Composable
 fun RestaurantInfo_(
     viewModel: RestaurantInfoViewModel = hiltViewModel(),
-    tag : String = "__RestaurantInfo",
+    tag: String = "__RestaurantInfo",
     restaurantId: Int,
+    currentLatitude: Double? = null,
+    currentLongitude: Double? = null,
     modifier: Modifier = Modifier,
     onLocation: () -> Unit = { Log.w(tag, "onLocation doesn't set") },
     onWeb: (String) -> Unit = { Log.w(tag, "onWeb doesn't set") },
     onCall: (String) -> Unit = { Log.w(tag, "onCall doesn't set") },
     progressTintColor: Color? = null,
-    isLocationPermissionGranted : Boolean = false,
+    isLocationPermissionGranted: Boolean = false,
     onRequestPermission: () -> Unit = { Log.w(tag, "onRequestPermission doesn't set") },
-    imageLoader: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _, _, _, _, _ -> Log.w(tag, "imageLoader doesn't set") }
+    imageLoader: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _, _, _, _, _ ->
+        Log.w(
+            tag,
+            "imageLoader doesn't set"
+        )
+    }
 ) {
-    var restaurantInfoData by remember { mutableStateOf(RestaurantInfoData()) }
+    var restaurantInfoData = viewModel.uiState
     LaunchedEffect(restaurantId) {
-        try{
-            val result = viewModel.fetchRestaurantInfo1(restaurantId)
-            restaurantInfoData = result
-        }catch (e : Exception){
+        try {
+            viewModel.fetchRestaurantInfo1(restaurantId)
+        } catch (e: Exception) {
             Log.e("__RestaurantInfo_", e.toString())
         }
     }
 
-    RestaurantInfo(modifier, restaurantInfoData = restaurantInfoData, onLocation = onLocation, onWeb =  { onWeb.invoke(restaurantInfoData.webSite) }, onCall =  { onCall.invoke(restaurantInfoData.tel) }, progressTintColor = progressTintColor, imageLoader =  imageLoader, onRequestPermission = onRequestPermission)
+    LaunchedEffect(currentLongitude) {
+        Log.d(tag, "${currentLatitude}, ${currentLongitude}")
+        if (currentLatitude != null && currentLongitude != null) {
+            viewModel.setCurrentLocation(currentLatitude, currentLongitude)
+        }
+    }
+
+    RestaurantInfo(
+        modifier,
+        restaurantInfoData = restaurantInfoData,
+        onLocation = onLocation,
+        onWeb = { onWeb.invoke(restaurantInfoData.webSite) },
+        onCall = { onCall.invoke(restaurantInfoData.tel) },
+        progressTintColor = progressTintColor,
+        imageLoader = imageLoader,
+        onRequestPermission = onRequestPermission,
+        isLocationPermissionGranted = isLocationPermissionGranted
+    )
 
 }
 
 @Composable
 fun RestaurantInfo(
     modifier: Modifier = Modifier,
-    tag : String = "__RestaurantInfo",
+    tag: String = "__RestaurantInfo",
     restaurantInfoData: RestaurantInfoData = RestaurantInfoData(),
     onLocation: () -> Unit = { Log.w(tag, "onLocation doesn't set") },
     onWeb: () -> Unit = { Log.w(tag, "onWeb doesn't set") },
     onCall: () -> Unit = { Log.w(tag, "onCall doesn't set") },
     onRequestPermission: () -> Unit = { Log.w(tag, "onRequestPermission doesn't set") },
     progressTintColor: Color? = null,
-    isLocationPermissionGranted : Boolean = false,
-    imageLoader: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _, _, _, _, _ -> Log.w(tag, "imageLoader doesn't set") }
+    isLocationPermissionGranted: Boolean = false,
+    imageLoader: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _, _, _, _, _ ->
+        Log.w(
+            tag,
+            "imageLoader doesn't set"
+        )
+    }
 ) {
     //@formatter:off
     Column(modifier = modifier) {
@@ -95,7 +124,8 @@ fun RestaurantInfo(
         }
         Row { // 음식점 종류, 거리, 가격
             IconButton({}){ Icon  (modifier = Modifier.size(50.dp).padding(10.dp), painter = painterResource(id = R.drawable.ic_info), contentDescription = "") }
-            Text  (modifier = Modifier.align(Alignment.CenterVertically).clickable(onClick = onRequestPermission), text = "${restaurantInfoData.foodType} • ${if(isLocationPermissionGranted)restaurantInfoData.distance else "(위치 권한 필요.)"} • ${restaurantInfoData.price}")
+            Text  (modifier = Modifier.align(Alignment.CenterVertically).clickable(onClick = onRequestPermission),
+                text = "${restaurantInfoData.foodType} • ${if(isLocationPermissionGranted)restaurantInfoData.distance else "(위치 권한 필요.)"} • ${restaurantInfoData.price}")
         }
         HorizontalDivider()
         Row { // 주소

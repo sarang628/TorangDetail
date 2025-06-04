@@ -1,10 +1,12 @@
 package com.sarang.torang
 
+import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresPermission
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
@@ -13,12 +15,17 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.net.toUri
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.android.gms.location.LocationServices
 import com.sarang.torang.compose.feed.Feed
 import com.sarang.torang.compose.restaurant.RestaurantNavScreen
 import com.sarang.torang.compose.restaurant.detail.RestaurantDetailNavigationScreen
@@ -34,10 +41,15 @@ import com.sarang.torang.data.restaurant.testMenuData
 import com.sarang.torang.data.restaurant.testRestaurantInfo1
 import com.sarang.torang.di.image.provideTorangAsyncImage
 import com.sarang.torang.di.image.provideTorangAsyncImage1
+import com.sarang.torang.di.restaurant_detail.RestaurantInfoWithPermission
+import com.sarang.torang.di.restaurant_detail.RestaurantInfoWithPermissionWithLocation
 import com.sryang.library.ExpandableText
 import com.sryang.library.compose.workflow.BestPracticeViewModel
 import com.sryang.torang.ui.TorangTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 @AndroidEntryPoint
 //@formatter:off
@@ -54,6 +66,7 @@ class MainActivity : ComponentActivity() {
 }
 //@formatter:on
 
+@RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
 @Composable
 fun Main() {
     //RestaurantNavScreenTest_() // 정보 탭, 메뉴 탭, 갤러리 탭, 리뷰 탭 내비게이션
@@ -65,7 +78,15 @@ fun Main() {
     //RestaurantMenuScreen_()
     //PreviewRestaurantMenuColumn()
     //PreviewRestaurantMenuColumn1()
-    RestaurantInfoWithPermission(viewModel = BestPracticeViewModel())
+    RestaurantInfoWithPermissionWithLocationTest()
+}
+
+@RequiresPermission(
+    anyOf = [Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION],
+)
+@Composable
+fun RestaurantInfoWithPermissionWithLocationTest() {
+    RestaurantInfoWithPermissionWithLocation()
 }
 
 @Composable
@@ -180,8 +201,18 @@ fun PreviewRestaurantMenuColumn1() {
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewFeed(){
-    Box{
-        Feed(review = Review.empty().copy(user = User.empty().copy(name = "sryang", profilePictureUrl = "http://sarang628.iptime.org:89/profile_images/9/2024-08-15/11_29_36_270.jpg"), rating = 4.0f, reviewImages = listOf("http://sarang628.iptime.org:89/review_images/1/217/2024-08-24/05_17_33_823.jpg"), contents = "abc"), imageLoadCompose = provideTorangAsyncImage1())
+fun PreviewFeed() {
+    Box {
+        Feed(
+            review = Review.empty().copy(
+                user = User.empty().copy(
+                    name = "sryang",
+                    profilePictureUrl = "http://sarang628.iptime.org:89/profile_images/9/2024-08-15/11_29_36_270.jpg"
+                ),
+                rating = 4.0f,
+                reviewImages = listOf("http://sarang628.iptime.org:89/review_images/1/217/2024-08-24/05_17_33_823.jpg"),
+                contents = "abc"
+            ), imageLoadCompose = provideTorangAsyncImage1()
+        )
     }
 }

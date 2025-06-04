@@ -14,7 +14,6 @@ import com.sarang.torang.data.remote.response.FeedApiModel
 fun RestaurantDetail.toRestaurantInfoData(): RestaurantInfoData {
     return RestaurantInfoData(
         foodType = this.restaurant.restaurantType,
-        distance = "100m",
         open = "영업 중",
         close = "오후 9:00에 영업 종료",
         address = this.restaurant.address,
