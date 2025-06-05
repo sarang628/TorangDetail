@@ -18,6 +18,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.sarang.torang.compose.restaurant.LocalImageLoader
+import com.sarang.torang.compose.restaurant.LocalPullToRefresh
+import com.sarang.torang.compose.restaurant.PullToRefresh
 import com.sarang.torang.data.restaurant.RestaurantImage
 import com.sarang.torang.data.restaurant.testRestaurantImage
 import com.sarang.torang.viewmodels.RestaurantGalleryViewModel
@@ -31,9 +34,7 @@ fun RestaurantGalleryScreen(
     tag : String = "__RestaurantGalleryScreen",
     viewModel: RestaurantGalleryViewModel = hiltViewModel(),
     restaurantId: Int,
-    image: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _,_,_,_,_->  Log.w(tag, "image doesn't set") },
     onImage: (Int) -> Unit = { Log.w(tag, "onImage doesn't set") },
-    pullToRefreshLayout: @Composable (isRefreshing: Boolean, onRefresh: (() -> Unit), contents: @Composable (() -> Unit)) -> Unit = { _, _, _ -> Log.w(tag, "pullToRefreshLayout doesn't set") }
 ) {
     val uiState = viewModel.uiState
     val coroutine = rememberCoroutineScope()
@@ -49,7 +50,7 @@ fun RestaurantGalleryScreen(
                 viewModel.loadImage(restaurantId)
                 //state.updateState(RefreshIndicatorState.Default)
             }
-        }, image = image, onImage = onImage, pullToRefreshLayout = pullToRefreshLayout
+        }, onImage = onImage
     )
 }
 
@@ -60,11 +61,9 @@ fun _RestaurantGalleryScreen(
     tag : String = "__RestaurantGalleryScreen",
     list: List<RestaurantImage>,
     onRefresh: () -> Unit = { Log.w(tag, "onRefresh doesn't set") },
-    onImage: (Int) -> Unit = { Log.w(tag, "onImage doesn't set") },
-    image: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _,_,_,_,_->  Log.w(tag, "image doesn't set") },
-    pullToRefreshLayout: @Composable (isRefreshing: Boolean, onRefresh: (() -> Unit), contents: @Composable (() -> Unit)) -> Unit = { _, _, _ -> Log.w(tag, "pullToRefreshLayout doesn't set") }
+    onImage: (Int) -> Unit = { Log.w(tag, "onImage doesn't set") }
 ) {
-    pullToRefreshLayout.invoke(
+    LocalPullToRefresh.current.invoke(
         false,
         { onRefresh.invoke() },
     ) {
@@ -74,7 +73,7 @@ fun _RestaurantGalleryScreen(
             horizontalArrangement = Arrangement.spacedBy(4.dp),
             columns = StaggeredGridCells.Adaptive(200.dp), content = {
                 items(list.size) {
-                    image?.invoke(
+                    LocalImageLoader.current.invoke(
                         Modifier
                             .fillMaxSize()
                             .wrapContentSize()

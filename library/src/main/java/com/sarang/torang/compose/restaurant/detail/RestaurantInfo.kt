@@ -22,10 +22,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,11 +30,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.sarang.torang.R
+import com.sarang.torang.compose.restaurant.LocalImageLoader
 import com.sarang.torang.compose.restaurant.detail.components.AndroidViewRatingBar
 import com.sarang.torang.data.restaurant.HoursOfOperation
 import com.sarang.torang.data.restaurant.RestaurantInfoData
@@ -61,12 +57,6 @@ fun RestaurantInfo_(
     progressTintColor: Color? = null,
     isLocationPermissionGranted: Boolean = false,
     onRequestPermission: () -> Unit = { Log.w(tag, "onRequestPermission doesn't set") },
-    imageLoader: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _, _, _, _, _ ->
-        Log.w(
-            tag,
-            "imageLoader doesn't set"
-        )
-    }
 ) {
     var restaurantInfoData = viewModel.uiState
     LaunchedEffect(restaurantId) {
@@ -78,7 +68,6 @@ fun RestaurantInfo_(
     }
 
     LaunchedEffect(currentLongitude) {
-        Log.d(tag, "${currentLatitude}, ${currentLongitude}")
         if (currentLatitude != null && currentLongitude != null) {
             viewModel.setCurrentLocation(currentLatitude, currentLongitude)
         }
@@ -91,7 +80,6 @@ fun RestaurantInfo_(
         onWeb = { onWeb.invoke(restaurantInfoData.webSite) },
         onCall = { onCall.invoke(restaurantInfoData.tel) },
         progressTintColor = progressTintColor,
-        imageLoader = imageLoader,
         onRequestPermission = onRequestPermission,
         isLocationPermissionGranted = isLocationPermissionGranted
     )
@@ -109,17 +97,11 @@ fun RestaurantInfo(
     onRequestPermission: () -> Unit = { Log.w(tag, "onRequestPermission doesn't set") },
     progressTintColor: Color? = null,
     isLocationPermissionGranted: Boolean = false,
-    imageLoader: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _, _, _, _, _ ->
-        Log.w(
-            tag,
-            "imageLoader doesn't set"
-        )
-    }
 ) {
     //@formatter:off
     Column(modifier = modifier) {
         Box (modifier = Modifier.fillMaxWidth().height(300.dp)){ // 음식점명 + 평점 박스
-            imageLoader.invoke  (Modifier.fillMaxSize(), restaurantInfoData.imageUrl, null, null, ContentScale.Crop)
+            LocalImageLoader.current.invoke(Modifier.fillMaxSize(), restaurantInfoData.imageUrl, null, null, ContentScale.Crop)
             RestaurantTitleAndRating  (modifier = Modifier.align(Alignment.BottomEnd), restaurantName = restaurantInfoData.name, rating = restaurantInfoData.rating, reviewCount = restaurantInfoData.reviewCount, progressTintColor = progressTintColor)
         }
         Row { // 음식점 종류, 거리, 가격
@@ -161,45 +143,14 @@ fun RestaurantInfo(
 
 
 @Composable
-fun RestaurantTitleAndRating(
-    modifier: Modifier = Modifier,
-    restaurantName: String = "",
-    rating: Float = 0f,
-    reviewCount: Int = 0,
-    progressTintColor: Color? = null,
-) {
-    Box(
-        modifier
-            .padding(8.dp)
-            .clip(RoundedCornerShape(8.dp))
-    ) {
-        Column(
-            Modifier
-                .background(Color(0x55000000))
-                .padding(8.dp),
-            horizontalAlignment = Alignment.End
-        ) {
-            Text(
-                text = restaurantName,
-                maxLines = 1,
-                fontSize = 25.sp,
-                color = Color.White,
-                fontWeight = FontWeight.Bold
-            )
+fun RestaurantTitleAndRating(modifier: Modifier = Modifier, restaurantName: String = "", rating: Float = 0f, reviewCount: Int = 0, progressTintColor: Color? = null, ) {
+    Box(modifier.padding(8.dp).clip(RoundedCornerShape(8.dp))) {
+        Column(Modifier.background(Color(0x55000000)).padding(8.dp), horizontalAlignment = Alignment.End) {
+            Text(text = restaurantName, maxLines = 1, fontSize = 25.sp, color = Color.White, fontWeight = FontWeight.Bold)
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    text = rating.toString(),
-                    fontSize = 25.sp,
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold
-                )
+                Text(text = rating.toString(), fontSize = 25.sp, color = Color.White, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.width(5.dp))
-                AndroidViewRatingBar(
-                    rating = rating,
-                    progressTintColor = progressTintColor,
-                    changable = false,
-                    isSmall = true
-                )
+                AndroidViewRatingBar(rating = rating, progressTintColor = progressTintColor, changable = false, isSmall = true)
                 Spacer(modifier = Modifier.width(5.dp))
                 Text(text = "(${reviewCount})", color = Color.White)
             }

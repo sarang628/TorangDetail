@@ -1,7 +1,6 @@
 package com.sarang.torang.di.restaurant_detail
 
 import android.Manifest
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -22,7 +21,6 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.shouldShowRationale
 import com.google.android.gms.location.LocationServices
 import com.sarang.torang.compose.restaurant.detail.RestaurantInfo_
-import com.sarang.torang.di.image.provideTorangAsyncImage
 import com.sryang.library.compose.workflow.BestPracticeViewModel
 import com.sryang.library.compose.workflow.MoveSystemSettingDialog
 import com.sryang.library.compose.workflow.PermissonWorkFlow.CheckRationale
@@ -45,9 +43,9 @@ fun RestaurantInfoWithPermission(
     permission : String = Manifest.permission.ACCESS_FINE_LOCATION,
     onRequestLocation : ()->Unit = {},
     currentLatitude : Double? = null,
-    currentLongitude : Double? = null
+    currentLongitude : Double? = null,
+    restaurantId : Int
 ){
-    val tag = "__RestaurantInfoWithPermission"
     var timeDiff : Long by remember { mutableLongStateOf(0L) } // 2번 권한 거부 시 시스템 이동 다이얼로그를 띄우는 조건
     val requestPermission = rememberPermissionState(permission, { viewModel.permissionResult(it, System.currentTimeMillis() - timeDiff) })
     val state = viewModel.state
@@ -68,8 +66,7 @@ fun RestaurantInfoWithPermission(
             modifier = Modifier.verticalScroll(rememberScrollState()),
             currentLongitude = currentLongitude,
             currentLatitude = currentLatitude,
-            restaurantId = 234,
-            imageLoader = provideTorangAsyncImage(),
+            restaurantId = restaurantId,
             isLocationPermissionGranted = requestPermission.status.isGranted,
             onRequestPermission = { viewModel.request() },
         )
@@ -77,7 +74,7 @@ fun RestaurantInfoWithPermission(
 }
 
 @Composable
-fun RestaurantInfoWithPermissionWithLocation() {
+fun RestaurantInfoWithPermissionWithLocation(restaurantId : Int) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val locationClient = remember { LocationServices.getFusedLocationProviderClient(context) }
@@ -97,5 +94,5 @@ fun RestaurantInfoWithPermissionWithLocation() {
             currentLatitude = result.latitude
             currentLongitude = result.longitude
         }
-    }, currentLatitude = currentLatitude, currentLongitude = currentLongitude)
+    }, currentLatitude = currentLatitude, currentLongitude = currentLongitude, restaurantId = restaurantId)
 }

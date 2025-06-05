@@ -35,6 +35,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.sarang.torang.compose.restaurant.LocalImageLoader
+import com.sarang.torang.compose.restaurant.LocalPullToRefresh
 import com.sarang.torang.data.restaurant.MenuData
 import com.sarang.torang.data.restaurant.testMenuData
 import com.sarang.torang.viewmodels.RestaurantMenuViewModel
@@ -47,8 +49,6 @@ fun RestaurantMenuScreen(
     restaurantId: Int,
     progressTintColor: Color? = null,
     columnCount: Int = 1,
-    imageLoader: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _, _, _, _, _ -> },
-    pullToRefreshLayout: @Composable (isRefreshing: Boolean, onRefresh: (() -> Unit), contents: @Composable (() -> Unit)) -> Unit = { _, _, _ -> }
 ) {
     val coroutine = rememberCoroutineScope()
     LaunchedEffect(key1 = restaurantId, block = {
@@ -56,7 +56,7 @@ fun RestaurantMenuScreen(
     })
     val uiState = viewModel.uiState
     val state = rememberPullToRefreshState()
-    pullToRefreshLayout.invoke(
+    LocalPullToRefresh.current.invoke(
         false,
         {
             coroutine.launch {
@@ -67,7 +67,6 @@ fun RestaurantMenuScreen(
         RestaurantMenu(
             list = uiState,
             progressTintColor = progressTintColor,
-            imageLoader = imageLoader,
             columnCount = columnCount
         )
     }
@@ -78,8 +77,7 @@ fun RestaurantMenu(
     list: List<MenuData>,
     progressTintColor: Color? = null,
     columnCount: Int = 1,
-    isSmallMenuItem: Boolean = false,
-    imageLoader: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _, _, _, _, _ -> }
+    isSmallMenuItem: Boolean = false
 ) {
     LazyVerticalGrid(columns = GridCells.Fixed(columnCount), content = {
         items(list.size) {
@@ -87,14 +85,12 @@ fun RestaurantMenu(
             if (!isSmallMenuItem) {
                 MenuItem(
                     menu = menu,
-                    progressTintColor = progressTintColor,
-                    imageLoader = imageLoader
+                    progressTintColor = progressTintColor
                 )
             } else {
                 SmallMenuItem(
                     menu = menu,
-                    progressTintColor = progressTintColor,
-                    imageLoader = imageLoader
+                    progressTintColor = progressTintColor
                 )
             }
         }
@@ -108,7 +104,6 @@ fun RestaurantMenuColumn(
     progressTintColor: Color? = null,
     columnCount: Int = 1,
     isSmallMenuItem: Boolean = false,
-    imageLoader: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _, _, _, _, _ -> }
 ) {
     Column(modifier) {
         menus.chunked(columnCount).forEach { rowItems ->
@@ -121,14 +116,12 @@ fun RestaurantMenuColumn(
                         SmallMenuItem(
                             menu = menu,
                             progressTintColor = progressTintColor,
-                            modifier = Modifier.weight(1f),
-                            imageLoader = imageLoader
+                            modifier = Modifier.weight(1f)
                         )
                     } else {
                         MenuItem(
                             menu = menu,
                             progressTintColor = progressTintColor,
-                            imageLoader = imageLoader
                         )
                     }
                 }
@@ -146,7 +139,6 @@ fun MenuItem(
     modifier: Modifier = Modifier,
     menu: MenuData,
     progressTintColor: Color? = null,
-    imageLoader: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _, _, _, _, _ -> }
 ) {
     Box(
         modifier = modifier
@@ -154,7 +146,7 @@ fun MenuItem(
             .fillMaxWidth()
             .padding(start = 2.dp, end = 2.dp, top = 2.dp, bottom = 2.dp)
     ) {
-        imageLoader.invoke(Modifier.fillMaxSize(), menu.url, null, null, ContentScale.Crop)
+        LocalImageLoader.current.invoke(Modifier.fillMaxSize(), menu.url, null, null, ContentScale.Crop)
 
         Box(
             Modifier
@@ -182,8 +174,7 @@ fun MenuItem(
 fun SmallMenuItem(
     modifier: Modifier = Modifier,
     menu: MenuData,
-    progressTintColor: Color? = null,
-    imageLoader: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _, _, _, _, _ -> }
+    progressTintColor: Color? = null
 ) {
     Box(
         modifier = modifier
@@ -191,7 +182,7 @@ fun SmallMenuItem(
             .fillMaxWidth()
             .padding(start = 2.dp, end = 2.dp, top = 2.dp, bottom = 2.dp)
     ) {
-        imageLoader.invoke(Modifier.fillMaxSize(), menu.url, 20.dp, 20.dp, ContentScale.Crop)
+        LocalImageLoader.current.invoke(Modifier.fillMaxSize(), menu.url, 20.dp, 20.dp, ContentScale.Crop)
         Box(
             Modifier
                 .align(Alignment.BottomStart)
@@ -228,7 +219,7 @@ fun PreviewSmallMenuItem() {
 
 @Preview
 @Composable
-fun PreviewRestaurantMenuColumn(modifier : Modifier = Modifier, imageLoader: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _, _, _, _, _ -> }) {
+fun PreviewRestaurantMenuColumn(modifier : Modifier = Modifier) {
     RestaurantMenuColumn(
         //@formatter:off
         modifier = modifier,
@@ -251,7 +242,6 @@ fun PreviewRestaurantMenuColumn(modifier : Modifier = Modifier, imageLoader: @Co
         ),
         columnCount = 3,
         isSmallMenuItem = true,
-        imageLoader = imageLoader
         //@formatter:on
     )
 }

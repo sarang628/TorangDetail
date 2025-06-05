@@ -2,6 +2,7 @@ package com.sarang.torang.compose.restaurant
 
 import android.util.Log
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -22,16 +23,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.sarang.torang.compose.restaurant.gallery.RestaurantGalleryScreen
 import com.sarang.torang.compose.restaurant.detail.RestaurantDetailNavigationScreen
+import com.sarang.torang.compose.restaurant.gallery.RestaurantGalleryScreen
 import com.sarang.torang.compose.restaurant.menu.RestaurantMenuScreen
 import com.sarang.torang.data.restaurant.Feed
 import com.sarang.torang.viewmodels.RestaurantNavViewModel
@@ -43,94 +42,49 @@ fun RestaurantNavScreen(
     viewmodel: RestaurantNavViewModel = hiltViewModel(),
     tag : String = "__RestaurantNavScreen",
     restaurantId: Int,
+    progressTintColor: Color? = null,
     onWeb: (String) -> Unit = { { Log.w(tag, "onWeb doesn't set") } },
     onCall: (String) -> Unit = { { Log.w(tag, "onCall doesn't set") } },
     onImage: (Int) -> Unit = { { Log.w(tag, "onImage doesn't set") } },
-    feeds: @Composable (Int, Modifier) -> Unit = {_,_-> { Log.w(tag, "feeds doesn't set") } },
-    progressTintColor: Color? = null,
     onProfile: (Int) -> Unit = { { Log.w(tag, "onProfile doesn't set") } },
     onContents: (Int) -> Unit = { { Log.w(tag, "onContents doesn't set") } },
-    imageLoader: @Composable (Modifier, String, Dp?, Dp?, ContentScale?) -> Unit = { _,_,_,_,_->  Log.w(tag, "image doesn't set") },
+    onBack: (() -> Unit) = { Log.w(tag, "onBack doesn't set") },
     map: @Composable (String, Double, Double, String) -> Unit = { _,_,_,_-> Log.w(tag, "map doesn't set") },
-    onBack: (() -> Unit) = { Log.w(tag, "map doesn't set") },
     feed: @Composable (Feed) -> Unit = { Log.w(tag, "feed doesn't set") },
-    pullToRefreshLayout: @Composable (isRefreshing: Boolean, onRefresh: (() -> Unit), contents: @Composable () -> Unit) -> Unit = { _, _, contents -> Log.w("__RestaurantInfoScreen", "pullToRefreshLayout is null"); contents() }
+    feeds: @Composable (Int, Modifier) -> Unit = {_,_-> { Log.w(tag, "feeds doesn't set") } },
+    restaurantInfo: @Composable (Int) -> Unit = { Log.w(tag, "restaurantInfo doesn't set") }
 ) {
     val navController = rememberNavController()
-    val snackbarHostState = remember { SnackbarHostState() }
+    val snackBarHostState = remember { SnackbarHostState() }
     val coroutine = rememberCoroutineScope()
-    val scrollBehavior =
-        TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     val restaurantName = viewmodel.restaurantName
 
-    LaunchedEffect(restaurantId) {
-        viewmodel.fetch(restaurantId)
-    }
+    LaunchedEffect(restaurantId) { viewmodel.fetch(restaurantId) }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Default.ArrowBack,
-                            contentDescription = ""
-                        )
-                    }
-                },
-                title = {
-                    Text(
-                        text = restaurantName,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp
-                    )
-                }, scrollBehavior = scrollBehavior
+                navigationIcon = { IconButton(onClick = onBack) { Icon(imageVector = Icons.AutoMirrored.Default.ArrowBack, contentDescription = "") } },
+                title = { Text(text = restaurantName, fontWeight = FontWeight.Bold, fontSize = 20.sp) },
+                scrollBehavior = scrollBehavior
             )
         },
-        snackbarHost = {
-            SnackbarHost(snackbarHostState)
-        }) { paddingValues ->
+        snackbarHost = { SnackbarHost(snackBarHostState) }) { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues = paddingValues)) {
             RestaurntTopMenu(navController)
             NavHost(navController = navController, startDestination = "info") {
                 composable("info") {
-                    RestaurantDetailNavigationScreen(
-                        restaurantId = restaurantId,
-                        onWeb = onWeb,
-                        onCall = { onCall.invoke(it) },
-                        map = map,
-                        imageLoader = imageLoader,
-                        onImage = onImage,
-                        scrollBehavior = scrollBehavior,
-                        progressTintColor = progressTintColor,
-                        onProfile = onProfile,
-                        onContents = onContents,
-                        onError = { coroutine.launch { snackbarHostState.showSnackbar(it) } },
-                        pullToRefreshLayout = pullToRefreshLayout,
-                        feed = feed
-                    )
+                    RestaurantDetailNavigationScreen(restaurantId = restaurantId, onWeb = onWeb, onCall = { onCall.invoke(it) }, map = map, onImage = onImage, scrollBehavior = scrollBehavior, progressTintColor = progressTintColor, onProfile = onProfile, onContents = onContents, onError = { coroutine.launch { snackBarHostState.showSnackbar(it) } }, feed = feed, restaurantInfo = restaurantInfo)
                 }
                 composable("menu") {
-                    RestaurantMenuScreen(
-                        restaurantId = restaurantId,
-                        progressTintColor = progressTintColor,
-                        imageLoader = imageLoader,
-                        pullToRefreshLayout = pullToRefreshLayout
-                    )
+                    RestaurantMenuScreen(restaurantId = restaurantId, progressTintColor = progressTintColor)
                 }
                 composable("review") {
-                    feeds.invoke(
-                        restaurantId,
-                        Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                    )
+                    feeds.invoke(restaurantId, Modifier.nestedScroll(scrollBehavior.nestedScrollConnection))
                 }
                 composable("gallery") {
-                    RestaurantGalleryScreen(
-                        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-                        restaurantId = restaurantId,
-                        image = imageLoader,
-                        onImage = { onImage.invoke(it) },
-                        pullToRefreshLayout = pullToRefreshLayout)
+                    RestaurantGalleryScreen(modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection), restaurantId = restaurantId, onImage = { onImage.invoke(it) })
                 }
             }
         }
