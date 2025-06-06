@@ -38,17 +38,11 @@ fun RestaurantNavScreen(
     tag : String = "__RestaurantNavScreen",
     restaurantId: Int,
     progressTintColor: Color? = null,
-    onWeb: (String) -> Unit = { { Log.w(tag, "onWeb doesn't set") } },
-    onCall: (String) -> Unit = { { Log.w(tag, "onCall doesn't set") } },
     onImage: (Int) -> Unit = { { Log.w(tag, "onImage doesn't set") } },
-    onProfile: (Int) -> Unit = { { Log.w(tag, "onProfile doesn't set") } },
-    onContents: (Int) -> Unit = { { Log.w(tag, "onContents doesn't set") } },
     onBack: (() -> Unit) = { Log.w(tag, "onBack doesn't set") },
-    feeds: @Composable (Int, Modifier) -> Unit = {_,_-> { Log.w(tag, "feeds doesn't set") } }
 ) {
     val navController = rememberNavController()
     val snackBarHostState = remember { SnackbarHostState() }
-    val coroutine = rememberCoroutineScope()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     val restaurantName = viewmodel.restaurantName
 
@@ -67,13 +61,13 @@ fun RestaurantNavScreen(
             RestaurntTopMenu(navController)
             NavHost(navController = navController, startDestination = "info") {
                 composable("info") {
-                    //RestaurantDetailNavigationScreen(restaurantId = restaurantId, onWeb = onWeb, onCall = { onCall.invoke(it) }, map = map, onImage = onImage, scrollBehavior = scrollBehavior, progressTintColor = progressTintColor, onProfile = onProfile, onContents = onContents, onError = { coroutine.launch { snackBarHostState.showSnackbar(it) } }, feed = feed)
+                    LocalRestaurantInfo.current.invoke()
                 }
                 composable("menu") {
                     RestaurantMenuScreen(restaurantId = restaurantId, progressTintColor = progressTintColor)
                 }
                 composable("review") {
-                    feeds.invoke(restaurantId, Modifier.nestedScroll(scrollBehavior.nestedScrollConnection))
+                    LocalFeeds.current.invoke(restaurantId, Modifier.nestedScroll(scrollBehavior.nestedScrollConnection))
                 }
                 composable("gallery") {
                     RestaurantGalleryScreen(modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection), restaurantId = restaurantId, onImage = { onImage.invoke(it) })

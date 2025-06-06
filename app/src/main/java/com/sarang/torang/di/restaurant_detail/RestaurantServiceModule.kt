@@ -9,6 +9,7 @@ import com.sarang.torang.data.restaurant.MenuData
 import com.sarang.torang.data.restaurant.RestaurantImage
 import com.sarang.torang.repository.RestaurantRepository
 import com.sarang.torang.usecase.FetchReviewsUseCase
+import com.sarang.torang.usecase.FindRestaurantNameByRestaurantIdUseCase
 import com.sarang.torang.usecase.GetMenuUseCase
 import com.sarang.torang.usecase.GetRestaurantGalleryUseCase
 import dagger.Module
@@ -50,6 +51,15 @@ class RestaurantServiceModule {
         return object : GetMenuUseCase {
             override suspend fun invoke(restaurantId: Int): List<MenuData> {
                 return apiRestaurant.getRestaurantDetail(restaurantId).toMenus()
+            }
+        }
+    }
+
+    @Provides
+    fun provideFindRestaurantNameByRestaurantId(apiRestaurant: ApiRestaurant): FindRestaurantNameByRestaurantIdUseCase {
+        return object : FindRestaurantNameByRestaurantIdUseCase {
+            override suspend fun invoke(restaurantId: Int): String {
+                return apiRestaurant.getRestaurantById(restaurantId).restaurantName
             }
         }
     }

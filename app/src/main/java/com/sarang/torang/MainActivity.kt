@@ -1,9 +1,7 @@
 package com.sarang.torang
 
 import android.Manifest
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresPermission
@@ -18,8 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.core.net.toUri
 import com.sarang.torang.compose.feed.Feed
+import com.sarang.torang.compose.restaurant.LocalFeeds
 import com.sarang.torang.compose.restaurant.LocalImageLoader
 import com.sarang.torang.compose.restaurant.LocalPullToRefresh
 import com.sarang.torang.compose.restaurant.PullToRefresh
@@ -32,6 +30,7 @@ import com.sarang.torang.data.basefeed.User
 import com.sarang.torang.data.restaurant.testMenuData
 import com.sarang.torang.di.image.customImageLoader
 import com.sarang.torang.di.image.provideTorangAsyncImage1
+import com.sarang.torang.di.restaurant_detail.provideFeeds
 import com.sryang.torang.ui.TorangTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -53,8 +52,10 @@ class MainActivity : ComponentActivity() {
 @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
 @Composable
 fun Main() {
-    CompositionLocalProvider(LocalImageLoader provides customImageLoader, LocalPullToRefresh provides customPullToRefresh) {
-        RestaurantNavScreenTest_(restaurantId = 234) // 정보 탭, 메뉴 탭, 갤러리 탭, 리뷰 탭 내비게이션
+    CompositionLocalProvider(LocalImageLoader provides customImageLoader, LocalPullToRefresh provides customPullToRefresh,
+        LocalFeeds provides provideFeeds
+    ) {
+        RestaurantNavScreenTest(restaurantId = 234) // 정보 탭, 메뉴 탭, 갤러리 탭, 리뷰 탭 내비게이션
 //        RestaurantDetailNavigationScreen_(restaurantId = 234) // 정보, 지도 내비게이션
 //        RestaurantGalleryScreen_(restaurantId = 234)
 //        RestaurantMenuScreen_(restaurantId = 234)
@@ -77,29 +78,15 @@ fun RestaurantMenuScreen_(restaurantId: Int = 234) {
     RestaurantMenuScreen(restaurantId = restaurantId, columnCount = 3)
 }
 
-@Composable
-fun RestaurantNavScreenTest_(restaurantId : Int = 12) {
-    val context = LocalContext.current
-    RestaurantNavScreenTest(
-        restaurantId = restaurantId,
-        onCall = { context.startActivity(Intent(Intent.ACTION_DIAL).apply { setData("tel:$it".toUri()) }) },
-        progressTintColor = Color.Yellow
-    )
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RestaurantNavScreenTest(restaurantId : Int = 12, onCall: ((String) -> Unit)? = null, progressTintColor: Color? = null) {
+fun RestaurantNavScreenTest(restaurantId : Int = 12, progressTintColor: Color? = null) {
     val context = LocalContext.current
 
     RestaurantNavScreen(
         restaurantId = restaurantId,
         progressTintColor = progressTintColor,
-        feeds = { reviewId, modifier -> Box {} },
-        onCall = {
-            Toast.makeText(context, "call:${it}", Toast.LENGTH_SHORT).show()
-            onCall?.invoke(it)
-        }
     )
 
 }
