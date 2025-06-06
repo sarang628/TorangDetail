@@ -58,11 +58,15 @@ fun RestaurantMenuScreen(
                 //state.updateState(RefreshIndicatorState.Default)
             }
         }) {
-        RestaurantMenu(
-            list = uiState,
-            progressTintColor = progressTintColor,
-            columnCount = columnCount
-        )
+        if (uiState.isNotEmpty()) {
+            RestaurantMenu(
+                list = uiState,
+                progressTintColor = progressTintColor,
+                columnCount = columnCount
+            )
+        } else {
+            Text("등록된 메뉴가 없습니다.")
+        }
     }
 }
 
@@ -140,7 +144,13 @@ fun MenuItem(
             .fillMaxWidth()
             .padding(start = 2.dp, end = 2.dp, top = 2.dp, bottom = 2.dp)
     ) {
-        LocalImageLoader.current.invoke(Modifier.fillMaxSize(), menu.url, null, null, ContentScale.Crop)
+        LocalImageLoader.current.invoke(
+            Modifier.fillMaxSize(),
+            menu.url,
+            null,
+            null,
+            ContentScale.Crop
+        )
 
         Box(
             Modifier
@@ -176,7 +186,13 @@ fun SmallMenuItem(
             .fillMaxWidth()
             .padding(start = 2.dp, end = 2.dp, top = 2.dp, bottom = 2.dp)
     ) {
-        LocalImageLoader.current.invoke(Modifier.fillMaxSize(), menu.url, 20.dp, 20.dp, ContentScale.Crop)
+        LocalImageLoader.current.invoke(
+            Modifier.fillMaxSize(),
+            menu.url,
+            20.dp,
+            20.dp,
+            ContentScale.Crop
+        )
         Box(
             Modifier
                 .align(Alignment.BottomStart)
@@ -213,7 +229,7 @@ fun PreviewSmallMenuItem() {
 
 @Preview
 @Composable
-fun PreviewRestaurantMenuColumn(modifier : Modifier = Modifier) {
+fun PreviewRestaurantMenuColumn(modifier: Modifier = Modifier) {
     RestaurantMenuColumn(
         //@formatter:off
         modifier = modifier,
