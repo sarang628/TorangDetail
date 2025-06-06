@@ -1,4 +1,4 @@
-package com.sarang.torang.viewmodels
+package com.sarang.torang.compose.restaurant.menu
 
 import android.util.Log
 import androidx.compose.runtime.getValue

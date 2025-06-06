@@ -23,7 +23,7 @@ import com.sarang.torang.compose.restaurant.LocalPullToRefresh
 import com.sarang.torang.compose.restaurant.PullToRefresh
 import com.sarang.torang.data.restaurant.RestaurantImage
 import com.sarang.torang.data.restaurant.testRestaurantImage
-import com.sarang.torang.viewmodels.RestaurantGalleryViewModel
+import com.sarang.torang.compose.restaurant.gallery.RestaurantGalleryViewModel
 import kotlinx.coroutines.launch
 
 

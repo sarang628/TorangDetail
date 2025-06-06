@@ -8,10 +8,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresPermission
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -27,22 +24,14 @@ import com.sarang.torang.compose.restaurant.LocalImageLoader
 import com.sarang.torang.compose.restaurant.LocalPullToRefresh
 import com.sarang.torang.compose.restaurant.PullToRefresh
 import com.sarang.torang.compose.restaurant.RestaurantNavScreen
-import com.sarang.torang.compose.restaurant.detail.RestaurantDetailNavigationScreen
-import com.sarang.torang.compose.restaurant.detail.RestaurantDetailScreen
-import com.sarang.torang.compose.restaurant.detail.RestaurantInfo
-import com.sarang.torang.compose.restaurant.detail.RestaurantInfo_
 import com.sarang.torang.compose.restaurant.gallery.RestaurantGalleryScreen
 import com.sarang.torang.compose.restaurant.menu.RestaurantMenuColumn
 import com.sarang.torang.compose.restaurant.menu.RestaurantMenuScreen
-import com.sarang.torang.data.basefeed.Restaurant
 import com.sarang.torang.data.basefeed.Review
 import com.sarang.torang.data.basefeed.User
 import com.sarang.torang.data.restaurant.testMenuData
-import com.sarang.torang.data.restaurant.testRestaurantInfo1
 import com.sarang.torang.di.image.customImageLoader
 import com.sarang.torang.di.image.provideTorangAsyncImage1
-import com.sarang.torang.di.restaurant_detail.RestaurantInfoWithPermissionWithLocation
-import com.sryang.library.ExpandableText
 import com.sryang.torang.ui.TorangTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -65,17 +54,12 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Main() {
     CompositionLocalProvider(LocalImageLoader provides customImageLoader, LocalPullToRefresh provides customPullToRefresh) {
-        //RestaurantInfoWithPermissionWithLocationTest()
-        RestaurantNavScreenTest_() // 정보 탭, 메뉴 탭, 갤러리 탭, 리뷰 탭 내비게이션
-        //RestaurantDetailNavigationScreen_() // 정보, 지도 내비게이션
-        //RestaurantInfoWithDummyData() // 정보 더미 데이터
-        //RestaurantInfoWithViewModel() // 정보 뷰모델
-        //RestaurantGalleryScreen_()
-        //PreviewRestaurantInfoScreen_()
-        //RestaurantMenuScreen_()
-        //PreviewRestaurantMenuColumn()
-        //PreviewRestaurantMenuColumn1()
-        //RestaurantDetailScreenTest()
+        RestaurantNavScreenTest_(restaurantId = 234) // 정보 탭, 메뉴 탭, 갤러리 탭, 리뷰 탭 내비게이션
+//        RestaurantDetailNavigationScreen_(restaurantId = 234) // 정보, 지도 내비게이션
+//        RestaurantGalleryScreen_(restaurantId = 234)
+//        RestaurantMenuScreen_(restaurantId = 234)
+//        PreviewRestaurantMenuColumn()
+//        PreviewRestaurantMenuColumn1()
     }
 }
 
@@ -83,72 +67,21 @@ val customPullToRefresh: PullToRefresh = { isRefreshing, onRefresh, contents ->
     contents.invoke()
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RestaurantDetailScreenTest(){
-    RestaurantDetailScreen(restaurantId = 234)
-}
-
-@RequiresPermission(
-    anyOf = [Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION],
-)
-@Composable
-fun RestaurantInfoWithPermissionWithLocationTest() {
-    RestaurantInfoWithPermissionWithLocation(234)
+fun RestaurantGalleryScreen_(restaurantId: Int = 234) {
+    RestaurantGalleryScreen(restaurantId = restaurantId)
 }
 
 @Composable
-fun RestaurantInfoWithDummyData() {
-    RestaurantInfo(
-        modifier = Modifier.verticalScroll(rememberScrollState()),
-        restaurantInfoData = testRestaurantInfo1()
-    )
+fun RestaurantMenuScreen_(restaurantId: Int = 234) {
+    RestaurantMenuScreen(restaurantId = restaurantId, columnCount = 3)
 }
 
 @Composable
-fun RestaurantInfoWithViewModel() {
-    RestaurantInfo_(
-        modifier = Modifier.verticalScroll(rememberScrollState()),
-        restaurantId = 234
-    )
-}
-
-@Composable
-@OptIn(ExperimentalMaterial3Api::class)
-fun RestaurantDetailNavigationScreen_() {
-    RestaurantDetailNavigationScreen(
-        restaurantId = 234,
-        feed = {
-            Feed(
-                review = Review.empty().copy(
-                    user = User.empty()
-                        .copy(name = it.name, profilePictureUrl = it.profilePictureUrl),
-                    rating = 4.0f,
-                    reviewImages = it.reviewImages,
-                    contents = it.contents,
-                    restaurant = Restaurant(it.restaurantId, it.restaurantName)
-                ),
-                imageLoadCompose = provideTorangAsyncImage1(),
-                expandableText = { modifier, a, b, c -> ExpandableText(modifier, a, b, c) })
-        },
-        restaurantInfo = {}
-    )
-}
-
-@Composable
-fun RestaurantGalleryScreen_() {
-    RestaurantGalleryScreen(restaurantId = 6)
-}
-
-@Composable
-fun RestaurantMenuScreen_() {
-    RestaurantMenuScreen(restaurantId = 6, columnCount = 3)
-}
-
-@Composable
-fun RestaurantNavScreenTest_() {
+fun RestaurantNavScreenTest_(restaurantId : Int = 12) {
     val context = LocalContext.current
     RestaurantNavScreenTest(
+        restaurantId = restaurantId,
         onCall = { context.startActivity(Intent(Intent.ACTION_DIAL).apply { setData("tel:$it".toUri()) }) },
         progressTintColor = Color.Yellow
     )
@@ -156,18 +89,17 @@ fun RestaurantNavScreenTest_() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RestaurantNavScreenTest(onCall: ((String) -> Unit)? = null, progressTintColor: Color? = null) {
+fun RestaurantNavScreenTest(restaurantId : Int = 12, onCall: ((String) -> Unit)? = null, progressTintColor: Color? = null) {
     val context = LocalContext.current
 
     RestaurantNavScreen(
-        restaurantId = 12,
+        restaurantId = restaurantId,
         progressTintColor = progressTintColor,
         feeds = { reviewId, modifier -> Box {} },
         onCall = {
             Toast.makeText(context, "call:${it}", Toast.LENGTH_SHORT).show()
             onCall?.invoke(it)
-        },
-        restaurantInfo = { RestaurantInfoWithPermissionWithLocation(it) }
+        }
     )
 
 }

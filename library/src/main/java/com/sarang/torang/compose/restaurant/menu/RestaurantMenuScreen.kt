@@ -39,7 +39,7 @@ import com.sarang.torang.compose.restaurant.LocalImageLoader
 import com.sarang.torang.compose.restaurant.LocalPullToRefresh
 import com.sarang.torang.data.restaurant.MenuData
 import com.sarang.torang.data.restaurant.testMenuData
-import com.sarang.torang.viewmodels.RestaurantMenuViewModel
+import com.sarang.torang.compose.restaurant.menu.RestaurantMenuViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)

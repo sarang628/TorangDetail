@@ -2,7 +2,6 @@ package com.sarang.torang.compose.restaurant
 
 import android.util.Log
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -29,12 +28,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.sarang.torang.compose.restaurant.detail.RestaurantDetailNavigationScreen
 import com.sarang.torang.compose.restaurant.gallery.RestaurantGalleryScreen
 import com.sarang.torang.compose.restaurant.menu.RestaurantMenuScreen
-import com.sarang.torang.data.restaurant.Feed
-import com.sarang.torang.viewmodels.RestaurantNavViewModel
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,10 +44,7 @@ fun RestaurantNavScreen(
     onProfile: (Int) -> Unit = { { Log.w(tag, "onProfile doesn't set") } },
     onContents: (Int) -> Unit = { { Log.w(tag, "onContents doesn't set") } },
     onBack: (() -> Unit) = { Log.w(tag, "onBack doesn't set") },
-    map: @Composable (String, Double, Double, String) -> Unit = { _,_,_,_-> Log.w(tag, "map doesn't set") },
-    feed: @Composable (Feed) -> Unit = { Log.w(tag, "feed doesn't set") },
-    feeds: @Composable (Int, Modifier) -> Unit = {_,_-> { Log.w(tag, "feeds doesn't set") } },
-    restaurantInfo: @Composable (Int) -> Unit = { Log.w(tag, "restaurantInfo doesn't set") }
+    feeds: @Composable (Int, Modifier) -> Unit = {_,_-> { Log.w(tag, "feeds doesn't set") } }
 ) {
     val navController = rememberNavController()
     val snackBarHostState = remember { SnackbarHostState() }
@@ -75,7 +67,7 @@ fun RestaurantNavScreen(
             RestaurntTopMenu(navController)
             NavHost(navController = navController, startDestination = "info") {
                 composable("info") {
-                    RestaurantDetailNavigationScreen(restaurantId = restaurantId, onWeb = onWeb, onCall = { onCall.invoke(it) }, map = map, onImage = onImage, scrollBehavior = scrollBehavior, progressTintColor = progressTintColor, onProfile = onProfile, onContents = onContents, onError = { coroutine.launch { snackBarHostState.showSnackbar(it) } }, feed = feed, restaurantInfo = restaurantInfo)
+                    //RestaurantDetailNavigationScreen(restaurantId = restaurantId, onWeb = onWeb, onCall = { onCall.invoke(it) }, map = map, onImage = onImage, scrollBehavior = scrollBehavior, progressTintColor = progressTintColor, onProfile = onProfile, onContents = onContents, onError = { coroutine.launch { snackBarHostState.showSnackbar(it) } }, feed = feed)
                 }
                 composable("menu") {
                     RestaurantMenuScreen(restaurantId = restaurantId, progressTintColor = progressTintColor)
