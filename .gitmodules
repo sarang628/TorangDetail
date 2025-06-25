@@ -8,3 +8,6 @@
 [submodule "app/src/main/java/com/sarang/torang/di/feed_di"]
 	path = app/src/main/java/com/sarang/torang/di/feed_di
 	url = https://github.com/sarang628/feed_di.git
+[submodule "app/src/main/java/com/sarang/torang/di/restaurant_detail_di"]
+	path = app/src/main/java/com/sarang/torang/di/restaurant_detail_di
+	url = https://github.com/sarang628/restaurant_detail_di.git

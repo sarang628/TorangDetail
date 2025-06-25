@@ -1,4 +1,4 @@
-package com.sarang.torang.compose.restaurant
+package com.sarang.torang
 
 import android.util.Log
 import androidx.compose.foundation.layout.Column
@@ -18,7 +18,6 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -28,6 +27,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.sarang.torang.compose.restaurant.LocalFeeds
+import com.sarang.torang.compose.restaurant.LocalRestaurantInfo
+import com.sarang.torang.RestaurantNavViewModel
+import com.sarang.torang.compose.restaurant.RestaurntTopMenu
 import com.sarang.torang.compose.restaurant.gallery.RestaurantGalleryScreen
 import com.sarang.torang.compose.restaurant.menu.RestaurantMenuScreen
 

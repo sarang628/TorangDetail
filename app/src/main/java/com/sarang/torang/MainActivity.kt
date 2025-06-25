@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import com.sarang.torang.compose.restaurant.LocalFeeds
 import com.sarang.torang.compose.restaurant.LocalImageLoader
 import com.sarang.torang.compose.restaurant.LocalPullToRefresh
-import com.sarang.torang.compose.restaurant.RestaurantNavScreen
 import com.sarang.torang.di.image.customImageLoader
 import com.sarang.torang.di.restaurant_detail.customPullToRefresh
 import com.sarang.torang.di.restaurant_detail.provideFeeds

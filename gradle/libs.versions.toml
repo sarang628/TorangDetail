@@ -20,15 +20,16 @@ retrofit = "2.9.0"
 room = "2.5.1"
 addReviewVersion = 'fca5418001'
 alarmVersion = 'a48ab79e8f'
-baseFeedVersion = '03ef0747b0'
+baseFeedVersion = '0192a366d8'
 cardInfoVersion = "0ae8d4fd77"
-feedVersion = 'a477a6b4c9'
+feedVersion = 'c676674dcb'
 profileVersion = '8e130e5129'
 findingVersion = '47ad95d530'
 themeVersion = '534a8a456f'
 themesVersion = 'bdb00d9256'
 myReviewVersion = '7788b8d9f7'
-torangDetailVersion = 'feea2ec5ad'
+torangDetailVersion = 'b74b986d44'
+restaurantDetail = '8ba1d4caac'
 loginVersion = 'ac5034132b'
 splashVersion = 'ea97b19733'
 torangRepositoryVersion = 'e0d12661da'
@@ -121,6 +122,7 @@ profile                         = { group = "com.github.sarang628", name = "Prof
 finding                         = { group = "com.github.sarang628", name = "Finding",               version.ref = "findingVersion" }
 myReview                        = { group = "com.github.sarang628", name = "MyReview",              version.ref = "myReviewVersion" }
 torangDetail                    = { group = "com.github.sarang628", name = "TorangDetail",          version.ref = "torangDetailVersion" }
+restaurantDetail                = { group = "com.github.sarang628", name = "RestaurantDetail",     version.ref = "restaurantDetail" }
 addReview                       = { group = "com.github.sarang628", name = "AddReview",             version.ref = "addReviewVersion" }
 login                           = { group = "com.github.sarang628", name = "Login",                 version.ref = "loginVersion" }
 splash                          = { group = "com.github.sarang628", name = "Splash",                version.ref = "splashVersion" }
