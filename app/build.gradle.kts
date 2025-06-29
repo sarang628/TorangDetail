@@ -134,7 +134,6 @@ dependencies {
     implementation(libs.bottomdetectlazycolunm)
     implementation(libs.expandableText)
     implementation(libs.restaurantDetail)
-//    implementation ("com.google.accompanist:accompanist-permissions:0.29.1-alpha")
     implementation(libs.accompanist.permissions)
     implementation(libs.play.services.location)
     implementation(libs.kotlin.coroutines.play)
