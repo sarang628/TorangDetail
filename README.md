@@ -29,6 +29,11 @@ implementation("com.google.dagger:hilt-android:2.46")
 kapt("com.google.dagger:hilt-android-compiler:2.46")
 ```
 
+```
+git submodule add (or git clone) https://github.com/sarang628/torang_detail_di.git
+```
+
+
 buildConfig 추가
 ```
 android.buildFeatures.buildConfig = true
@@ -95,6 +100,10 @@ val provideFeeds: Feeds = { modifier, url->
     // 여기서 실제 이미지 로딩 구현 예시
     Text("TODO")
 }
+```
+
+```
+git submodule add (or git clone) https://github.com/sarang628/restaurant_detail_di.git
 ```
 
 ## 이미지 로드 모듈 추가
