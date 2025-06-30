@@ -75,6 +75,45 @@ annotationProcessor("androidx.room:room-compiler:2.5.1")
 implementation("androidx.room:room-paging:2.5.1")
 ```
 
+LocalProvider MainActivity에 추가
+```
+@OptIn(ExperimentalMaterial3Api::class)
+val CustomRestaurantInfo: RestaurantInfo = {
+    RestaurantDetailNavigationScreen(restaurantId = 234)
+}
+
+val customImageLoader: ImageLoader = { modifier, url, width, height, scale ->
+    // 여기서 실제 이미지 로딩 구현 예시
+    provideTorangAsyncImage().invoke(modifier, url, width, height, scale)
+}
+
+val customPullToRefresh: PullToRefresh = { isRefreshing, onRefresh, contents ->
+    contents.invoke()
+}
+
+val provideFeeds: Feeds = { modifier, url->
+    // 여기서 실제 이미지 로딩 구현 예시
+    Text("TODO")
+}
+```
+
+## 이미지 로드 모듈 추가
+
+이미지 로드 모듈 단일 버전 관리를 위해 루트 프로젝트에서 구현하고 하위 프로젝트들은 인터페이스만 받음.
+```
+cd app/src/main/java/[package]/di
+git submodule add (or git clone) https://github.com/sarang628/image.git
+```
+이미지 로드 모듈에 줌 처리 기능이 추가되 추가 모듈 설정 필요.
+```
+cd app/src/main/java/[package]/di
+git submodule add (or git clone) https://github.com/sarang628/pinchzoom.git
+```
+이미지 로드 모듈 다운로드
+```
+implementation("com.github.sarang628:CommonImageLoader:1999de5a48") 
+```
+
 
 음식점의 상세 화면 모듈
 
