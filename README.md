@@ -34,6 +34,8 @@ kapt("com.google.dagger:hilt-android-compiler:2.46")
 힐트 추가하면 UseCase를 찾지 못한다고 오류 발생
 ```
 git submodule add (or git clone) https://github.com/sarang628/torang_detail_di.git
+git submodule add (or git clone) https://github.com/sarang628/restaurant_detail_di.git
+implementation("com.github.sarang628:RestaurantDetail:8ba1d4caac")
 ```
 
 
@@ -105,11 +107,6 @@ val provideFeeds: Feeds = { modifier, url->
     // 여기서 실제 이미지 로딩 구현 예시
     Text("TODO")
 }
-```
-
-```
-git submodule add (or git clone) https://github.com/sarang628/restaurant_detail_di.git
-implementation("com.github.sarang628:RestaurantDetail:8ba1d4caac")
 ```
 
 ## 이미지 로드 모듈 추가
