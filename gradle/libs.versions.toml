@@ -63,6 +63,7 @@ constraintlayoutVersion = "2.1.4"
 accompanist = "0.32.0"
 play-services-location = "21.1.0"
 coroutines = "1.7.3"
+restaurantInfoVersion = "62628e5b8e"
 
 # @formatter:off
 [libraries]
@@ -122,7 +123,7 @@ profile                         = { group = "com.github.sarang628", name = "Prof
 finding                         = { group = "com.github.sarang628", name = "Finding",               version.ref = "findingVersion" }
 myReview                        = { group = "com.github.sarang628", name = "MyReview",              version.ref = "myReviewVersion" }
 torangDetail                    = { group = "com.github.sarang628", name = "TorangDetail",          version.ref = "torangDetailVersion" }
-restaurantDetail                = { group = "com.github.sarang628", name = "RestaurantDetail",      version.ref = "restaurantDetail" }
+restaurantDetail                = { group = "com.github.sarang628", name = "RestaurantDetail",     version.ref = "restaurantDetail" }
 addReview                       = { group = "com.github.sarang628", name = "AddReview",             version.ref = "addReviewVersion" }
 login                           = { group = "com.github.sarang628", name = "Login",                 version.ref = "loginVersion" }
 splash                          = { group = "com.github.sarang628", name = "Splash",                version.ref = "splashVersion" }
@@ -146,6 +147,7 @@ expandableText                  = { group = "com.github.sarang628", name = "Expa
 bottomdetectlazycolunm          = { group = "com.github.sarang628", name = "BottomDetectLazyColunm",version.ref = "bottomDetectLazyColunmVersion" }
 chat                            = { group = "com.github.sarang628", name = "Chat",                  version.ref = "chatVersion" }
 torangGrid                      = { group = "com.github.sarang628", name = "TorangGrid",            version.ref = "torangGridVersion" }
+restaurantInfo                  = { group = "com.github.sarang628", name = "RestaurantInfo",        version.ref = "restaurantInfoVersion" }
 composePermissionTest           = { group = "com.github.sarang628", name = "ComposePermissionTest", version.ref = "composePermissionTestVersion" }
 themes                          = { group = "com.github.bingley1",  name = "Themes",                version.ref = "themesVersion" }
 feature-delivery                = { group = "com.google.android.play", name = "feature-delivery",   version.ref = "featureDeliveryVersion"}

@@ -7,17 +7,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import com.sarang.library.RestaurantDetailNavigationScreen
+import com.sarang.library.compose.ImageLoader
+import com.sarang.library.compose.LocalPullToRefresh
+import com.sarang.library.compose.PullToRefresh
+import com.sarang.torang.compose.restaurant.Feeds
 import com.sarang.torang.compose.restaurant.LocalFeeds
-import com.sarang.torang.compose.restaurant.LocalImageLoader
-import com.sarang.torang.compose.restaurant.LocalPullToRefresh
-import com.sarang.torang.compose.restaurant.LocalRestaurantInfo
-import com.sarang.torang.compose.restaurant.RestaurantInfo
-import com.sarang.torang.di.image.customImageLoader
-import com.sarang.torang.di.torang_detail_di.customPullToRefresh
-import com.sarang.torang.di.torang_detail_di.provideFeeds
+import com.sarang.torang.di.image.provideTorangAsyncImage
 import com.sryang.torang.ui.TorangTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -45,11 +44,26 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+
 }
 //@formatter:on
 
 @OptIn(ExperimentalMaterial3Api::class)
-val CustomRestaurantInfo: RestaurantInfo = {
+val CustomRestaurantInfo: RestaurantInfo = { _, _, _, _ ->
     RestaurantDetailNavigationScreen(restaurantId = 234)
 }
 
+val customImageLoader: ImageLoader = { modifier, url, width, height, scale ->
+    // 여기서 실제 이미지 로딩 구현 예시
+    provideTorangAsyncImage().invoke(modifier, url, width, height, scale)
+}
+
+val customPullToRefresh: PullToRefresh = { isRefreshing, onRefresh, contents ->
+    contents.invoke()
+}
+
+val provideFeeds: Feeds = { modifier, url ->
+    // 여기서 실제 이미지 로딩 구현 예시
+    Text("TODO")
+}

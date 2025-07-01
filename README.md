@@ -29,9 +29,14 @@ implementation("com.google.dagger:hilt-android:2.46")
 kapt("com.google.dagger:hilt-android-compiler:2.46")
 ```
 
+@HiltAndroidApp 과 @AndroidEntryPoing 설정하기
+
+힐트 추가하면 UseCase를 찾지 못한다고 오류 발생
 ```
 git submodule add (or git clone) https://github.com/sarang628/torang_detail_di.git
 ```
+
+
 
 
 buildConfig 추가
@@ -104,6 +109,7 @@ val provideFeeds: Feeds = { modifier, url->
 
 ```
 git submodule add (or git clone) https://github.com/sarang628/restaurant_detail_di.git
+implementation("com.github.sarang628:RestaurantDetail:8ba1d4caac")
 ```
 
 ## 이미지 로드 모듈 추가
@@ -121,6 +127,17 @@ git submodule add (or git clone) https://github.com/sarang628/pinchzoom.git
 이미지 로드 모듈 다운로드
 ```
 implementation("com.github.sarang628:CommonImageLoader:1999de5a48") 
+```
+
+```
+CompositionLocalProvider(
+    LocalImageLoader provides customImageLoader,
+    LocalPullToRefresh provides customPullToRefresh,
+    LocalFeeds provides provideFeeds,
+    LocalRestaurantInfo provides CustomRestaurantInfo,
+) {
+    RestaurantNavScreen(restaurantId = 234)
+}
 ```
 
 
