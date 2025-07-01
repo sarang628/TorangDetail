@@ -11,11 +11,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import com.sarang.library.RestaurantDetailNavigationScreen
+import com.sarang.library.compose.DetailRestaurantInfo
 import com.sarang.library.compose.ImageLoader
+import com.sarang.library.compose.LocalImageLoader
 import com.sarang.library.compose.LocalPullToRefresh
 import com.sarang.library.compose.PullToRefresh
+import com.sarang.library.compose.restaurantdetail.RestaurantDetailScreen
 import com.sarang.torang.compose.restaurant.Feeds
 import com.sarang.torang.compose.restaurant.LocalFeeds
+import com.sarang.torang.compose.restaurant.LocalRestaurantDetail
+import com.sarang.torang.compose.restaurant.RestaurantDetail
 import com.sarang.torang.di.image.provideTorangAsyncImage
 import com.sryang.torang.ui.TorangTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,7 +38,7 @@ class MainActivity : ComponentActivity() {
                         LocalImageLoader provides customImageLoader,
                         LocalPullToRefresh provides customPullToRefresh,
                         LocalFeeds provides provideFeeds,
-                        LocalRestaurantInfo provides CustomRestaurantInfo,
+                        LocalRestaurantDetail provides CustomRestaurantInfo,
                     ) {
                         RestaurantNavScreen(restaurantId = 234)// 정보 탭, 메뉴 탭, 갤러리 탭, 리뷰 탭 내비게이션
         //        RestaurantMenuScreen(restaurantId = 234)
@@ -50,7 +55,13 @@ class MainActivity : ComponentActivity() {
 //@formatter:on
 
 @OptIn(ExperimentalMaterial3Api::class)
-val CustomRestaurantInfo: RestaurantInfo = { _, _, _, _ ->
+val customDetailRestaurantInfo: DetailRestaurantInfo = { restaurantId->
+    RestaurantDetailScreen(restaurantId = restaurantId)
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+val CustomRestaurantInfo: RestaurantDetail = {
     RestaurantDetailNavigationScreen(restaurantId = 234)
 }
 

@@ -28,8 +28,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.sarang.torang.compose.restaurant.LocalFeeds
-import com.sarang.torang.compose.restaurant.LocalRestaurantInfo
-import com.sarang.torang.RestaurantNavViewModel
+import com.sarang.torang.compose.restaurant.LocalRestaurantDetail
 import com.sarang.torang.compose.restaurant.RestaurntTopMenu
 import com.sarang.torang.compose.restaurant.gallery.RestaurantGalleryScreen
 import com.sarang.torang.compose.restaurant.menu.RestaurantMenuScreen
@@ -64,7 +63,7 @@ fun RestaurantNavScreen(
             RestaurntTopMenu(navController)
             NavHost(navController = navController, startDestination = "info") {
                 composable("info") {
-                    LocalRestaurantInfo.current.invoke()
+                    LocalRestaurantDetail.current.invoke()
                 }
                 composable("menu") {
                     RestaurantMenuScreen(restaurantId = restaurantId, progressTintColor = progressTintColor)

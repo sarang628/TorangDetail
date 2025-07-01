@@ -38,6 +38,24 @@ git submodule add (or git clone) https://github.com/sarang628/restaurant_detail_
 implementation("com.github.sarang628:RestaurantDetail:8ba1d4caac")
 ```
 
+API 호출 저장소 추가
+
+```
+git submodule add (or git clone) https://github.com/sarang628/repository.git
+```
+
+```
+implementation("com.github.sarang628:TorangRepository:e0d12661da")
+
+implementation("com.squareup.retrofit2:retrofit:2.9.0")
+implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+
+implementation("androidx.room:room-runtime:2.5.1")
+annotationProcessor("androidx.room:room-compiler:2.5.1")
+implementation("androidx.room:room-paging:2.5.1")
+```
+
 
 
 
@@ -67,24 +85,6 @@ android.buildFeatures.buildConfig = true
             signingConfig = signingConfigs.getByName("debug")
         }
     }
-```
-
-API 호출 저장소 추가
-
-```
-git submodule add (or git clone) https://github.com/sarang628/repository.git
-```
-
-```
-implementation("com.github.sarang628:TorangRepository:e0d12661da")
-
-implementation("com.squareup.retrofit2:retrofit:2.9.0")
-implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
-
-implementation("androidx.room:room-runtime:2.5.1")
-annotationProcessor("androidx.room:room-compiler:2.5.1")
-implementation("androidx.room:room-paging:2.5.1")
 ```
 
 LocalProvider MainActivity에 추가
