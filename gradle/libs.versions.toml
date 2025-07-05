@@ -63,7 +63,7 @@ constraintlayoutVersion = "2.1.4"
 accompanist = "0.32.0"
 play-services-location = "21.1.0"
 coroutines = "1.7.3"
-restaurantInfoVersion = "62628e5b8e"
+restaurantInfoVersion = "acb554a878"
 
 # @formatter:off
 [libraries]

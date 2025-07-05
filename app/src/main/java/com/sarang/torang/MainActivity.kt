@@ -10,9 +10,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
-import com.sarang.library.RestaurantDetailNavigationScreen
 import com.sarang.library.compose.DetailRestaurantInfo
 import com.sarang.library.compose.ImageLoader
+import com.sarang.library.compose.LocalDetailRestaurantInfo
 import com.sarang.library.compose.LocalImageLoader
 import com.sarang.library.compose.LocalPullToRefresh
 import com.sarang.library.compose.PullToRefresh
@@ -22,6 +22,8 @@ import com.sarang.torang.compose.restaurant.LocalFeeds
 import com.sarang.torang.compose.restaurant.LocalRestaurantDetail
 import com.sarang.torang.compose.restaurant.RestaurantDetail
 import com.sarang.torang.di.image.provideTorangAsyncImage
+import com.sarang.torang.di.restaurant_info.RestaurantInfoWithPermission
+import com.sryang.library.compose.workflow.BestPracticeViewModel
 import com.sryang.torang.ui.TorangTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -38,9 +40,8 @@ class MainActivity : ComponentActivity() {
                         LocalImageLoader provides customImageLoader,
                         LocalPullToRefresh provides customPullToRefresh,
                         LocalFeeds provides provideFeeds,
-                        LocalRestaurantDetail provides CustomRestaurantInfo,
+                        LocalRestaurantDetail provides customRestaurantDetail
                     ) {
-                        RestaurantNavScreen(restaurantId = 234)// 정보 탭, 메뉴 탭, 갤러리 탭, 리뷰 탭 내비게이션
         //        RestaurantMenuScreen(restaurantId = 234)
         //        RestaurantGalleryScreen(restaurantId = 234)
         //        PreviewRestaurantMenuColumn()
@@ -55,19 +56,27 @@ class MainActivity : ComponentActivity() {
 //@formatter:on
 
 @OptIn(ExperimentalMaterial3Api::class)
-val customDetailRestaurantInfo: DetailRestaurantInfo = { restaurantId->
-    RestaurantDetailScreen(restaurantId = restaurantId)
+val customRestaurantDetail: RestaurantDetail = {
+    CompositionLocalProvider(
+        LocalDetailRestaurantInfo provides customRestaurantInfo,
+        LocalRestaurantInfoImageLoader provides restaurantImageLoader,
+    ) {
+        RestaurantDetailScreen(restaurantId = 234)
+    }
 }
 
-
-@OptIn(ExperimentalMaterial3Api::class)
-val CustomRestaurantInfo: RestaurantDetail = {
-    RestaurantDetailNavigationScreen(restaurantId = 234)
+val customRestaurantInfo: DetailRestaurantInfo = {
+    RestaurantInfoWithPermission(restaurantId = it, viewModel = BestPracticeViewModel())
 }
 
-val customImageLoader: ImageLoader = { modifier, url, width, height, scale ->
+val restaurantImageLoader: RestaurantInfoImageLoader = { modifier, url, width, height, scale ->
     // 여기서 실제 이미지 로딩 구현 예시
     provideTorangAsyncImage().invoke(modifier, url, width, height, scale)
+}
+
+
+val customImageLoader: ImageLoader = { modifier, url, width, height, scale ->
+    provideTorangAsyncImage().invoke(modifier, url, width, height, scale) // 여기서 실제 이미지 로딩 구현 예시
 }
 
 val customPullToRefresh: PullToRefresh = { isRefreshing, onRefresh, contents ->
@@ -75,6 +84,5 @@ val customPullToRefresh: PullToRefresh = { isRefreshing, onRefresh, contents ->
 }
 
 val provideFeeds: Feeds = { modifier, url ->
-    // 여기서 실제 이미지 로딩 구현 예시
-    Text("TODO")
+    Text("TODO") // 여기서 실제 이미지 로딩 구현 예시
 }
